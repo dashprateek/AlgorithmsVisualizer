@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<graphml>
+  <graph edgedefault="directed" type="digraph">
+    <node fillcolor="#FFFFFF" id="n1" label="" radius="0.7" shapeheight="1.0" shapewidth="1.0" strokecolor="#000000" strokewidth="0.026458333333333334" textheight="0.4" x="3.4714583333333335" y="1.5267708333333334"/>
+    <node fillcolor="#FFFFFF" id="n2" label="" radius="0.7" shapeheight="1.0" shapewidth="1.0" strokecolor="#000000" strokewidth="0.026458333333333334" textheight="0.4" x="3.4714583333333335" y="3.511145833333334"/>
+    <node fillcolor="#FFFFFF" id="n3" label="" radius="0.7" shapeheight="1.0" shapewidth="1.0" strokecolor="#000000" strokewidth="0.026458333333333334" textheight="0.4" x="3.4714583333333335" y="5.5484375"/>
+    <node fillcolor="#FFFFFF" id="n4" label="" radius="0.7" shapeheight="1.0" shapewidth="1.0" strokecolor="#000000" strokewidth="0.026458333333333334" textheight="0.4" x="6.487708333333334" y="4.490104166666667"/>
+    <node fillcolor="#FFFFFF" id="n5" label="" radius="0.7" shapeheight="1.0" shapewidth="1.0" strokecolor="#000000" strokewidth="0.026458333333333334" textheight="0.4" x="6.487708333333334" y="2.5321875000000005"/>
+    <node fillcolor="#FFFFFF" id="n6" label="" radius="0.7" shapeheight="1.0" shapewidth="1.0" strokecolor="#000000" strokewidth="0.026458333333333334" textheight="0.4" x="9.477500000000001" y="3.511145833333334"/>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n1" target="n6" thickness="0.025" type="BEZIER" weight="-3.0">
+      <controlpoint x="7.472667389366265" y="-0.44239019250899325"/>
+    </edge>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n2" target="n4" thickness="0.025" type="BEZIER" weight="-2.0"/>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n4" target="n3" thickness="0.025" type="BEZIER" weight="-3.0">
+      <controlpoint x="5.00260940250325" y="5.039045267988532"/>
+    </edge>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n5" target="n1" thickness="0.025" type="BEZIER" weight="6.0"/>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n4" target="n6" thickness="0.025" type="BEZIER" weight="2.0"/>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n1" target="n2" thickness="0.025" type="BEZIER" weight="-4.0"/>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n3" target="n6" thickness="0.025" type="BEZIER" weight="3.0">
+      <controlpoint x="7.324480606911576" y="7.770658449645367"/>
+    </edge>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n2" target="n5" thickness="0.025" type="BEZIER" weight="-1.0"/>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n5" target="n6" thickness="0.025" type="BEZIER" weight="4.0"/>
+    <edge arrowheadlength="0.2" color="#000000" isdirected="true" label="" lineType="PLAIN" source="n3" target="n2" thickness="0.025" type="BEZIER" weight="8.0"/>
+  </graph>
+</graphml>

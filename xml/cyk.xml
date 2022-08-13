@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cyk>
+   <cfg start="S">
+      <variables>A,B,S,C</variables>
+      <terminals>a,b</terminals>
+      <projectionRules>
+         <rule>A-&gt;a|BA</rule>
+         <rule>B-&gt;CC|b</rule>
+         <rule>C-&gt;AB|a</rule>
+         <rule>S-&gt;AB|BC</rule>
+      </projectionRules>
+   </cfg>
+   <iterations>
+      <iteration>
+         <row> ; ; ; ; </row>
+         <row> ; ; ; ; </row>
+         <row> ; ; ; ; </row>
+         <row> ; ; ; ; </row>
+         <row> ; ; ; ; </row>
+      </iteration>
+      <iteration>
+         <row>[B]; ; ; ; </row>
+         <row> ;[A, C]; ; ; </row>
+         <row> ; ;[A, C]; ; </row>
+         <row> ; ; ;[B]; </row>
+         <row> ; ; ; ;[A, C]</row>
+      </iteration>
+      <iteration>
+         <row>[B];[A, S]; ; ; </row>
+         <row> ;[A, C];[B]; ; </row>
+         <row> ; ;[A, C];[C, S]; </row>
+         <row> ; ; ;[B];[A, S]</row>
+         <row> ; ; ; ;[A, C]</row>
+      </iteration>
+      <iteration>
+         <row>[B];[A, S];[]; ; </row>
+         <row> ;[A, C];[B];[B]; </row>
+         <row> ; ;[A, C];[C, S];[B]</row>
+         <row> ; ; ;[B];[A, S]</row>
+         <row> ; ; ; ;[A, C]</row>
+      </iteration>
+      <iteration>
+         <row>[B];[A, S];[];[]; </row>
+         <row> ;[A, C];[B];[B];[A, C, S]</row>
+         <row> ; ;[A, C];[C, S];[B]</row>
+         <row> ; ; ;[B];[A, S]</row>
+         <row> ; ; ; ;[A, C]</row>
+      </iteration>
+      <iteration>
+         <row>[B];[A, S];[];[];[A, S, C]</row>
+         <row> ;[A, C];[B];[B];[A, C, S]</row>
+         <row> ; ;[A, C];[C, S];[B]</row>
+         <row> ; ; ;[B];[A, S]</row>
+         <row> ; ; ; ;[A, C]</row>
+      </iteration>
+   </iterations>
+   <encodingTrees>
+      <encodingTree encoding="b(a((ab)a))">[S[B[b]][C[A[a]][B[C[A[a]][B[b]]][C[a]]]]]</encodingTree>
+      <encodingTree encoding="(ba)((ab)a)">[S[A[B[b]][A[a]]][B[C[A[a]][B[b]]][C[a]]]]</encodingTree>
+   </encodingTrees>
+</cyk>

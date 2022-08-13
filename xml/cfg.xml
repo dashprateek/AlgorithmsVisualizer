@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfg start="S">
+   <variables>A,B,S,C</variables>
+   <terminals>a,b</terminals>
+   <projectionRules>
+      <rule>A-&gt;a|BA</rule>
+      <rule>B-&gt;CC|b</rule>
+      <rule>C-&gt;AB|a</rule>
+      <rule>S-&gt;AB|BC</rule>
+   </projectionRules>
+</cfg>

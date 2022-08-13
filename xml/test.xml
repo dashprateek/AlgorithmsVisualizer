@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SingleSourceShortestPath>
+  <graphml>
+    <graph edgedefault="directed" type="digraph">
+      <node id="n1" label="0" x="3.471" y="-3.511"/>
+      <node id="n2" label="1" x="5.509" y="-5.469"/>
+      <node id="n3" label="2" x="5.509" y="-1.527"/>
+      <node id="n4" label="3" x="8.525" y="-5.469"/>
+      <node id="n5" label="4" x="8.525" y="-1.527"/>
+      <node id="n6" label="5" x="10.493" y="-3.511"/>
+      <edge source="n2" target="n5" weight="4.0"/>
+      <edge source="n5" target="n6" weight="4.0"/>
+      <edge source="n3" target="n4" weight="2.0"/>
+      <edge source="n2" target="n4" weight="5.0"/>
+      <edge source="n1" target="n3" weight="4.0"/>
+      <edge source="n1" target="n2" weight="1.0"/>
+      <edge source="n4" target="n5" weight="5.0"/>
+      <edge source="n6" target="n5" weight="1.0"/>
+      <edge source="n3" target="n5" weight="1.0"/>
+      <edge source="n4" target="n6" weight="1.0"/>
+      <edge source="n2" target="n3" weight="1.0"/>
+    </graph>
+  </graphml>
+  <vertices size="6">
+    <vertex id="0"/>
+    <vertex id="1"/>
+    <vertex id="2"/>
+    <vertex id="3"/>
+    <vertex id="4"/>
+    <vertex id="5"/>
+  </vertices>
+  <iterations>
+    <shortestPath queuedElement="0">
+      <path distance="0.0"/>
+      <path distance="1.0"/>
+      <path distance="4.0"/>
+      <path distance="\infty"/>
+      <path distance="\infty"/>
+      <path distance="\infty"/>
+    </shortestPath>
+    <shortestPath queuedElement="1">
+      <path distance="0.0"/>
+      <path distance="1.0"/>
+      <path distance="2.0"/>
+      <path distance="6.0"/>
+      <path distance="5.0"/>
+      <path distance="\infty"/>
+    </shortestPath>
+    <shortestPath queuedElement="2">
+      <path distance="0.0"/>
+      <path distance="1.0"/>
+      <path distance="2.0"/>
+      <path distance="4.0"/>
+      <path distance="3.0"/>
+      <path distance="\infty"/>
+    </shortestPath>
+    <shortestPath queuedElement="4">
+      <path distance="0.0"/>
+      <path distance="1.0"/>
+      <path distance="2.0"/>
+      <path distance="4.0"/>
+      <path distance="3.0"/>
+      <path distance="7.0"/>
+    </shortestPath>
+    <shortestPath queuedElement="3">
+      <path distance="0.0"/>
+      <path distance="1.0"/>
+      <path distance="2.0"/>
+      <path distance="4.0"/>
+      <path distance="3.0"/>
+      <path distance="5.0"/>
+    </shortestPath>
+    <shortestPath queuedElement="5">
+      <path distance="0.0"/>
+      <path distance="1.0"/>
+      <path distance="2.0"/>
+      <path distance="4.0"/>
+      <path distance="3.0"/>
+      <path distance="5.0"/>
+    </shortestPath>
+  </iterations>
+</SingleSourceShortestPath>
