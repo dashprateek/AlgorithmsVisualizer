@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DFSTraversal</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.algorithms.graph.traversal</a>
+</div>
+
+<h1>Coverage Summary for Class: DFSTraversal (com.algo.algorithms.graph.traversal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DFSTraversal</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.3%
+  </span>
+  <span class="absValue">
+    (23/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;package com.algo.algorithms.graph.traversal;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import com.algo.annotations.AlgorithmDescription;
+<i class="no-highlight">6</i>&nbsp;import com.algo.export.GraphTraversalExport;
+<i class="no-highlight">7</i>&nbsp;import com.algo.structure.DirectedGraph;
+<i class="no-highlight">8</i>&nbsp;import com.algo.structure.Structure;
+<i class="no-highlight">9</i>&nbsp;import com.algo.structure.Vertex;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;import javax.xml.transform.TransformerException;
+<i class="no-highlight">12</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">13</i>&nbsp;import java.util.*;
+<i class="no-highlight">14</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;/**
+<i class="no-highlight">17</i>&nbsp; *
+<i class="no-highlight">18</i>&nbsp; */
+<i class="no-highlight">19</i>&nbsp;@AlgorithmDescription(
+<i class="no-highlight">20</i>&nbsp;        name = &quot;Graph traversal&quot;,
+<i class="no-highlight">21</i>&nbsp;        text = &quot;The process of visiting (checking and/or updating) each vertex in a graph.&quot;,
+<i class="no-highlight">22</i>&nbsp;        url = &quot;https://en.wikipedia.org/wiki/Graph_traversal&quot;
+<i class="no-highlight">23</i>&nbsp;)
+<b class="fc"><i class="no-highlight">24</i>&nbsp;public class DFSTraversal extends GraphTraversalRunner {</b>
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    public static void run(Structure s, Vertex root, String fileName) throws Exception {
+<b class="fc"><i class="no-highlight">27</i>&nbsp;        boolean[] visited = new boolean[s.getVertices().size()];</b>
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        LinkedList&lt;Vertex&gt; queue = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        queue.add(root);</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        visited[root.getId()] = true;</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        GraphTraversalExport graphTraversalExport = new GraphTraversalExport(&quot;dfs&quot;, s);</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;        DFSHelper(s, root, visited, graphTraversalExport, new Stack&lt;&gt;());</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;        graphTraversalExport.writeToStream(fileName);</b>
+<i class="no-highlight">34</i>&nbsp;    }
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;    private static void DFSHelper(Structure s, Vertex v, boolean[] visited, GraphTraversalExport exporter, Stack&lt;Vertex&gt; stack) throws Exception {
+<b class="fc"><i class="no-highlight">37</i>&nbsp;        visited[v.getId()] = true;</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        stack.push(v);</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;        exporter.appendChild(visited, stack);</b>
+<b class="fc"><i class="no-highlight">40</i>&nbsp;        List&lt;Vertex&gt; outgoingNeighbours = getNeighbours(v, s instanceof DirectedGraph);</b>
+<b class="fc"><i class="no-highlight">41</i>&nbsp;        for (Vertex oVertex : outgoingNeighbours) {</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;            if (!visited[oVertex.getId()]) {</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;                DFSHelper(s, oVertex, visited, exporter, stack);</b>
+<i class="no-highlight">44</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">45</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;        if (!stack.empty())</b>
+<b class="fc"><i class="no-highlight">47</i>&nbsp;            stack.pop();</b>
+<i class="no-highlight">48</i>&nbsp;    }
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;    private static List&lt;Vertex&gt; getNeighbours(Vertex v, boolean directed) {
+<b class="fc"><i class="no-highlight">51</i>&nbsp;        return (directed ? v.getOutgoingNeighbours() : v.getNeighbours())</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;                .stream()</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;                .distinct()</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;                .sorted(Comparator.comparingInt(Vertex::getId))</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;                .collect(Collectors.toList());</b>
+<i class="no-highlight">56</i>&nbsp;    }
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;    @Override
+<i class="no-highlight">59</i>&nbsp;    public boolean run(Scanner sc) throws Exception {
+<b class="nc"><i class="no-highlight">60</i>&nbsp;            Structure structure = getGraph(sc);</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;            String outputFile = getOutputFile(sc);</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;            Vertex source = getSourceVertex(sc, structure);</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;            run(structure, source, outputFile);</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            transform(sc, outputFile, true);</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;            return false;</b>
+<i class="no-highlight">66</i>&nbsp;    }
+<i class="no-highlight">67</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

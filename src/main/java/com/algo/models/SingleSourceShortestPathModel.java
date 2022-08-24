@@ -24,7 +24,8 @@ import java.util.Optional;
         url = "https://en.wikipedia.org/wiki/Shortest_path_problem")
 @XmlName(name = "SingleSourceShortestPath")
 public class SingleSourceShortestPathModel extends XmlMarshallable {
-    private List<ShortestPathEntry> shortestPaths = new ArrayList<>();
+    public static final double INF = 99999;
+    private final List<ShortestPathEntry> shortestPaths = new ArrayList<>();
     private List<Integer> vertexList;
 
     public void add(int v, List<Double> distances, Map<Integer, Integer> predecessor) {
@@ -33,10 +34,6 @@ public class SingleSourceShortestPathModel extends XmlMarshallable {
 
     public List<ShortestPathEntry> getShortestPaths() {
         return shortestPaths;
-    }
-
-    public void setShortestPaths(List<ShortestPathEntry> shortestPaths) {
-        this.shortestPaths = shortestPaths;
     }
 
     public List<Integer> getVertexList() {
@@ -93,7 +90,7 @@ public class SingleSourceShortestPathModel extends XmlMarshallable {
     }
 
     @XmlName(name = "shortestPath")
-    private static class ShortestPathEntry extends XmlMarshallable {
+    public static class ShortestPathEntry extends XmlMarshallable {
         private Integer queuedElement;
         private List<Double> distances;
         private Map<Integer, Integer> predecessor;
@@ -102,9 +99,6 @@ public class SingleSourceShortestPathModel extends XmlMarshallable {
             this.queuedElement = queuedElement;
             this.distances = distance;
             this.predecessor = predecessor;
-        }
-
-        public ShortestPathEntry() {
         }
 
         private static ShortestPathEntry valueOf(Integer queuedElement, List<Double> distance, Map<Integer, Integer> predecessor) {
@@ -144,10 +138,10 @@ public class SingleSourceShortestPathModel extends XmlMarshallable {
             for (int i = 0; i < distances.size(); i++) {
                 Element path = doc.createElement("path");
                 String distance = Optional.ofNullable(distances.get(i))
-//                        .filter(dist -> dist >= 0)
+                        .filter(dist -> dist < INF)
                         .map(Object::toString)
                         .orElse("\\infty");
-                System.out.println("distance:"+distance);
+                System.out.println("distance:" + distance);
                 path.setAttribute("distance", distance);
                 if (predecessor.containsKey(i))
                     path.setAttribute("parent", predecessor.get(i).toString());
@@ -155,5 +149,22 @@ public class SingleSourceShortestPathModel extends XmlMarshallable {
             }
             return sp;
         }
+
+        @Override
+        public String toString() {
+            return "ShortestPathEntry{" +
+                    "queuedElement=" + queuedElement +
+                    ", distances=" + distances +
+                    ", predecessor=" + predecessor +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "SingleSourceShortestPathModel{" +
+                "shortestPaths=" + shortestPaths +
+                ", vertexList=" + vertexList +
+                '}';
     }
 }

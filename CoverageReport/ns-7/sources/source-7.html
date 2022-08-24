@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PathParameters</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.config</a>
+</div>
+
+<h1>Coverage Summary for Class: PathParameters (com.algo.config)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PathParameters</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.algo.config;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;import com.algo.parser.IntSyntaxChecker;
+<i class="no-highlight">5</i>&nbsp;import com.algo.parser.SyntaxChecker;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;import java.util.Arrays;
+<i class="no-highlight">8</i>&nbsp;import java.util.List;
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;/*
+<i class="no-highlight">11</i>&nbsp; *
+<i class="no-highlight">12</i>&nbsp; */
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;public class PathParameters extends StringAlgorithmParametersList {
+<i class="no-highlight">15</i>&nbsp;    public PathParameters(List&lt;String&gt; initialValues) {
+<b class="nc"><i class="no-highlight">16</i>&nbsp;        super(initialValues);</b>
+<i class="no-highlight">17</i>&nbsp;
+<b class="nc"><i class="no-highlight">18</i>&nbsp;        this.labels = Arrays.asList(&quot;number of vertices&quot;, &quot;directed&quot;);</b>
+<i class="no-highlight">19</i>&nbsp;
+<b class="nc"><i class="no-highlight">20</i>&nbsp;        IntSyntaxChecker isc = new IntSyntaxChecker(1, Integer.MAX_VALUE);</b>
+<b class="nc"><i class="no-highlight">21</i>&nbsp;        List&lt;SyntaxChecker&gt; syntaxCheckers = Arrays.asList(isc, null);</b>
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;
+<b class="nc"><i class="no-highlight">24</i>&nbsp;        List&lt;String&gt; explanations = Arrays.asList(&quot;The number of vertices in a path should be at least 1.&quot;, &quot;&quot;);</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;        this.explanations = explanations;</b>
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    }
+<i class="no-highlight">29</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

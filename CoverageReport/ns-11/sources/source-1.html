@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DeepCopy</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.utility</a>
+</div>
+
+<h1>Coverage Summary for Class: DeepCopy (com.algo.utility)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DeepCopy</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.algo.utility;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import java.io.*;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;/**
+<i class="no-highlight">6</i>&nbsp; * from http://javatechniques.com/blog/faster-deep-copies-of-java-objects/, see also https://stackoverflow.com/a/64066
+<i class="no-highlight">7</i>&nbsp; *
+<i class="no-highlight">8</i>&nbsp; * Utility for making deep copies (vs. clone()&#39;s shallow copies) of
+<i class="no-highlight">9</i>&nbsp; *  objects. Objects are first serialized and then deserialized. Error
+<i class="no-highlight">10</i>&nbsp; *  checking is fairly minimal in this implementation. If an object is
+<i class="no-highlight">11</i>&nbsp; *  encountered that cannot be serialized (or that references an object
+<i class="no-highlight">12</i>&nbsp; *  that cannot be serialized) an error is printed to System.err and
+<i class="no-highlight">13</i>&nbsp; *  null is returned. Depending on your specific application, it might
+<i class="no-highlight">14</i>&nbsp; *  make more sense to have copy(...) re-throw the exception.
+<i class="no-highlight">15</i>&nbsp; */
+<b class="nc"><i class="no-highlight">16</i>&nbsp;public class DeepCopy {</b>
+<i class="no-highlight">17</i>&nbsp;    /**
+<i class="no-highlight">18</i>&nbsp;     * Returns a copy of the object, or null if the object cannot
+<i class="no-highlight">19</i>&nbsp;     * be serialized.
+<i class="no-highlight">20</i>&nbsp;     */
+<i class="no-highlight">21</i>&nbsp;    public static Object copy(Object orig) {
+<b class="nc"><i class="no-highlight">22</i>&nbsp;        Object obj = null;</b>
+<i class="no-highlight">23</i>&nbsp;        try {
+<i class="no-highlight">24</i>&nbsp;            // Write the object out to a byte array
+<b class="nc"><i class="no-highlight">25</i>&nbsp;            ByteArrayOutputStream bos = new ByteArrayOutputStream();</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;            ObjectOutputStream out = new ObjectOutputStream(bos);</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;            out.writeObject(orig);</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;            out.flush();</b>
+<b class="nc"><i class="no-highlight">29</i>&nbsp;            out.close();</b>
+<i class="no-highlight">30</i>&nbsp;
+<i class="no-highlight">31</i>&nbsp;            // Make an input stream from the byte array and read
+<i class="no-highlight">32</i>&nbsp;            // a copy of the object back in.
+<b class="nc"><i class="no-highlight">33</i>&nbsp;            ObjectInputStream in = new ObjectInputStream(</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;                    new ByteArrayInputStream(bos.toByteArray()));</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;            obj = in.readObject();</b>
+<i class="no-highlight">36</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        catch(IOException e) {</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;            e.printStackTrace();</b>
+<i class="no-highlight">39</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">40</i>&nbsp;        catch(ClassNotFoundException cnfe) {</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;            cnfe.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        return obj;</b>
+<i class="no-highlight">44</i>&nbsp;    }
+<i class="no-highlight">45</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > RandomGraph</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.generator</a>
+</div>
+
+<h1>Coverage Summary for Class: RandomGraph (com.algo.generator)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RandomGraph</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75.9%
+  </span>
+  <span class="absValue">
+    (22/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;package com.algo.generator;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import com.algo.config.AlgorithmParameters;
+<i class="no-highlight">7</i>&nbsp;import com.algo.config.Preferences;
+<i class="no-highlight">8</i>&nbsp;import com.algo.config.RandomGraphParameters;
+<i class="no-highlight">9</i>&nbsp;import com.algo.structure.DirectedGraph;
+<i class="no-highlight">10</i>&nbsp;import com.algo.structure.Structure;
+<i class="no-highlight">11</i>&nbsp;import com.algo.structure.UndirectedGraph;
+<i class="no-highlight">12</i>&nbsp;import com.algo.structure.Vertex;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">15</i>&nbsp;import java.util.Arrays;
+<i class="no-highlight">16</i>&nbsp;import java.util.List;
+<i class="no-highlight">17</i>&nbsp;import java.util.Random;
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;/**
+<i class="no-highlight">20</i>&nbsp; *
+<i class="no-highlight">21</i>&nbsp; */
+<i class="no-highlight">22</i>&nbsp;@GeneratorDescription(
+<i class="no-highlight">23</i>&nbsp;        name = &quot;Random graph&quot;,
+<i class="no-highlight">24</i>&nbsp;        text = &quot;Generates a random graph according to the Erdos Renyi model&quot;,
+<i class="no-highlight">25</i>&nbsp;        url = &quot;https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93R%C3%A9nyi_model&quot;
+<i class="no-highlight">26</i>&nbsp;)
+<b class="fc"><i class="no-highlight">27</i>&nbsp;public class RandomGraph extends Generator {</b>
+<i class="no-highlight">28</i>&nbsp;
+<i class="no-highlight">29</i>&nbsp;    @Override
+<i class="no-highlight">30</i>&nbsp;    public AlgorithmParameters getParameters() {
+<i class="no-highlight">31</i>&nbsp;
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        String n = Preferences.getInteger(this.getClass(), &quot;randomGraphVertexNumber&quot;, 15).toString();</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        String p = Preferences.getDouble(this.getClass(), &quot;edgeProbability&quot;, 0.5).toString();</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        String directed = Preferences.getBoolean(this.getClass(), &quot;directed&quot;, false).toString();</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        List&lt;String&gt; initialValues = Arrays.asList(n, p, directed);</b>
+<i class="no-highlight">36</i>&nbsp;
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        return new RandomGraphParameters(initialValues);</b>
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    }
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;    /*
+<i class="no-highlight">42</i>&nbsp;     *
+<i class="no-highlight">43</i>&nbsp;     */
+<i class="no-highlight">44</i>&nbsp;    @Override
+<i class="no-highlight">45</i>&nbsp;    public Structure generate(AlgorithmParameters param) {
+<b class="fc"><i class="no-highlight">46</i>&nbsp;        int n = Integer.parseInt(((RandomGraphParameters) param).parameters.get(0));</b>
+<i class="no-highlight">47</i>&nbsp;//        Preferences.setInteger(this.getClass(), &quot;randomGraphVertexNumber&quot;, n);
+<b class="fc"><i class="no-highlight">48</i>&nbsp;        double p = Double.parseDouble(((RandomGraphParameters) param).parameters.get(1));</b>
+<i class="no-highlight">49</i>&nbsp;//        Preferences.setDouble(this.getClass(), &quot;edgeProbability&quot;, p);
+<b class="fc"><i class="no-highlight">50</i>&nbsp;        boolean directed = Boolean.parseBoolean(((RandomGraphParameters) param).parameters.get(2));</b>
+<i class="no-highlight">51</i>&nbsp;//        Preferences.setBoolean(this.getClass(), &quot;directed&quot;, directed);
+<i class="no-highlight">52</i>&nbsp;
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;        Structure result;
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        if (directed)</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;            result = new DirectedGraph();</b>
+<i class="no-highlight">57</i>&nbsp;        else
+<b class="nc"><i class="no-highlight">58</i>&nbsp;            result = new UndirectedGraph();</b>
+<i class="no-highlight">59</i>&nbsp;
+<i class="no-highlight">60</i>&nbsp;
+<b class="fc"><i class="no-highlight">61</i>&nbsp;        for (int i = 0; i &lt; n; i++) {</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;            Vertex v = result.addVertex();</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;            v.setCoordinates(</b>
+<b class="fc"><i class="no-highlight">64</i>&nbsp;                    Math.sin(i * 2 * Math.PI / n) * 0.5 * n + 3.5,</b>
+<b class="fc"><i class="no-highlight">65</i>&nbsp;                    Math.cos(i * 2 * Math.PI / n) * 0.5 * n + 3.5</b>
+<i class="no-highlight">66</i>&nbsp;            );
+<i class="no-highlight">67</i>&nbsp;        }
+<i class="no-highlight">68</i>&nbsp;
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        ArrayList&lt;Vertex&gt; vertices = new ArrayList&lt;&gt;(result.getVertices());</b>
+<i class="no-highlight">70</i>&nbsp;
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        int PRECISION = 10000;</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;        Random r = new Random();</b>
+<i class="no-highlight">73</i>&nbsp;
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        for (int i = 0; i &lt; vertices.size(); i++) {</b>
+<b class="fc"><i class="no-highlight">75</i>&nbsp;            int j = 0;</b>
+<b class="fc"><i class="no-highlight">76</i>&nbsp;            if (!directed)</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;                j = i + 1;</b>
+<b class="fc"><i class="no-highlight">78</i>&nbsp;            for (; j &lt; vertices.size(); j++) {</b>
+<b class="fc"><i class="no-highlight">79</i>&nbsp;                int next_random = r.nextInt(PRECISION);</b>
+<b class="fc"><i class="no-highlight">80</i>&nbsp;                if (i != j &amp;&amp; next_random &lt; PRECISION * p)</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;                    result.addEdge(vertices.get(i), vertices.get(j));</b>
+<i class="no-highlight">82</i>&nbsp;            }
+<i class="no-highlight">83</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">84</i>&nbsp;        return result;</b>
+<i class="no-highlight">85</i>&nbsp;    }
+<i class="no-highlight">86</i>&nbsp;}
+<i class="no-highlight">87</i>&nbsp;
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

@@ -1,2 +1,7 @@
 out/
 target/
+
+*.puml
+.idea
+.DS_Store
+tikBkp/

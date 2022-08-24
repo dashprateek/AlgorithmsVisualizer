@@ -3,11 +3,21 @@
     \documentclass{beamer}
         <xsl:call-template name="import"/>
         \begin{document}
-
-<!--        <xsl:call-template name="create_graph">-->
-<!--            <xsl:with-param name="root" select=""/>-->
-<!--        </xsl:call-template>-->
         <xsl:variable name="root" select="/GraphTraversal"/>
+        <xsl:variable name="algorithm">
+            <xsl:choose>
+                <xsl:when test="$root/@algorithm='bfs'">Breadth-First Traversal</xsl:when>
+                <xsl:otherwise>Depth-First Traversal</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        \begin{frame}
+        \frametitle{<xsl:value-of select="$algorithm"/> : Input}
+        \begin{center}
+        <xsl:call-template name="create_graph">
+            <xsl:with-param name="root" select="$root"/>
+        </xsl:call-template>
+        \end{center}
+        \end{frame}
         <xsl:for-each select="$root/iterations/iteration">
             <xsl:variable name="title">
                 <xsl:choose>
@@ -16,7 +26,7 @@
                 </xsl:choose>
             </xsl:variable>
             \begin{frame}
-            \frametitle{<xsl:value-of select="concat($title,'[',@list,']')"/>}
+            \frametitle{<xsl:value-of select="concat($algorithm,' Iteration:',position(),' ',$title,'[',@list,']')"/>}
             <xsl:call-template name="create_graph">
                 <xsl:with-param name="queuedElements" select="@visited"/>
                 <xsl:with-param name="root" select="$root"/>
@@ -24,7 +34,6 @@
             </xsl:call-template>
             \end{frame}
         </xsl:for-each>
-
     \end{document}
     </xsl:template>
 

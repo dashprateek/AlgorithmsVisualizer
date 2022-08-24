@@ -15,7 +15,7 @@ public class AlgorithmsRunner extends MainRunner {
     private static final Runner cykAlgorithmsRunner = new CYKAlgorithm();
 
     @Override
-    public boolean run(Scanner sc) throws IOException, TransformerException {
+    public boolean run(Scanner sc) throws Exception {
         boolean exit = false;
         while (true) {
             AlgorithmsEnum input = getInput(sc, AlgorithmsEnum.values());
@@ -39,7 +39,7 @@ public class AlgorithmsRunner extends MainRunner {
 
 
     public enum AlgorithmsEnum implements OptionsEnum {
-        GRAPH_ALGORITHMS("Graph Algorithms"), CYK("Cocke–Younger–Kasami (CYK) Algorithm"),
+        GRAPH_ALGORITHMS("Graph Algorithms"), CYK("Cocke Younger Kasami (CYK) Algorithm"),
         BACK("BACK"), EXIT("Exit");
         public String text;
 

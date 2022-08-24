@@ -26,6 +26,13 @@ public class Grammar extends XmlMarshallable {
     private Set<String> terminals;
     private Map<String, Set<String>> productionRules;
 
+    public Grammar() {
+        this.start = "";
+        this.variables = new HashSet<>();
+        this.terminals = new HashSet<>();
+        this.productionRules = new HashMap<>();
+    }
+
     public Grammar(String start, Set<String> variables, Set<String> terminals, Map<String, Set<String>> productionRules) {
         this.start = start;
         this.variables = variables;

@@ -1,4 +1,4 @@
-        \documentclass[crop,tikz, border=5pt]{standalone}
+        \documentclass[crop,tikz, border=5pt]{beamer}
         
         \usepackage{pgf}
         \usepackage{tikz}
@@ -8,9 +8,16 @@
         \usetikzlibrary{calc}
         \usetikzlibrary{shapes}
         \usepackage[utf8]{inputenc}
+        \usetikzlibrary{calc}
+        \usetheme{default}
+        \usefonttheme{professionalfonts}
+        \setbeamertemplate{navigation symbols}{}
+        \setbeamerfont{frametitle}{series=\bfseries}
     
         \begin{document}
-
+        \begin{frame}
+        \frametitle{Dijkstra's Algorithm : Input}
+        \begin{center}
         
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
@@ -34,26 +41,33 @@
     
         \draw [edge_style] (n6) edge node{1.0} (n5);
     
-        \draw [edge_style] (n2) edge node{1.0} (n3);
-    
-        \draw [edge_style] (n4) edge node{5.0} (n5);
-    
-        \draw [edge_style] (n1) edge node{1.0} (n2);
-    
         \draw [edge_style] (n2) edge node{5.0} (n4);
+    
+        \draw [edge_style] (n4) edge node{1.0} (n6);
+    
+        \draw [edge_style] (n2) edge node{1.0} (n3);
     
         \draw [edge_style] (n1) edge node{4.0} (n3);
     
-        \draw [edge_style] (n4) edge node{1.0} (n6);
+        \draw [edge_style] (n3) edge node{1.0} (n5);
     
         \draw [edge_style] (n3) edge node{2.0} (n4);
     
         \draw [edge_style] (n2) edge node{4.0} (n5);
     
-        \draw [edge_style] (n3) edge node{1.0} (n5);
+        \draw [edge_style] (n4) edge node{5.0} (n5);
+    
+        \draw [edge_style] (n1) edge node{1.0} (n2);
     
         \end{tikzpicture}
     
+        \end{center}
+        \end{frame}
+        
+            \begin{frame}
+            \frametitle{Dijkstra's Algorithm : Iteration 1 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         selected_node_style/.style={circle,draw=blue,fill=yellow!20!,font=\sffamily\Large\bfseries},
@@ -66,36 +80,43 @@
     
         \node [node_style,label={[text=blue]10:$4.0$}](n3) at (5.509,1.527) {2};
     
-        \node [node_style,label={[text=blue]10:$-1.0$}](n4) at (8.525,5.469) {3};
+        \node [node_style,label={[text=blue]10:$\infty$}](n4) at (8.525,5.469) {3};
     
-        \node [node_style,label={[text=blue]10:$-1.0$}](n5) at (8.525,1.527) {4};
+        \node [node_style,label={[text=blue]10:$\infty$}](n5) at (8.525,1.527) {4};
     
-        \node [node_style,label={[text=blue]10:$-1.0$}](n6) at (10.493,3.511) {5};
+        \node [node_style,label={[text=blue]10:$\infty$}](n6) at (10.493,3.511) {5};
     
         \draw [edge_style] (n5) edge node{4.0} (n6);
     
         \draw [edge_style] (n6) edge node{1.0} (n5);
     
-        \draw [edge_style] (n2) edge node{1.0} (n3);
-    
-        \draw [edge_style] (n4) edge node{5.0} (n5);
-    
-        \draw [edge_style] (n1) edge node{1.0} (n2);
-    
         \draw [edge_style] (n2) edge node{5.0} (n4);
+    
+        \draw [edge_style] (n4) edge node{1.0} (n6);
+    
+        \draw [edge_style] (n2) edge node{1.0} (n3);
     
         \draw [edge_style] (n1) edge node{4.0} (n3);
     
-        \draw [edge_style] (n4) edge node{1.0} (n6);
+        \draw [edge_style] (n3) edge node{1.0} (n5);
     
         \draw [edge_style] (n3) edge node{2.0} (n4);
     
         \draw [edge_style] (n2) edge node{4.0} (n5);
     
-        \draw [edge_style] (n3) edge node{1.0} (n5);
+        \draw [edge_style] (n4) edge node{5.0} (n5);
+    
+        \draw [edge_style] (n1) edge node{1.0} (n2);
     
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Dijkstra's Algorithm : Iteration 2 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         selected_node_style/.style={circle,draw=blue,fill=yellow!20!,font=\sffamily\Large\bfseries},
@@ -112,32 +133,39 @@
     
         \node [node_style,label={[text=blue]10:$5.0$}](n5) at (8.525,1.527) {4};
     
-        \node [node_style,label={[text=blue]10:$-1.0$}](n6) at (10.493,3.511) {5};
+        \node [node_style,label={[text=blue]10:$\infty$}](n6) at (10.493,3.511) {5};
     
         \draw [edge_style] (n5) edge node{4.0} (n6);
     
         \draw [edge_style] (n6) edge node{1.0} (n5);
     
-        \draw [edge_style] (n2) edge node{1.0} (n3);
-    
-        \draw [edge_style] (n4) edge node{5.0} (n5);
-    
-        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
-    
         \draw [edge_style] (n2) edge node{5.0} (n4);
+    
+        \draw [edge_style] (n4) edge node{1.0} (n6);
+    
+        \draw [edge_style] (n2) edge node{1.0} (n3);
     
         \draw [edge_style] (n1) edge node{4.0} (n3);
     
-        \draw [edge_style] (n4) edge node{1.0} (n6);
+        \draw [edge_style] (n3) edge node{1.0} (n5);
     
         \draw [edge_style] (n3) edge node{2.0} (n4);
     
         \draw [edge_style] (n2) edge node{4.0} (n5);
     
-        \draw [edge_style] (n3) edge node{1.0} (n5);
+        \draw [edge_style] (n4) edge node{5.0} (n5);
+    
+        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
     
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Dijkstra's Algorithm : Iteration 3 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         selected_node_style/.style={circle,draw=blue,fill=yellow!20!,font=\sffamily\Large\bfseries},
@@ -154,32 +182,39 @@
     
         \node [node_style,label={[text=blue]10:$3.0$}](n5) at (8.525,1.527) {4};
     
-        \node [node_style,label={[text=blue]10:$-1.0$}](n6) at (10.493,3.511) {5};
+        \node [node_style,label={[text=blue]10:$\infty$}](n6) at (10.493,3.511) {5};
     
         \draw [edge_style] (n5) edge node{4.0} (n6);
     
         \draw [edge_style] (n6) edge node{1.0} (n5);
     
-        \draw [selected_edge_style] (n2) edge node{1.0} (n3);
-    
-        \draw [edge_style] (n4) edge node{5.0} (n5);
-    
-        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
-    
         \draw [edge_style] (n2) edge node{5.0} (n4);
+    
+        \draw [edge_style] (n4) edge node{1.0} (n6);
+    
+        \draw [selected_edge_style] (n2) edge node{1.0} (n3);
     
         \draw [edge_style] (n1) edge node{4.0} (n3);
     
-        \draw [edge_style] (n4) edge node{1.0} (n6);
+        \draw [edge_style] (n3) edge node{1.0} (n5);
     
         \draw [edge_style] (n3) edge node{2.0} (n4);
     
         \draw [edge_style] (n2) edge node{4.0} (n5);
     
-        \draw [edge_style] (n3) edge node{1.0} (n5);
+        \draw [edge_style] (n4) edge node{5.0} (n5);
+    
+        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
     
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Dijkstra's Algorithm : Iteration 4 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         selected_node_style/.style={circle,draw=blue,fill=yellow!20!,font=\sffamily\Large\bfseries},
@@ -202,26 +237,33 @@
     
         \draw [edge_style] (n6) edge node{1.0} (n5);
     
-        \draw [selected_edge_style] (n2) edge node{1.0} (n3);
-    
-        \draw [edge_style] (n4) edge node{5.0} (n5);
-    
-        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
-    
         \draw [edge_style] (n2) edge node{5.0} (n4);
+    
+        \draw [edge_style] (n4) edge node{1.0} (n6);
+    
+        \draw [selected_edge_style] (n2) edge node{1.0} (n3);
     
         \draw [edge_style] (n1) edge node{4.0} (n3);
     
-        \draw [edge_style] (n4) edge node{1.0} (n6);
+        \draw [selected_edge_style] (n3) edge node{1.0} (n5);
     
         \draw [edge_style] (n3) edge node{2.0} (n4);
     
         \draw [edge_style] (n2) edge node{4.0} (n5);
     
-        \draw [selected_edge_style] (n3) edge node{1.0} (n5);
+        \draw [edge_style] (n4) edge node{5.0} (n5);
+    
+        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
     
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Dijkstra's Algorithm : Iteration 5 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         selected_node_style/.style={circle,draw=blue,fill=yellow!20!,font=\sffamily\Large\bfseries},
@@ -244,26 +286,33 @@
     
         \draw [edge_style] (n6) edge node{1.0} (n5);
     
-        \draw [selected_edge_style] (n2) edge node{1.0} (n3);
-    
-        \draw [edge_style] (n4) edge node{5.0} (n5);
-    
-        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
-    
         \draw [edge_style] (n2) edge node{5.0} (n4);
+    
+        \draw [edge_style] (n4) edge node{1.0} (n6);
+    
+        \draw [selected_edge_style] (n2) edge node{1.0} (n3);
     
         \draw [edge_style] (n1) edge node{4.0} (n3);
     
-        \draw [edge_style] (n4) edge node{1.0} (n6);
+        \draw [selected_edge_style] (n3) edge node{1.0} (n5);
     
         \draw [selected_edge_style] (n3) edge node{2.0} (n4);
     
         \draw [edge_style] (n2) edge node{4.0} (n5);
     
-        \draw [selected_edge_style] (n3) edge node{1.0} (n5);
+        \draw [edge_style] (n4) edge node{5.0} (n5);
+    
+        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
     
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Dijkstra's Algorithm : Iteration 6 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         selected_node_style/.style={circle,draw=blue,fill=yellow!20!,font=\sffamily\Large\bfseries},
@@ -286,26 +335,29 @@
     
         \draw [edge_style] (n6) edge node{1.0} (n5);
     
-        \draw [selected_edge_style] (n2) edge node{1.0} (n3);
-    
-        \draw [edge_style] (n4) edge node{5.0} (n5);
-    
-        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
-    
         \draw [edge_style] (n2) edge node{5.0} (n4);
+    
+        \draw [selected_edge_style] (n4) edge node{1.0} (n6);
+    
+        \draw [selected_edge_style] (n2) edge node{1.0} (n3);
     
         \draw [edge_style] (n1) edge node{4.0} (n3);
     
-        \draw [selected_edge_style] (n4) edge node{1.0} (n6);
+        \draw [selected_edge_style] (n3) edge node{1.0} (n5);
     
         \draw [selected_edge_style] (n3) edge node{2.0} (n4);
     
         \draw [edge_style] (n2) edge node{4.0} (n5);
     
-        \draw [selected_edge_style] (n3) edge node{1.0} (n5);
+        \draw [edge_style] (n4) edge node{5.0} (n5);
+    
+        \draw [selected_edge_style] (n1) edge node{1.0} (n2);
     
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
 
         \end{document}
     

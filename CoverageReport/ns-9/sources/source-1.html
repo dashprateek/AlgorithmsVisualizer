@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Cycle</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.generator</a>
+</div>
+
+<h1>Coverage Summary for Class: Cycle (com.algo.generator)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cycle</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.2%
+  </span>
+  <span class="absValue">
+    (19/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;package com.algo.generator;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import com.algo.config.AlgorithmParameters;
+<i class="no-highlight">6</i>&nbsp;import com.algo.config.CycleParameters;
+<i class="no-highlight">7</i>&nbsp;import com.algo.config.Preferences;
+<i class="no-highlight">8</i>&nbsp;import com.algo.structure.DirectedGraph;
+<i class="no-highlight">9</i>&nbsp;import com.algo.structure.Structure;
+<i class="no-highlight">10</i>&nbsp;import com.algo.structure.UndirectedGraph;
+<i class="no-highlight">11</i>&nbsp;import com.algo.structure.Vertex;
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;import java.util.Arrays;
+<i class="no-highlight">14</i>&nbsp;import java.util.List;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;/**
+<i class="no-highlight">17</i>&nbsp; *
+<i class="no-highlight">18</i>&nbsp; */
+<i class="no-highlight">19</i>&nbsp;@GeneratorDescription(
+<i class="no-highlight">20</i>&nbsp;        name = &quot;Cycle&quot;,
+<i class="no-highlight">21</i>&nbsp;        text = &quot;Generates a Cyclic-Graph&quot;,
+<i class="no-highlight">22</i>&nbsp;        url = &quot;https://en.wikipedia.org/wiki/Cycle_(graph_theory)&quot;
+<i class="no-highlight">23</i>&nbsp;)
+<b class="fc"><i class="no-highlight">24</i>&nbsp;public class Cycle extends Generator {</b>
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    @Override
+<i class="no-highlight">27</i>&nbsp;    public AlgorithmParameters getParameters() {
+<b class="nc"><i class="no-highlight">28</i>&nbsp;        String n = Preferences.getInteger(this.getClass(), &quot;Number of vertices&quot;, 5).toString();</b>
+<b class="nc"><i class="no-highlight">29</i>&nbsp;        String directed = Preferences.getBoolean(this.getClass(), &quot;directed&quot;, true).toString();</b>
+<i class="no-highlight">30</i>&nbsp;
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        List&lt;String&gt; initialValues = Arrays.asList(n, directed);</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        return new CycleParameters(initialValues);</b>
+<i class="no-highlight">33</i>&nbsp;    }
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;    @Override
+<i class="no-highlight">36</i>&nbsp;    public Structure generate(AlgorithmParameters p) {
+<b class="fc"><i class="no-highlight">37</i>&nbsp;        int n = Integer.parseInt(((CycleParameters) p).parameters.get(0));</b>
+<i class="no-highlight">38</i>&nbsp;//        Preferences.setInteger(this.getClass(), &quot;Number of vertices&quot;, n);
+<b class="fc"><i class="no-highlight">39</i>&nbsp;        boolean directed = Boolean.parseBoolean(((CycleParameters) p).parameters.get(1));</b>
+<i class="no-highlight">40</i>&nbsp;//        Preferences.setBoolean(this.getClass(), &quot;directed&quot;, directed);
+<i class="no-highlight">41</i>&nbsp;        Structure result;
+<i class="no-highlight">42</i>&nbsp;
+<b class="fc"><i class="no-highlight">43</i>&nbsp;        if (directed)</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;            result = new DirectedGraph();</b>
+<i class="no-highlight">45</i>&nbsp;        else
+<b class="nc"><i class="no-highlight">46</i>&nbsp;            result = new UndirectedGraph();</b>
+<i class="no-highlight">47</i>&nbsp;
+<b class="fc"><i class="no-highlight">48</i>&nbsp;        Vertex first = result.addVertex();</b>
+<i class="no-highlight">49</i>&nbsp;
+<b class="fc"><i class="no-highlight">50</i>&nbsp;        first.setCoordinates(</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;                Math.sin(0 * 2 * Math.PI / n) * 0.5 * n + 3.5,</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;                Math.cos(0 * 2 * Math.PI / n) * 0.5 * n + 3.5</b>
+<i class="no-highlight">53</i>&nbsp;        );
+<i class="no-highlight">54</i>&nbsp;
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        Vertex last = first;</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;        for (int i = 1; i &lt; n; i++) {</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;            Vertex next = result.addVertex();</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;            next.setCoordinates(</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;                    Math.sin(i * 2 * Math.PI / n) * 0.5 * n + 3.5,</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;                    Math.cos(i * 2 * Math.PI / n) * 0.5 * n + 3.5</b>
+<i class="no-highlight">61</i>&nbsp;            );
+<b class="fc"><i class="no-highlight">62</i>&nbsp;            result.addEdge(last, next);</b>
+<i class="no-highlight">63</i>&nbsp;
+<b class="fc"><i class="no-highlight">64</i>&nbsp;            last = next;</b>
+<i class="no-highlight">65</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">66</i>&nbsp;        result.addEdge(last, first);</b>
+<i class="no-highlight">67</i>&nbsp;
+<b class="fc"><i class="no-highlight">68</i>&nbsp;        return result;</b>
+<i class="no-highlight">69</i>&nbsp;    }
+<i class="no-highlight">70</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

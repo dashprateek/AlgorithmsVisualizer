@@ -35,6 +35,10 @@
     
         \begin{document}
         
+        \begin{frame}
+        \frametitle{Bellman-Ford Algorithm : Input}
+        \begin{center}
+        
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         edge_node_style/.style={draw=none,fill=none,midway,sloped},
@@ -43,27 +47,34 @@
         selected_edge_style/.style={draw=yellow, ultra thick,->}]
         \tikzset{quadratic bezier/.style={ to path={(\tikztostart) .. controls($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$).. (\tikztotarget)}}}
         
-        \node [node_style,label={[text=blue]10:$$}](n1) at (3.471,-1.527) {1};
-        \node [node_style,label={[text=blue]10:$$}](n2) at (3.471,-3.511) {2};
-        \node [node_style,label={[text=blue]10:$$}](n3) at (3.471,-5.548) {3};
-        \node [node_style,label={[text=blue]10:$$}](n4) at (6.488,-4.49) {4};
-        \node [node_style,label={[text=blue]10:$$}](n5) at (6.488,-2.532) {5};
-        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {6};\coordinate (crtl1)  at (5.003,-5.039);
-                        \draw [edge_style] (n4) .. controls($(crtl1)!1/3!(n4)$) and ($(crtl1)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
+        \node [node_style,label={[text=blue]10:$$}](n1) at (3.471,-1.527) {0};
+        \node [node_style,label={[text=blue]10:$$}](n2) at (3.471,-3.511) {1};
+        \node [node_style,label={[text=blue]10:$$}](n3) at (3.471,-5.548) {2};
+        \node [node_style,label={[text=blue]10:$$}](n4) at (6.488,-4.49) {3};
+        \node [node_style,label={[text=blue]10:$$}](n5) at (6.488,-2.532) {4};
+        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {5};\draw [edge_style] (n2) to[edge label=-1.0] (n5);
+            \coordinate (crtl2)  at (7.473,0.442);
+                        \draw [edge_style] (n1) .. controls($(crtl2)!1/3!(n1)$) and ($(crtl2)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
+                    \coordinate (crtl3)  at (7.324,-7.771);
+                        \draw [edge_style] (n3) .. controls($(crtl3)!1/3!(n3)$) and ($(crtl3)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
+                    \coordinate (crtl4)  at (5.003,-5.039);
+                        \draw [edge_style] (n4) .. controls($(crtl4)!1/3!(n4)$) and ($(crtl4)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
                     \draw [edge_style] (n5) to[edge label=4.0] (n6);
-            \draw [edge_style] (n4) to[edge label=2.0] (n6);
-            \draw [edge_style] (n2) to[edge label=-1.0] (n5);
-            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
             \draw [edge_style] (n5) to[edge label=6.0] (n1);
-            \coordinate (crtl7)  at (7.473,0.442);
-                        \draw [edge_style] (n1) .. controls($(crtl7)!1/3!(n1)$) and ($(crtl7)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
-                    \draw [edge_style] (n3) to[edge label=8.0] (n2);
+            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
+            \draw [edge_style] (n4) to[edge label=2.0] (n6);
+            \draw [edge_style] (n3) to[edge label=8.0] (n2);
             \draw [edge_style] (n1) to[edge label=-4.0] (n2);
-            \coordinate (crtl10)  at (7.324,-7.771);
-                        \draw [edge_style] (n3) .. controls($(crtl10)!1/3!(n3)$) and ($(crtl10)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
-                    
+            
         \end{tikzpicture}
     
+        \end{center}
+        \end{frame}
+        
+            \begin{frame}
+            \frametitle{Bellman-Ford Algorithm : Iteration 1 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         edge_node_style/.style={draw=none,fill=none,midway,sloped},
@@ -72,27 +83,34 @@
         selected_edge_style/.style={draw=yellow, ultra thick,->}]
         \tikzset{quadratic bezier/.style={ to path={(\tikztostart) .. controls($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$).. (\tikztotarget)}}}
         
-        \node [node_style,label={[text=blue]10:$-3.0$}](n1) at (3.471,-1.527) {1};
-        \node [node_style,label={[text=blue]10:$99999.0$}](n2) at (3.471,-3.511) {2};
-        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {3};
-        \node [node_style,label={[text=blue]10:$2.0$}](n4) at (6.488,-4.49) {4};
-        \node [node_style,label={[text=blue]10:$4.0$}](n5) at (6.488,-2.532) {5};
-        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {6};\coordinate (crtl1)  at (5.003,-5.039);
-                        \draw [edge_style] (n4) .. controls($(crtl1)!1/3!(n4)$) and ($(crtl1)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
+        \node [node_style,label={[text=blue]10:$-3.0$}](n1) at (3.471,-1.527) {0};
+        \node [node_style,label={[text=blue]10:$\infty$}](n2) at (3.471,-3.511) {1};
+        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {2};
+        \node [node_style,label={[text=blue]10:$2.0$}](n4) at (6.488,-4.49) {3};
+        \node [node_style,label={[text=blue]10:$4.0$}](n5) at (6.488,-2.532) {4};
+        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {5};\draw [edge_style] (n2) to[edge label=-1.0] (n5);
+            \coordinate (crtl2)  at (7.473,0.442);
+                        \draw [edge_style] (n1) .. controls($(crtl2)!1/3!(n1)$) and ($(crtl2)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
+                    \coordinate (crtl3)  at (7.324,-7.771);
+                        \draw [edge_style] (n3) .. controls($(crtl3)!1/3!(n3)$) and ($(crtl3)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
+                    \coordinate (crtl4)  at (5.003,-5.039);
+                        \draw [edge_style] (n4) .. controls($(crtl4)!1/3!(n4)$) and ($(crtl4)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
                     \draw [edge_style] (n5) to[edge label=4.0] (n6);
-            \draw [edge_style] (n4) to[edge label=2.0] (n6);
-            \draw [edge_style] (n2) to[edge label=-1.0] (n5);
-            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
             \draw [edge_style] (n5) to[edge label=6.0] (n1);
-            \coordinate (crtl7)  at (7.473,0.442);
-                        \draw [edge_style] (n1) .. controls($(crtl7)!1/3!(n1)$) and ($(crtl7)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
-                    \draw [edge_style] (n3) to[edge label=8.0] (n2);
+            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
+            \draw [edge_style] (n4) to[edge label=2.0] (n6);
+            \draw [edge_style] (n3) to[edge label=8.0] (n2);
             \draw [edge_style] (n1) to[edge label=-4.0] (n2);
-            \coordinate (crtl10)  at (7.324,-7.771);
-                        \draw [edge_style] (n3) .. controls($(crtl10)!1/3!(n3)$) and ($(crtl10)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
-                    
+            
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Bellman-Ford Algorithm : Iteration 2 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         edge_node_style/.style={draw=none,fill=none,midway,sloped},
@@ -101,27 +119,34 @@
         selected_edge_style/.style={draw=yellow, ultra thick,->}]
         \tikzset{quadratic bezier/.style={ to path={(\tikztostart) .. controls($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$).. (\tikztotarget)}}}
         
-        \node [node_style,label={[text=blue]10:$-3.0$}](n1) at (3.471,-1.527) {1};
-        \node [node_style,label={[text=blue]10:$0.0$}](n2) at (3.471,-3.511) {2};
-        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {3};
-        \node [node_style,label={[text=blue]10:$0.0$}](n4) at (6.488,-4.49) {4};
-        \node [node_style,label={[text=blue]10:$3.0$}](n5) at (6.488,-2.532) {5};
-        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {6};\coordinate (crtl1)  at (5.003,-5.039);
-                        \draw [edge_style] (n4) .. controls($(crtl1)!1/3!(n4)$) and ($(crtl1)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
+        \node [node_style,label={[text=blue]10:$-3.0$}](n1) at (3.471,-1.527) {0};
+        \node [node_style,label={[text=blue]10:$0.0$}](n2) at (3.471,-3.511) {1};
+        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {2};
+        \node [node_style,label={[text=blue]10:$0.0$}](n4) at (6.488,-4.49) {3};
+        \node [node_style,label={[text=blue]10:$3.0$}](n5) at (6.488,-2.532) {4};
+        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {5};\draw [edge_style] (n2) to[edge label=-1.0] (n5);
+            \coordinate (crtl2)  at (7.473,0.442);
+                        \draw [edge_style] (n1) .. controls($(crtl2)!1/3!(n1)$) and ($(crtl2)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
+                    \coordinate (crtl3)  at (7.324,-7.771);
+                        \draw [edge_style] (n3) .. controls($(crtl3)!1/3!(n3)$) and ($(crtl3)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
+                    \coordinate (crtl4)  at (5.003,-5.039);
+                        \draw [edge_style] (n4) .. controls($(crtl4)!1/3!(n4)$) and ($(crtl4)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
                     \draw [edge_style] (n5) to[edge label=4.0] (n6);
-            \draw [edge_style] (n4) to[edge label=2.0] (n6);
-            \draw [edge_style] (n2) to[edge label=-1.0] (n5);
-            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
             \draw [edge_style] (n5) to[edge label=6.0] (n1);
-            \coordinate (crtl7)  at (7.473,0.442);
-                        \draw [edge_style] (n1) .. controls($(crtl7)!1/3!(n1)$) and ($(crtl7)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
-                    \draw [edge_style] (n3) to[edge label=8.0] (n2);
+            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
+            \draw [edge_style] (n4) to[edge label=2.0] (n6);
+            \draw [edge_style] (n3) to[edge label=8.0] (n2);
             \draw [edge_style] (n1) to[edge label=-4.0] (n2);
-            \coordinate (crtl10)  at (7.324,-7.771);
-                        \draw [edge_style] (n3) .. controls($(crtl10)!1/3!(n3)$) and ($(crtl10)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
-                    
+            
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Bellman-Ford Algorithm : Iteration 3 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         edge_node_style/.style={draw=none,fill=none,midway,sloped},
@@ -130,27 +155,34 @@
         selected_edge_style/.style={draw=yellow, ultra thick,->}]
         \tikzset{quadratic bezier/.style={ to path={(\tikztostart) .. controls($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$).. (\tikztotarget)}}}
         
-        \node [node_style,label={[text=blue]10:$-4.0$}](n1) at (3.471,-1.527) {1};
-        \node [node_style,label={[text=blue]10:$-2.0$}](n2) at (3.471,-3.511) {2};
-        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {3};
-        \node [node_style,label={[text=blue]10:$0.0$}](n4) at (6.488,-4.49) {4};
-        \node [node_style,label={[text=blue]10:$3.0$}](n5) at (6.488,-2.532) {5};
-        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {6};\coordinate (crtl1)  at (5.003,-5.039);
-                        \draw [edge_style] (n4) .. controls($(crtl1)!1/3!(n4)$) and ($(crtl1)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
+        \node [node_style,label={[text=blue]10:$-4.0$}](n1) at (3.471,-1.527) {0};
+        \node [node_style,label={[text=blue]10:$-2.0$}](n2) at (3.471,-3.511) {1};
+        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {2};
+        \node [node_style,label={[text=blue]10:$0.0$}](n4) at (6.488,-4.49) {3};
+        \node [node_style,label={[text=blue]10:$3.0$}](n5) at (6.488,-2.532) {4};
+        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {5};\draw [edge_style] (n2) to[edge label=-1.0] (n5);
+            \coordinate (crtl2)  at (7.473,0.442);
+                        \draw [edge_style] (n1) .. controls($(crtl2)!1/3!(n1)$) and ($(crtl2)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
+                    \coordinate (crtl3)  at (7.324,-7.771);
+                        \draw [edge_style] (n3) .. controls($(crtl3)!1/3!(n3)$) and ($(crtl3)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
+                    \coordinate (crtl4)  at (5.003,-5.039);
+                        \draw [edge_style] (n4) .. controls($(crtl4)!1/3!(n4)$) and ($(crtl4)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
                     \draw [edge_style] (n5) to[edge label=4.0] (n6);
-            \draw [edge_style] (n4) to[edge label=2.0] (n6);
-            \draw [edge_style] (n2) to[edge label=-1.0] (n5);
-            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
             \draw [edge_style] (n5) to[edge label=6.0] (n1);
-            \coordinate (crtl7)  at (7.473,0.442);
-                        \draw [edge_style] (n1) .. controls($(crtl7)!1/3!(n1)$) and ($(crtl7)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
-                    \draw [edge_style] (n3) to[edge label=8.0] (n2);
+            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
+            \draw [edge_style] (n4) to[edge label=2.0] (n6);
+            \draw [edge_style] (n3) to[edge label=8.0] (n2);
             \draw [edge_style] (n1) to[edge label=-4.0] (n2);
-            \coordinate (crtl10)  at (7.324,-7.771);
-                        \draw [edge_style] (n3) .. controls($(crtl10)!1/3!(n3)$) and ($(crtl10)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
-                    
+            
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Bellman-Ford Algorithm : Iteration 4 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         edge_node_style/.style={draw=none,fill=none,midway,sloped},
@@ -159,27 +191,34 @@
         selected_edge_style/.style={draw=yellow, ultra thick,->}]
         \tikzset{quadratic bezier/.style={ to path={(\tikztostart) .. controls($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$).. (\tikztotarget)}}}
         
-        \node [node_style,label={[text=blue]10:$-6.0$}](n1) at (3.471,-1.527) {1};
-        \node [node_style,label={[text=blue]10:$-2.0$}](n2) at (3.471,-3.511) {2};
-        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {3};
-        \node [node_style,label={[text=blue]10:$0.0$}](n4) at (6.488,-4.49) {4};
-        \node [node_style,label={[text=blue]10:$2.0$}](n5) at (6.488,-2.532) {5};
-        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {6};\coordinate (crtl1)  at (5.003,-5.039);
-                        \draw [edge_style] (n4) .. controls($(crtl1)!1/3!(n4)$) and ($(crtl1)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
+        \node [node_style,label={[text=blue]10:$-6.0$}](n1) at (3.471,-1.527) {0};
+        \node [node_style,label={[text=blue]10:$-2.0$}](n2) at (3.471,-3.511) {1};
+        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {2};
+        \node [node_style,label={[text=blue]10:$0.0$}](n4) at (6.488,-4.49) {3};
+        \node [node_style,label={[text=blue]10:$2.0$}](n5) at (6.488,-2.532) {4};
+        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {5};\draw [edge_style] (n2) to[edge label=-1.0] (n5);
+            \coordinate (crtl2)  at (7.473,0.442);
+                        \draw [edge_style] (n1) .. controls($(crtl2)!1/3!(n1)$) and ($(crtl2)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
+                    \coordinate (crtl3)  at (7.324,-7.771);
+                        \draw [edge_style] (n3) .. controls($(crtl3)!1/3!(n3)$) and ($(crtl3)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
+                    \coordinate (crtl4)  at (5.003,-5.039);
+                        \draw [edge_style] (n4) .. controls($(crtl4)!1/3!(n4)$) and ($(crtl4)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
                     \draw [edge_style] (n5) to[edge label=4.0] (n6);
-            \draw [edge_style] (n4) to[edge label=2.0] (n6);
-            \draw [edge_style] (n2) to[edge label=-1.0] (n5);
-            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
             \draw [edge_style] (n5) to[edge label=6.0] (n1);
-            \coordinate (crtl7)  at (7.473,0.442);
-                        \draw [edge_style] (n1) .. controls($(crtl7)!1/3!(n1)$) and ($(crtl7)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
-                    \draw [edge_style] (n3) to[edge label=8.0] (n2);
+            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
+            \draw [edge_style] (n4) to[edge label=2.0] (n6);
+            \draw [edge_style] (n3) to[edge label=8.0] (n2);
             \draw [edge_style] (n1) to[edge label=-4.0] (n2);
-            \coordinate (crtl10)  at (7.324,-7.771);
-                        \draw [edge_style] (n3) .. controls($(crtl10)!1/3!(n3)$) and ($(crtl10)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
-                    
+            
         \end{tikzpicture}
     
+            \end{center}
+            \end{frame}
+        
+            \begin{frame}
+            \frametitle{Bellman-Ford Algorithm : Iteration 5 }
+            \begin{center}
+            
         \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         edge_node_style/.style={draw=none,fill=none,midway,sloped},
@@ -188,27 +227,29 @@
         selected_edge_style/.style={draw=yellow, ultra thick,->}]
         \tikzset{quadratic bezier/.style={ to path={(\tikztostart) .. controls($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$).. (\tikztotarget)}}}
         
-        \node [node_style,label={[text=blue]10:$-6.0$}](n1) at (3.471,-1.527) {1};
-        \node [node_style,label={[text=blue]10:$-2.0$}](n2) at (3.471,-3.511) {2};
-        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {3};
-        \node [node_style,label={[text=blue]10:$0.0$}](n4) at (6.488,-4.49) {4};
-        \node [node_style,label={[text=blue]10:$0.0$}](n5) at (6.488,-2.532) {5};
-        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {6};\coordinate (crtl1)  at (5.003,-5.039);
-                        \draw [edge_style] (n4) .. controls($(crtl1)!1/3!(n4)$) and ($(crtl1)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
+        \node [node_style,label={[text=blue]10:$-6.0$}](n1) at (3.471,-1.527) {0};
+        \node [node_style,label={[text=blue]10:$-2.0$}](n2) at (3.471,-3.511) {1};
+        \node [node_style,label={[text=blue]10:$3.0$}](n3) at (3.471,-5.548) {2};
+        \node [node_style,label={[text=blue]10:$0.0$}](n4) at (6.488,-4.49) {3};
+        \node [node_style,label={[text=blue]10:$0.0$}](n5) at (6.488,-2.532) {4};
+        \node [node_style,label={[text=blue]10:$$}](n6) at (9.478,-3.511) {5};\draw [edge_style] (n2) to[edge label=-1.0] (n5);
+            \coordinate (crtl2)  at (7.473,0.442);
+                        \draw [edge_style] (n1) .. controls($(crtl2)!1/3!(n1)$) and ($(crtl2)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
+                    \coordinate (crtl3)  at (7.324,-7.771);
+                        \draw [edge_style] (n3) .. controls($(crtl3)!1/3!(n3)$) and ($(crtl3)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
+                    \coordinate (crtl4)  at (5.003,-5.039);
+                        \draw [edge_style] (n4) .. controls($(crtl4)!1/3!(n4)$) and ($(crtl4)!1/3!(n3)$).. node [edge_node_style] {$-3.0$} (n3);
                     \draw [edge_style] (n5) to[edge label=4.0] (n6);
-            \draw [edge_style] (n4) to[edge label=2.0] (n6);
-            \draw [edge_style] (n2) to[edge label=-1.0] (n5);
-            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
             \draw [edge_style] (n5) to[edge label=6.0] (n1);
-            \coordinate (crtl7)  at (7.473,0.442);
-                        \draw [edge_style] (n1) .. controls($(crtl7)!1/3!(n1)$) and ($(crtl7)!1/3!(n6)$).. node [edge_node_style] {$-3.0$} (n6);
-                    \draw [edge_style] (n3) to[edge label=8.0] (n2);
+            \draw [edge_style] (n2) to[edge label=-2.0] (n4);
+            \draw [edge_style] (n4) to[edge label=2.0] (n6);
+            \draw [edge_style] (n3) to[edge label=8.0] (n2);
             \draw [edge_style] (n1) to[edge label=-4.0] (n2);
-            \coordinate (crtl10)  at (7.324,-7.771);
-                        \draw [edge_style] (n3) .. controls($(crtl10)!1/3!(n3)$) and ($(crtl10)!1/3!(n6)$).. node [edge_node_style] {$3.0$} (n6);
-                    
+            
         \end{tikzpicture}
     
-
+            \end{center}
+            \end{frame}
+        
         \end{document}
     

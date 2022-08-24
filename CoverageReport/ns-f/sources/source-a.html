@@ -1,0 +1,523 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Vertex</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.structure</a>
+</div>
+
+<h1>Coverage Summary for Class: Vertex (com.algo.structure)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Vertex</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41.2%
+  </span>
+  <span class="absValue">
+    (14/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50.8%
+  </span>
+  <span class="absValue">
+    (96/189)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.algo.structure;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;import com.algo.annotations.DataField;
+<i class="no-highlight">5</i>&nbsp;import com.algo.config.Configuration;
+<i class="no-highlight">6</i>&nbsp;import com.algo.plugins.XmlMarshallable;
+<i class="no-highlight">7</i>&nbsp;import com.algo.plugins.XmlName;
+<i class="no-highlight">8</i>&nbsp;import com.algo.rendering.GralogColor;
+<i class="no-highlight">9</i>&nbsp;import com.algo.rendering.GralogTikStyles;
+<i class="no-highlight">10</i>&nbsp;import com.algo.rendering.Vector2D;
+<i class="no-highlight">11</i>&nbsp;import com.algo.rendering.shapes.Ellipse;
+<i class="no-highlight">12</i>&nbsp;import com.algo.rendering.shapes.RenderingShape;
+<i class="no-highlight">13</i>&nbsp;import org.w3c.dom.Document;
+<i class="no-highlight">14</i>&nbsp;import org.w3c.dom.Element;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;import java.io.Serializable;
+<i class="no-highlight">17</i>&nbsp;import java.lang.annotation.Annotation;
+<i class="no-highlight">18</i>&nbsp;import java.lang.reflect.Field;
+<i class="no-highlight">19</i>&nbsp;import java.lang.reflect.InvocationTargetException;
+<i class="no-highlight">20</i>&nbsp;import java.util.Arrays;
+<i class="no-highlight">21</i>&nbsp;import java.util.HashSet;
+<i class="no-highlight">22</i>&nbsp;import java.util.Set;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;import static java.lang.Boolean.FALSE;
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;/**
+<i class="no-highlight">28</i>&nbsp; * A vertex with a circle shape.
+<i class="no-highlight">29</i>&nbsp; */
+<i class="no-highlight">30</i>&nbsp;@XmlName(name = &quot;node&quot;)
+<i class="no-highlight">31</i>&nbsp;public class Vertex extends XmlMarshallable implements Serializable {
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;    @DataField(display = true, readOnly = true)
+<i class="no-highlight">34</i>&nbsp;    public int id;
+<b class="fc"><i class="no-highlight">35</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">36</i>&nbsp;    public String label = &quot;&quot;;
+<b class="fc"><i class="no-highlight">37</i>&nbsp;    @DataField(display = true, readOnly = true)</b>
+<i class="no-highlight">38</i>&nbsp;    public double radius = 0.7;     // cm for what?!
+<i class="no-highlight">39</i>&nbsp;
+<i class="no-highlight">40</i>&nbsp;    //the position of the loop center on the circle
+<i class="no-highlight">41</i>&nbsp;    ///note: -90 is on top because the coordinate system is flipped horizontally
+<b class="fc"><i class="no-highlight">42</i>&nbsp;    @DataField(display = false)</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;    public Double loopAnchor = -90d;  // degrees</b>
+<i class="no-highlight">44</i>&nbsp;    //the position of the endpoints of a loop
+<b class="fc"><i class="no-highlight">45</i>&nbsp;    @DataField(display = false)</b>
+<i class="no-highlight">46</i>&nbsp;    public double loopAngle = 20;   // degrees
+<i class="no-highlight">47</i>&nbsp;
+<b class="fc"><i class="no-highlight">48</i>&nbsp;    public Double strokeWidth = 2.54 / 96; // cm</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;    public Double textHeight = 0.4d; // cm; the height of the label text</b>
+<i class="no-highlight">50</i>&nbsp;
+<b class="fc"><i class="no-highlight">51</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">52</i>&nbsp;    public GralogColor fillColor = GralogColor.WHITE;
+<b class="fc"><i class="no-highlight">53</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">54</i>&nbsp;    public GralogColor strokeColor = GralogColor.BLACK;
+<i class="no-highlight">55</i>&nbsp;
+<i class="no-highlight">56</i>&nbsp;    // size and shape of the vertex
+<b class="fc"><i class="no-highlight">57</i>&nbsp;    @DataField(display = true)</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;    public RenderingShape shape = Ellipse.create(1.4, 1.4);</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">60</i>&nbsp;    public GralogTikStyles style = GralogTikStyles.NODE_STYLE;
+<b class="fc"><i class="no-highlight">61</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">62</i>&nbsp;    public String distanceFromSource = &quot;&quot;;
+<b class="fc"><i class="no-highlight">63</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">64</i>&nbsp;    public Boolean printLabel = FALSE;
+<i class="no-highlight">65</i>&nbsp;    Set&lt;Edge&gt; outgoingEdges;
+<i class="no-highlight">66</i>&nbsp;    Set&lt;Edge&gt; incomingEdges;
+<i class="no-highlight">67</i>&nbsp;    Set&lt;Edge&gt; incidentEdges; // in directed graphs: outgoing and incoming
+<b class="fc"><i class="no-highlight">68</i>&nbsp;    private Vector2D coordinates = new Vector2D(0.0, 0.0);</b>
+<i class="no-highlight">69</i>&nbsp;
+<b class="fc"><i class="no-highlight">70</i>&nbsp;    public Vertex() {</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        outgoingEdges = new HashSet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;        incidentEdges = new HashSet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">73</i>&nbsp;        incomingEdges = new HashSet&lt;&gt;();</b>
+<i class="no-highlight">74</i>&nbsp;    }
+<i class="no-highlight">75</i>&nbsp;
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;    public Vertex(Configuration config) {
+<b class="fc"><i class="no-highlight">78</i>&nbsp;        this();</b>
+<b class="fc"><i class="no-highlight">79</i>&nbsp;        if (config != null) {</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;            initWithConfig(config);</b>
+<i class="no-highlight">81</i>&nbsp;        }
+<i class="no-highlight">82</i>&nbsp;    }
+<i class="no-highlight">83</i>&nbsp;
+<i class="no-highlight">84</i>&nbsp;    /**
+<i class="no-highlight">85</i>&nbsp;     * Initializes lots of variables from a given configuration
+<i class="no-highlight">86</i>&nbsp;     *
+<i class="no-highlight">87</i>&nbsp;     * @param config
+<i class="no-highlight">88</i>&nbsp;     */
+<i class="no-highlight">89</i>&nbsp;    protected void initWithConfig(Configuration config) {
+<i class="no-highlight">90</i>&nbsp;        //TODO: complete
+<b class="nc"><i class="no-highlight">91</i>&nbsp;        strokeColor = config.getValue(&quot;Vertex_strokeColor&quot;, GralogColor::parseColor, GralogColor.BLACK);</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;        fillColor = config.getValue(&quot;Vertex_fillColor&quot;, GralogColor::parseColor, GralogColor.WHITE);</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;        shape.setWidth(config.getValue(&quot;Vertex_width&quot;, Double::parseDouble, 1.0));</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;        shape.setHeight(config.getValue(&quot;Vertex_height&quot;, Double::parseDouble, 1.0));</b>
+<i class="no-highlight">95</i>&nbsp;    }
+<i class="no-highlight">96</i>&nbsp;
+<i class="no-highlight">97</i>&nbsp;    /**
+<i class="no-highlight">98</i>&nbsp;     * Copies a vertex information from a given vertex object. Not the ID.
+<i class="no-highlight">99</i>&nbsp;     */
+<i class="no-highlight">100</i>&nbsp;    public &lt;V extends Vertex&gt; void copy(V v) {
+<i class="no-highlight">101</i>&nbsp;        //this.id = v.id;
+<b class="fc"><i class="no-highlight">102</i>&nbsp;        this.radius = v.radius;</b>
+<b class="fc"><i class="no-highlight">103</i>&nbsp;        this.loopAngle = v.loopAngle;</b>
+<b class="fc"><i class="no-highlight">104</i>&nbsp;        this.loopAnchor = v.loopAnchor;</b>
+<b class="fc"><i class="no-highlight">105</i>&nbsp;        this.strokeWidth = v.strokeWidth;</b>
+<i class="no-highlight">106</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">107</i>&nbsp;            this.shape = (RenderingShape) v.shape.getClass().getConstructors()[0].newInstance(v.shape.sizeBox);</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i class="no-highlight">110</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">111</i>&nbsp;        this.strokeColor = new GralogColor(v.strokeColor);</b>
+<b class="fc"><i class="no-highlight">112</i>&nbsp;        this.fillColor = new GralogColor(v.fillColor);</b>
+<i class="no-highlight">113</i>&nbsp;
+<i class="no-highlight">114</i>&nbsp;
+<b class="fc"><i class="no-highlight">115</i>&nbsp;        this.setCoordinates(v.getCoordinates());</b>
+<b class="fc"><i class="no-highlight">116</i>&nbsp;        this.incidentEdges = new HashSet&lt;&gt;(v.incidentEdges);</b>
+<b class="fc"><i class="no-highlight">117</i>&nbsp;        this.outgoingEdges = new HashSet&lt;&gt;(v.outgoingEdges);</b>
+<b class="fc"><i class="no-highlight">118</i>&nbsp;        this.incomingEdges = new HashSet&lt;&gt;(v.incomingEdges);</b>
+<i class="no-highlight">119</i>&nbsp;
+<i class="no-highlight">120</i>&nbsp;    }
+<i class="no-highlight">121</i>&nbsp;
+<i class="no-highlight">122</i>&nbsp;    @Override
+<i class="no-highlight">123</i>&nbsp;    public String toString() {
+<b class="nc"><i class="no-highlight">124</i>&nbsp;        return &quot;Vertex:&quot; + getId();</b>
+<i class="no-highlight">125</i>&nbsp;//        return &quot;Vertex{&quot; + &quot;label=&quot; + label + &quot;, radius=&quot; + radius
+<i class="no-highlight">126</i>&nbsp;//                + &quot;, fillColor=&quot; + fillColor
+<i class="no-highlight">127</i>&nbsp;//                + &quot;, strokeWidth=&quot; + strokeWidth
+<i class="no-highlight">128</i>&nbsp;//                + &quot;, textHeight=&quot; + textHeight
+<i class="no-highlight">129</i>&nbsp;//                + &quot;, strokeColor=&quot; + strokeColor
+<i class="no-highlight">130</i>&nbsp;//                + &quot;, coordinates=&quot; + coordinates + &#39;}&#39;;
+<i class="no-highlight">131</i>&nbsp;    }
+<i class="no-highlight">132</i>&nbsp;
+<i class="no-highlight">133</i>&nbsp;
+<i class="no-highlight">134</i>&nbsp;    public String gralogPipify() {
+<b class="nc"><i class="no-highlight">135</i>&nbsp;        Class&lt;?&gt; c = this.getClass();</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;        String ret = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">137</i>&nbsp;        for (Field f : c.getDeclaredFields()) {</b>
+<i class="no-highlight">138</i>&nbsp;
+<b class="nc"><i class="no-highlight">139</i>&nbsp;            f.setAccessible(true);</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;            boolean toBeSent = false;</b>
+<b class="nc"><i class="no-highlight">141</i>&nbsp;            Annotation[] annotations = f.getDeclaredAnnotations();</b>
+<b class="nc"><i class="no-highlight">142</i>&nbsp;            for (Annotation annotation : annotations) {</b>
+<b class="nc"><i class="no-highlight">143</i>&nbsp;                if (annotation instanceof DataField) {</b>
+<b class="nc"><i class="no-highlight">144</i>&nbsp;                    DataField dataField = (DataField) annotation;</b>
+<b class="nc"><i class="no-highlight">145</i>&nbsp;                    toBeSent = dataField.display() &amp;&amp; (!dataField.readOnly());</b>
+<b class="nc"><i class="no-highlight">146</i>&nbsp;                    break;</b>
+<i class="no-highlight">147</i>&nbsp;                }
+<i class="no-highlight">148</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">149</i>&nbsp;            if (toBeSent) {</b>
+<i class="no-highlight">150</i>&nbsp;
+<b class="nc"><i class="no-highlight">151</i>&nbsp;                ret = ret + f.getName() + &quot;=&quot;;</b>
+<i class="no-highlight">152</i>&nbsp;                try {
+<b class="nc"><i class="no-highlight">153</i>&nbsp;                    ret = ret + f.get(this).toString() + &quot;|&quot; + Structure.pythonifyClass(f.getType()) + &quot;#&quot;;</b>
+<b class="nc"><i class="no-highlight">154</i>&nbsp;                } catch (Exception e) {</b>
+<i class="no-highlight">155</i>&nbsp;                    //todo: to handle!!!
+<b class="nc"><i class="no-highlight">156</i>&nbsp;                }</b>
+<i class="no-highlight">157</i>&nbsp;            }
+<i class="no-highlight">158</i>&nbsp;
+<i class="no-highlight">159</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">160</i>&nbsp;        if (ret.length() &gt; 0) {</b>
+<b class="nc"><i class="no-highlight">161</i>&nbsp;            ret = ret.substring(0, ret.length() - 1);</b>
+<i class="no-highlight">162</i>&nbsp;        }
+<i class="no-highlight">163</i>&nbsp;
+<b class="nc"><i class="no-highlight">164</i>&nbsp;        return ret;</b>
+<i class="no-highlight">165</i>&nbsp;
+<i class="no-highlight">166</i>&nbsp;    }
+<i class="no-highlight">167</i>&nbsp;
+<i class="no-highlight">168</i>&nbsp;    public void setLabel(String label) {
+<b class="nc"><i class="no-highlight">169</i>&nbsp;        this.label = label;</b>
+<i class="no-highlight">170</i>&nbsp;    }
+<i class="no-highlight">171</i>&nbsp;
+<i class="no-highlight">172</i>&nbsp;    void connectEdge(Edge e) {
+<b class="fc"><i class="no-highlight">173</i>&nbsp;        if (e.isDirected()) {</b>
+<b class="fc"><i class="no-highlight">174</i>&nbsp;            if (e.getSource() == this) {</b>
+<b class="fc"><i class="no-highlight">175</i>&nbsp;                outgoingEdges.add(e);</b>
+<i class="no-highlight">176</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">177</i>&nbsp;            if (e.getTarget() == this) {</b>
+<b class="fc"><i class="no-highlight">178</i>&nbsp;                this.incomingEdges.add(e);</b>
+<i class="no-highlight">179</i>&nbsp;            }
+<i class="no-highlight">180</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">181</i>&nbsp;            this.incomingEdges.add(e);</b>
+<b class="fc"><i class="no-highlight">182</i>&nbsp;            this.outgoingEdges.add(e);</b>
+<i class="no-highlight">183</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">184</i>&nbsp;        this.incidentEdges.add(e);</b>
+<i class="no-highlight">185</i>&nbsp;    }
+<i class="no-highlight">186</i>&nbsp;
+<i class="no-highlight">187</i>&nbsp;    void connectEdgeLocal(Edge e) {
+<b class="nc"><i class="no-highlight">188</i>&nbsp;        if (e.getSource() == this) {</b>
+<i class="no-highlight">189</i>&nbsp;            //if id has not been set already, set it
+<b class="nc"><i class="no-highlight">190</i>&nbsp;            if (e.getId() == -1 &amp;&amp; incidentEdges.isEmpty()) {</b>
+<b class="nc"><i class="no-highlight">191</i>&nbsp;                e.setId(0);</b>
+<i class="no-highlight">192</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">193</i>&nbsp;            if (e.getId() == -1) {</b>
+<b class="nc"><i class="no-highlight">194</i>&nbsp;                int[] allIndices = new int[incidentEdges.size()];</b>
+<b class="nc"><i class="no-highlight">195</i>&nbsp;                int k = 0;</b>
+<i class="no-highlight">196</i>&nbsp;
+<b class="nc"><i class="no-highlight">197</i>&nbsp;                for (Edge edge : incidentEdges) {</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;                    allIndices[k] = edge.getId();</b>
+<b class="nc"><i class="no-highlight">199</i>&nbsp;                    k++;</b>
+<b class="nc"><i class="no-highlight">200</i>&nbsp;                }</b>
+<i class="no-highlight">201</i>&nbsp;
+<b class="nc"><i class="no-highlight">202</i>&nbsp;                Arrays.sort(allIndices);</b>
+<i class="no-highlight">203</i>&nbsp;
+<b class="nc"><i class="no-highlight">204</i>&nbsp;                boolean changedOnce = false;</b>
+<b class="nc"><i class="no-highlight">205</i>&nbsp;                for (int i = 0; i &lt; allIndices.length; i++) {</b>
+<b class="nc"><i class="no-highlight">206</i>&nbsp;                    if (i &lt; allIndices[i]) {</b>
+<b class="nc"><i class="no-highlight">207</i>&nbsp;                        e.setId(i);</b>
+<b class="nc"><i class="no-highlight">208</i>&nbsp;                        changedOnce = true;</b>
+<b class="nc"><i class="no-highlight">209</i>&nbsp;                        break;</b>
+<i class="no-highlight">210</i>&nbsp;                    }
+<i class="no-highlight">211</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">212</i>&nbsp;                if (!changedOnce) {</b>
+<b class="nc"><i class="no-highlight">213</i>&nbsp;                    e.setId(allIndices.length); //fallback</b>
+<i class="no-highlight">214</i>&nbsp;                }
+<i class="no-highlight">215</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">216</i>&nbsp;            outgoingEdges.add(e);</b>
+<i class="no-highlight">217</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">218</i>&nbsp;        if (e.getTarget() == this) {</b>
+<b class="nc"><i class="no-highlight">219</i>&nbsp;            this.incomingEdges.add(e);</b>
+<i class="no-highlight">220</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">221</i>&nbsp;        this.incidentEdges.add(e);</b>
+<i class="no-highlight">222</i>&nbsp;    }
+<i class="no-highlight">223</i>&nbsp;
+<i class="no-highlight">224</i>&nbsp;    public void disconnectEdge(Edge e) {
+<b class="nc"><i class="no-highlight">225</i>&nbsp;        if (e.getSource() == this || (!e.isDirected &amp;&amp; e.getTarget() == this)) {</b>
+<b class="nc"><i class="no-highlight">226</i>&nbsp;            outgoingEdges.remove(e);</b>
+<i class="no-highlight">227</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">228</i>&nbsp;        if (e.getTarget() == this || (!e.isDirected &amp;&amp; e.getSource() == this)) {</b>
+<b class="nc"><i class="no-highlight">229</i>&nbsp;            incomingEdges.remove(e);</b>
+<i class="no-highlight">230</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">231</i>&nbsp;        this.incidentEdges.remove(e);</b>
+<i class="no-highlight">232</i>&nbsp;    }
+<i class="no-highlight">233</i>&nbsp;
+<i class="no-highlight">234</i>&nbsp;    public Set&lt;Edge&gt; getIncidentEdges() {
+<b class="fc"><i class="no-highlight">235</i>&nbsp;        return incidentEdges;</b>
+<i class="no-highlight">236</i>&nbsp;    }
+<i class="no-highlight">237</i>&nbsp;
+<i class="no-highlight">238</i>&nbsp;    public int getDegree() {
+<b class="nc"><i class="no-highlight">239</i>&nbsp;        return incidentEdges.size();</b>
+<i class="no-highlight">240</i>&nbsp;    }
+<i class="no-highlight">241</i>&nbsp;
+<i class="no-highlight">242</i>&nbsp;    public double getRadius() {
+<b class="nc"><i class="no-highlight">243</i>&nbsp;        return radius;</b>
+<i class="no-highlight">244</i>&nbsp;    }
+<i class="no-highlight">245</i>&nbsp;
+<i class="no-highlight">246</i>&nbsp;    public int getId() {
+<b class="fc"><i class="no-highlight">247</i>&nbsp;        return this.id;</b>
+<i class="no-highlight">248</i>&nbsp;    }
+<i class="no-highlight">249</i>&nbsp;
+<i class="no-highlight">250</i>&nbsp;    public void setId(int id) {
+<b class="nc"><i class="no-highlight">251</i>&nbsp;        this.id = id;</b>
+<i class="no-highlight">252</i>&nbsp;    }
+<i class="no-highlight">253</i>&nbsp;
+<i class="no-highlight">254</i>&nbsp;    public Set&lt;Edge&gt; getOutgoingEdges() {
+<b class="fc"><i class="no-highlight">255</i>&nbsp;        return outgoingEdges;</b>
+<i class="no-highlight">256</i>&nbsp;    }
+<i class="no-highlight">257</i>&nbsp;
+<i class="no-highlight">258</i>&nbsp;    public int getOutDegree() {
+<b class="nc"><i class="no-highlight">259</i>&nbsp;        return outgoingEdges.size();</b>
+<i class="no-highlight">260</i>&nbsp;    }
+<i class="no-highlight">261</i>&nbsp;
+<i class="no-highlight">262</i>&nbsp;    public Set&lt;Edge&gt; getIncomingEdges() {
+<b class="nc"><i class="no-highlight">263</i>&nbsp;        return this.incomingEdges;</b>
+<i class="no-highlight">264</i>&nbsp;    }
+<i class="no-highlight">265</i>&nbsp;
+<i class="no-highlight">266</i>&nbsp;    public int getInDegree() {
+<b class="nc"><i class="no-highlight">267</i>&nbsp;        return incomingEdges.size();</b>
+<i class="no-highlight">268</i>&nbsp;    }
+<i class="no-highlight">269</i>&nbsp;//##########START depricated!!!! use getNeighbours instead#########
+<i class="no-highlight">270</i>&nbsp;
+<i class="no-highlight">271</i>&nbsp;    /**
+<i class="no-highlight">272</i>&nbsp;     * @return The set of adjacent vertices.
+<i class="no-highlight">273</i>&nbsp;     */
+<i class="no-highlight">274</i>&nbsp;    @Deprecated
+<i class="no-highlight">275</i>&nbsp;    public Set&lt;Vertex&gt; getAdjacentVertices() {
+<b class="nc"><i class="no-highlight">276</i>&nbsp;        Set&lt;Vertex&gt; result = new HashSet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">277</i>&nbsp;        for (Edge e : incidentEdges) {</b>
+<b class="nc"><i class="no-highlight">278</i>&nbsp;            Vertex v = e.getSource();</b>
+<b class="nc"><i class="no-highlight">279</i>&nbsp;            if (v == this)</b>
+<b class="nc"><i class="no-highlight">280</i>&nbsp;                v = e.getTarget();</b>
+<b class="nc"><i class="no-highlight">281</i>&nbsp;            result.add(v);</b>
+<b class="nc"><i class="no-highlight">282</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">283</i>&nbsp;        return result;</b>
+<i class="no-highlight">284</i>&nbsp;    }
+<i class="no-highlight">285</i>&nbsp;
+<i class="no-highlight">286</i>&nbsp;//##########END#########
+<i class="no-highlight">287</i>&nbsp;
+<i class="no-highlight">288</i>&nbsp;    public double maximumCoordinate(int dimension) {
+<b class="nc"><i class="no-highlight">289</i>&nbsp;        if (coordinates.dimensions() &gt; dimension)</b>
+<b class="nc"><i class="no-highlight">290</i>&nbsp;            return coordinates.get(dimension);</b>
+<b class="nc"><i class="no-highlight">291</i>&nbsp;        return Double.NEGATIVE_INFINITY;</b>
+<i class="no-highlight">292</i>&nbsp;    }
+<i class="no-highlight">293</i>&nbsp;
+<i class="no-highlight">294</i>&nbsp;    public Vector2D intersection(Vector2D p1, Vector2D p2) {
+<b class="nc"><i class="no-highlight">295</i>&nbsp;        return p1.minus(p2).normalized().multiply(this.radius).plus(p2);</b>
+<i class="no-highlight">296</i>&nbsp;    }
+<i class="no-highlight">297</i>&nbsp;
+<i class="no-highlight">298</i>&nbsp;    public Vector2D intersectionAdjusted(Vector2D p1, Vector2D p2, double adjust) {
+<b class="nc"><i class="no-highlight">299</i>&nbsp;        return p1.minus(p2).normalized().multiply(this.radius - adjust).plus(p2);</b>
+<i class="no-highlight">300</i>&nbsp;    }
+<i class="no-highlight">301</i>&nbsp;
+<i class="no-highlight">302</i>&nbsp;    public void setCoordinates(double x, double y) {
+<b class="fc"><i class="no-highlight">303</i>&nbsp;        coordinates = new Vector2D(x, y);</b>
+<i class="no-highlight">304</i>&nbsp;    }
+<i class="no-highlight">305</i>&nbsp;
+<i class="no-highlight">306</i>&nbsp;    public Vector2D getCoordinates() {
+<b class="fc"><i class="no-highlight">307</i>&nbsp;        return this.coordinates;</b>
+<i class="no-highlight">308</i>&nbsp;    }
+<i class="no-highlight">309</i>&nbsp;
+<i class="no-highlight">310</i>&nbsp;    public void setCoordinates(Vector2D v) {
+<b class="fc"><i class="no-highlight">311</i>&nbsp;        coordinates = v;</b>
+<i class="no-highlight">312</i>&nbsp;    }
+<i class="no-highlight">313</i>&nbsp;
+<i class="no-highlight">314</i>&nbsp;    public Set&lt;Vertex&gt; getNeighbours() {
+<b class="fc"><i class="no-highlight">315</i>&nbsp;        Set&lt;Vertex&gt; neighbours = new HashSet&lt;Vertex&gt;();</b>
+<b class="fc"><i class="no-highlight">316</i>&nbsp;        for (Edge e : this.getIncidentEdges()) {</b>
+<b class="fc"><i class="no-highlight">317</i>&nbsp;            if (e.getTarget() != this) {</b>
+<b class="fc"><i class="no-highlight">318</i>&nbsp;                neighbours.add(e.getTarget());</b>
+<i class="no-highlight">319</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">320</i>&nbsp;                neighbours.add(e.getSource());</b>
+<i class="no-highlight">321</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">322</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">323</i>&nbsp;        return neighbours;</b>
+<i class="no-highlight">324</i>&nbsp;    }
+<i class="no-highlight">325</i>&nbsp;
+<i class="no-highlight">326</i>&nbsp;    public Set&lt;Vertex&gt; getOutgoingNeighbours() {
+<b class="nc"><i class="no-highlight">327</i>&nbsp;        Set&lt;Vertex&gt; outgoingNeighbours = new HashSet&lt;Vertex&gt;();</b>
+<b class="nc"><i class="no-highlight">328</i>&nbsp;        for (Edge e : this.getOutgoingEdges()) {</b>
+<b class="nc"><i class="no-highlight">329</i>&nbsp;            outgoingNeighbours.add(e.getTarget());</b>
+<b class="nc"><i class="no-highlight">330</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">331</i>&nbsp;        return outgoingNeighbours;</b>
+<i class="no-highlight">332</i>&nbsp;    }
+<i class="no-highlight">333</i>&nbsp;
+<i class="no-highlight">334</i>&nbsp;
+<i class="no-highlight">335</i>&nbsp;    public Set&lt;Vertex&gt; getIncomingNeighbours() {
+<b class="nc"><i class="no-highlight">336</i>&nbsp;        Set&lt;Vertex&gt; incomingNeighbours = new HashSet&lt;Vertex&gt;();</b>
+<b class="nc"><i class="no-highlight">337</i>&nbsp;        for (Edge e : this.getIncomingEdges()) {</b>
+<b class="nc"><i class="no-highlight">338</i>&nbsp;            incomingNeighbours.add(e.getSource());</b>
+<b class="nc"><i class="no-highlight">339</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">340</i>&nbsp;        return incomingNeighbours;</b>
+<i class="no-highlight">341</i>&nbsp;    }
+<i class="no-highlight">342</i>&nbsp;
+<i class="no-highlight">343</i>&nbsp;    public void snapToGrid(double gridSize) {
+<b class="nc"><i class="no-highlight">344</i>&nbsp;        Vector2D v = coordinates.snapToGrid(gridSize);</b>
+<b class="nc"><i class="no-highlight">345</i>&nbsp;        setCoordinates(v.getX(), v.getY());</b>
+<i class="no-highlight">346</i>&nbsp;    }
+<i class="no-highlight">347</i>&nbsp;
+<i class="no-highlight">348</i>&nbsp;    /**
+<i class="no-highlight">349</i>&nbsp;     * @param x The x coordinate.
+<i class="no-highlight">350</i>&nbsp;     * @param y The y coordinate.
+<i class="no-highlight">351</i>&nbsp;     * @return True if the given coordinates are inside the circular shape of
+<i class="no-highlight">352</i>&nbsp;     * this vertex.
+<i class="no-highlight">353</i>&nbsp;     */
+<i class="no-highlight">354</i>&nbsp;    public boolean containsCoordinate(double x, double y) {
+<b class="nc"><i class="no-highlight">355</i>&nbsp;        double tx = coordinates.getX();</b>
+<b class="nc"><i class="no-highlight">356</i>&nbsp;        double ty = coordinates.getY();</b>
+<b class="nc"><i class="no-highlight">357</i>&nbsp;        return (x - tx) * (x - tx) + (y - ty) * (y - ty) &lt; radius * radius;</b>
+<i class="no-highlight">358</i>&nbsp;    }
+<i class="no-highlight">359</i>&nbsp;
+<i class="no-highlight">360</i>&nbsp;    public Element toXml(Document doc, String id) throws Exception {
+<b class="fc"><i class="no-highlight">361</i>&nbsp;        Element vnode = super.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">362</i>&nbsp;        vnode.setAttribute(&quot;id&quot;, id);</b>
+<b class="fc"><i class="no-highlight">363</i>&nbsp;        vnode.setAttribute(&quot;x&quot;, Double.toString(coordinates.getX()));</b>
+<b class="fc"><i class="no-highlight">364</i>&nbsp;        vnode.setAttribute(&quot;y&quot;, Double.toString(coordinates.getY()));</b>
+<b class="fc"><i class="no-highlight">365</i>&nbsp;        vnode.setAttribute(&quot;label&quot;, label);</b>
+<b class="fc"><i class="no-highlight">366</i>&nbsp;        vnode.setAttribute(&quot;radius&quot;, Double.toString(radius));</b>
+<b class="fc"><i class="no-highlight">367</i>&nbsp;        vnode.setAttribute(&quot;fillcolor&quot;, fillColor.toHtmlString());</b>
+<b class="fc"><i class="no-highlight">368</i>&nbsp;        vnode.setAttribute(&quot;textheight&quot;, Double.toString(textHeight));</b>
+<b class="fc"><i class="no-highlight">369</i>&nbsp;        vnode.setAttribute(&quot;strokewidth&quot;, Double.toString(strokeWidth));</b>
+<b class="fc"><i class="no-highlight">370</i>&nbsp;        vnode.setAttribute(&quot;strokecolor&quot;, strokeColor.toHtmlString());</b>
+<b class="fc"><i class="no-highlight">371</i>&nbsp;        vnode.setAttribute(&quot;shapewidth&quot;, Double.toString(shape.sizeBox.width));</b>
+<b class="fc"><i class="no-highlight">372</i>&nbsp;        vnode.setAttribute(&quot;shapeheight&quot;, Double.toString(shape.sizeBox.height));</b>
+<b class="fc"><i class="no-highlight">373</i>&nbsp;        return vnode;</b>
+<i class="no-highlight">374</i>&nbsp;    }
+<i class="no-highlight">375</i>&nbsp;
+<i class="no-highlight">376</i>&nbsp;    public Element toSimpleXml(Document doc, String id) throws Exception {
+<b class="fc"><i class="no-highlight">377</i>&nbsp;        Element vnode = super.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">378</i>&nbsp;        vnode.setAttribute(&quot;id&quot;, id);</b>
+<b class="fc"><i class="no-highlight">379</i>&nbsp;        vnode.setAttribute(&quot;x&quot;, Double.toString(coordinates.getX()));</b>
+<b class="fc"><i class="no-highlight">380</i>&nbsp;        vnode.setAttribute(&quot;y&quot;, Double.toString(coordinates.getY()));</b>
+<b class="fc"><i class="no-highlight">381</i>&nbsp;        vnode.setAttribute(&quot;label&quot;, label);</b>
+<i class="no-highlight">382</i>&nbsp;//        vnode.setAttribute(&quot;style&quot;, style.getStyle());
+<i class="no-highlight">383</i>&nbsp;//        vnode.setAttribute(&quot;distance_from_source&quot;, distanceFromSource.isBlank() ? &quot;\\infty&quot; : distanceFromSource);
+<i class="no-highlight">384</i>&nbsp;//        vnode.setAttribute(&quot;print_label&quot;, printLabel.toString());
+<b class="fc"><i class="no-highlight">385</i>&nbsp;        return vnode;</b>
+<i class="no-highlight">386</i>&nbsp;    }
+<i class="no-highlight">387</i>&nbsp;
+<i class="no-highlight">388</i>&nbsp;    public String fromXml(Element vnode) {
+<b class="fc"><i class="no-highlight">389</i>&nbsp;        coordinates = new Vector2D(</b>
+<b class="fc"><i class="no-highlight">390</i>&nbsp;                Double.parseDouble(vnode.getAttribute(&quot;x&quot;)),</b>
+<b class="fc"><i class="no-highlight">391</i>&nbsp;                Double.parseDouble(vnode.getAttribute(&quot;y&quot;))</b>
+<i class="no-highlight">392</i>&nbsp;        );
+<b class="fc"><i class="no-highlight">393</i>&nbsp;        if (vnode.hasAttribute(&quot;label&quot;))</b>
+<b class="fc"><i class="no-highlight">394</i>&nbsp;            label = vnode.getAttribute(&quot;label&quot;);</b>
+<b class="fc"><i class="no-highlight">395</i>&nbsp;        if (vnode.hasAttribute(&quot;radius&quot;))</b>
+<b class="fc"><i class="no-highlight">396</i>&nbsp;            radius = Double.parseDouble(vnode.getAttribute(&quot;radius&quot;));</b>
+<b class="fc"><i class="no-highlight">397</i>&nbsp;        if (vnode.hasAttribute(&quot;fillcolor&quot;))</b>
+<b class="fc"><i class="no-highlight">398</i>&nbsp;            fillColor = GralogColor.parseColor(vnode.getAttribute(&quot;fillcolor&quot;));</b>
+<b class="fc"><i class="no-highlight">399</i>&nbsp;        if (vnode.hasAttribute(&quot;textheight&quot;))</b>
+<b class="fc"><i class="no-highlight">400</i>&nbsp;            textHeight = Double.parseDouble(vnode.getAttribute(&quot;textheight&quot;));</b>
+<b class="fc"><i class="no-highlight">401</i>&nbsp;        if (vnode.hasAttribute(&quot;strokewidth&quot;))</b>
+<b class="fc"><i class="no-highlight">402</i>&nbsp;            strokeWidth = Double.parseDouble(vnode.getAttribute(&quot;strokewidth&quot;));</b>
+<b class="fc"><i class="no-highlight">403</i>&nbsp;        if (vnode.hasAttribute(&quot;strokecolor&quot;))</b>
+<b class="fc"><i class="no-highlight">404</i>&nbsp;            strokeColor = GralogColor.parseColor(vnode.getAttribute(&quot;strokecolor&quot;));</b>
+<b class="fc"><i class="no-highlight">405</i>&nbsp;        if (vnode.hasAttribute(&quot;shapewidth&quot;))</b>
+<b class="fc"><i class="no-highlight">406</i>&nbsp;            shape.sizeBox.width = Double.parseDouble(vnode.getAttribute(&quot;shapewidth&quot;));</b>
+<b class="fc"><i class="no-highlight">407</i>&nbsp;        if (vnode.hasAttribute(&quot;shapeheight&quot;))</b>
+<b class="fc"><i class="no-highlight">408</i>&nbsp;            shape.sizeBox.height = Double.parseDouble(vnode.getAttribute(&quot;shapeheight&quot;));</b>
+<b class="fc"><i class="no-highlight">409</i>&nbsp;        if (vnode.hasAttribute(&quot;style&quot;))</b>
+<b class="nc"><i class="no-highlight">410</i>&nbsp;            style = GralogTikStyles.valueOfStyle(vnode.getAttribute(&quot;style&quot;));</b>
+<b class="fc"><i class="no-highlight">411</i>&nbsp;        if (vnode.hasAttribute(&quot;distance_from_source&quot;))</b>
+<b class="nc"><i class="no-highlight">412</i>&nbsp;            distanceFromSource = vnode.getAttribute(&quot;distance_from_source&quot;);</b>
+<b class="fc"><i class="no-highlight">413</i>&nbsp;        if (vnode.hasAttribute(&quot;print_label&quot;))</b>
+<b class="nc"><i class="no-highlight">414</i>&nbsp;            printLabel = Boolean.parseBoolean(vnode.getAttribute(&quot;print_label&quot;));</b>
+<b class="fc"><i class="no-highlight">415</i>&nbsp;        return vnode.getAttribute(&quot;id&quot;);</b>
+<i class="no-highlight">416</i>&nbsp;    }
+<i class="no-highlight">417</i>&nbsp;
+<i class="no-highlight">418</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

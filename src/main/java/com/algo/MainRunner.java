@@ -10,13 +10,13 @@ import java.util.Scanner;
 
 import static com.algo.algorithms.OptionsEnum.Options.YES;
 import static com.algo.algorithms.OptionsEnum.Options.valueOf;
-import static com.algo.export.ExportUtils.runXSLTTransform;
+import static com.algo.export.XSLTService.runXSLTTransform;
 
 public class MainRunner extends Runner {
-    private static final AlgorithmsRunner algorithms = new AlgorithmsRunner();
+    private static final Runner algorithms = new AlgorithmsRunner();
 
     @Override
-    public boolean run(Scanner sc) throws IOException, TransformerException {
+    public boolean run(Scanner sc) throws Exception {
         boolean exit = false;
         while (true) {
             MainWindowOptions input = this.getInput(sc, MainWindowOptions.values());

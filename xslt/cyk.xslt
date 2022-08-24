@@ -33,8 +33,6 @@
         \setbeamerfont{frametitle}{series=\bfseries}
         \DeclarePairedDelimiter\set\{\}
     </xsl:template>
-
-
                 <xsl:template name="table">
                     <xsl:variable name="cols">
                         <xsl:for-each select="0 to count(row)">c|</xsl:for-each>

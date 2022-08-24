@@ -1,0 +1,254 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > RenderingShape</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.rendering.shapes</a>
+</div>
+
+<h1>Coverage Summary for Class: RenderingShape (com.algo.rendering.shapes)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RenderingShape</td>
+<td class="coverageStat">
+  <span class="percent">
+    28.6%
+  </span>
+  <span class="absValue">
+    (2/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (6/15)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RenderingShape$PossibleShapes</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (2/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30%
+  </span>
+  <span class="absValue">
+    (6/20)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;package com.algo.rendering.shapes;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import com.algo.rendering.GralogColor;
+<i class="no-highlight">7</i>&nbsp;import com.algo.rendering.GralogGraphicsContext;
+<i class="no-highlight">8</i>&nbsp;import com.algo.rendering.Vector2D;
+<i class="no-highlight">9</i>&nbsp;import org.reflections.Reflections;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;import java.io.Serializable;
+<i class="no-highlight">12</i>&nbsp;import java.util.LinkedList;
+<i class="no-highlight">13</i>&nbsp;import java.util.Set;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;public abstract class RenderingShape implements Serializable {
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;    //used to restrict the size box, can cause performance problems otherwise
+<i class="no-highlight">20</i>&nbsp;    protected static final double MAX_WIDTH = 300;
+<i class="no-highlight">21</i>&nbsp;    protected static final double MAX_HEIGHT = 300;
+<i class="no-highlight">22</i>&nbsp;    public static LinkedList&lt;Class&lt;? extends RenderingShape&gt;&gt; renderingShapeClasses;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    /*
+<i class="no-highlight">25</i>&nbsp;     * Initializes a list of rendering shapes
+<i class="no-highlight">26</i>&nbsp;     */
+<i class="no-highlight">27</i>&nbsp;    static {
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        Reflections reflections = new Reflections(&quot;gralog.rendering.shapes&quot;);</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        Set&lt;Class&lt;? extends RenderingShape&gt;&gt; classes = reflections.getSubTypesOf(RenderingShape.class);</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        renderingShapeClasses = new LinkedList&lt;&gt;(classes);</b>
+<i class="no-highlight">31</i>&nbsp;    }
+<i class="no-highlight">32</i>&nbsp;
+<b class="fc"><i class="no-highlight">33</i>&nbsp;    public Double strokeWidth = 3.6d / 96; //cm</b>
+<i class="no-highlight">34</i>&nbsp;    /**
+<i class="no-highlight">35</i>&nbsp;     * Provides a rough measure of the size of a shape via a Rectangle,
+<i class="no-highlight">36</i>&nbsp;     * applicable height every subclass of shape
+<i class="no-highlight">37</i>&nbsp;     * &lt;p&gt;
+<i class="no-highlight">38</i>&nbsp;     * Two shapes with the same SizeBoxes should have roughly the same
+<i class="no-highlight">39</i>&nbsp;     * actual size in the final render.
+<i class="no-highlight">40</i>&nbsp;     */
+<i class="no-highlight">41</i>&nbsp;    public SizeBox sizeBox;
+<i class="no-highlight">42</i>&nbsp;
+<i class="no-highlight">43</i>&nbsp;    /**
+<i class="no-highlight">44</i>&nbsp;     * Creates a RenderingShape with sensible default values, so that the final size of
+<i class="no-highlight">45</i>&nbsp;     * the rendered shape has similar dimensions as the rectangle of the given
+<i class="no-highlight">46</i>&nbsp;     * SizeBox
+<i class="no-highlight">47</i>&nbsp;     */
+<b class="fc"><i class="no-highlight">48</i>&nbsp;    public RenderingShape(SizeBox s) {</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        this.sizeBox = s;</b>
+<i class="no-highlight">50</i>&nbsp;    }
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    public static boolean isShape(String s) {
+<b class="nc"><i class="no-highlight">53</i>&nbsp;        for (PossibleShapes ps : PossibleShapes.values())</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;            if (ps.name().equalsIgnoreCase(s))</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;                return true;</b>
+<b class="nc"><i class="no-highlight">56</i>&nbsp;        return false;</b>
+<i class="no-highlight">57</i>&nbsp;    }
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;    public void setWidth(double width) {
+<b class="nc"><i class="no-highlight">60</i>&nbsp;        sizeBox.width = Math.min(width, MAX_WIDTH);</b>
+<i class="no-highlight">61</i>&nbsp;    }
+<i class="no-highlight">62</i>&nbsp;
+<i class="no-highlight">63</i>&nbsp;    public void setHeight(double height) {
+<b class="nc"><i class="no-highlight">64</i>&nbsp;        sizeBox.height = Math.min(height, MAX_HEIGHT);</b>
+<i class="no-highlight">65</i>&nbsp;    }
+<i class="no-highlight">66</i>&nbsp;
+<i class="no-highlight">67</i>&nbsp;    /**
+<i class="no-highlight">68</i>&nbsp;     * Renders a shape on the provided graphics context. RenderingShape will depend
+<i class="no-highlight">69</i>&nbsp;     * on the internal state of the shape object (e.g. parameters such as
+<i class="no-highlight">70</i>&nbsp;     * size, fill, color, etc..)
+<i class="no-highlight">71</i>&nbsp;     *
+<i class="no-highlight">72</i>&nbsp;     * @param gc    The graphics context on which the shape is rendered
+<i class="no-highlight">73</i>&nbsp;     * @param label
+<i class="no-highlight">74</i>&nbsp;     * @param s     Stroke color
+<i class="no-highlight">75</i>&nbsp;     * @param f     Filling color
+<i class="no-highlight">76</i>&nbsp;     */
+<i class="no-highlight">77</i>&nbsp;    public void render(GralogGraphicsContext gc, Vector2D center, String label, GralogColor s, GralogColor f) {
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        double avg = (sizeBox.width + sizeBox.height) / 2;</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;        gc.putText(center, label, avg / 4, f.inverse());</b>
+<i class="no-highlight">80</i>&nbsp;    }
+<i class="no-highlight">81</i>&nbsp;
+<i class="no-highlight">82</i>&nbsp;    public void render(GralogGraphicsContext gc, Vector2D center, GralogColor s, GralogColor f) {
+<b class="nc"><i class="no-highlight">83</i>&nbsp;        render(gc, center, &quot;&quot;, s, f);</b>
+<i class="no-highlight">84</i>&nbsp;    }
+<i class="no-highlight">85</i>&nbsp;
+<i class="no-highlight">86</i>&nbsp;    /**
+<i class="no-highlight">87</i>&nbsp;     * Returns true if the given vector is overlapping with this shape
+<i class="no-highlight">88</i>&nbsp;     *
+<i class="no-highlight">89</i>&nbsp;     * @param point Vector that is being tested for overlapping
+<i class="no-highlight">90</i>&nbsp;     * @return True if the shape contains
+<i class="no-highlight">91</i>&nbsp;     */
+<i class="no-highlight">92</i>&nbsp;    public abstract boolean containsCoordinate(Vector2D point, Vector2D center);
+<i class="no-highlight">93</i>&nbsp;
+<i class="no-highlight">94</i>&nbsp;    /**
+<i class="no-highlight">95</i>&nbsp;     * Calculates the (closest) point X on the edge of the shape so that (X-center)
+<i class="no-highlight">96</i>&nbsp;     * has an euler angle of alpha.
+<i class="no-highlight">97</i>&nbsp;     *
+<i class="no-highlight">98</i>&nbsp;     * @param alpha  The angle of the point in degrees
+<i class="no-highlight">99</i>&nbsp;     * @param center The point of reference for calculating X
+<i class="no-highlight">100</i>&nbsp;     * @return The closest such point as a Vector2D
+<i class="no-highlight">101</i>&nbsp;     */
+<i class="no-highlight">102</i>&nbsp;    public abstract Vector2D getEdgePoint(double alpha, Vector2D center);
+<i class="no-highlight">103</i>&nbsp;
+<i class="no-highlight">104</i>&nbsp;    /**
+<i class="no-highlight">105</i>&nbsp;     * Calculates the point of intersection between a line and the shape
+<i class="no-highlight">106</i>&nbsp;     * (Basically a RayCast)
+<i class="no-highlight">107</i>&nbsp;     *
+<i class="no-highlight">108</i>&nbsp;     * @param lineStart Start of the line
+<i class="no-highlight">109</i>&nbsp;     * @param lineEnd   The end of the line INSIDE the shape. For a normal edge calculation, lineEnd = center
+<i class="no-highlight">110</i>&nbsp;     * @param center    The center of the object with this shape
+<i class="no-highlight">111</i>&nbsp;     */
+<i class="no-highlight">112</i>&nbsp;    public abstract Vector2D getIntersection(Vector2D lineStart, Vector2D lineEnd, Vector2D center);
+<i class="no-highlight">113</i>&nbsp;
+<i class="no-highlight">114</i>&nbsp;    // if changed, also change enum PossibleShapes in gralog-core.gralog.dialog
+<b class="nc"><i class="no-highlight">115</i>&nbsp;    private enum PossibleShapes {</b>
+<i class="no-highlight">116</i>&nbsp;        // TODO: SQUARE,
+<b class="nc"><i class="no-highlight">117</i>&nbsp;        CYCLE,</b>
+<b class="nc"><i class="no-highlight">118</i>&nbsp;        ELLIPSE,</b>
+<b class="nc"><i class="no-highlight">119</i>&nbsp;        RECTANGLE,</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;        DIAMOND</b>
+<i class="no-highlight">121</i>&nbsp;    }
+<i class="no-highlight">122</i>&nbsp;
+<i class="no-highlight">123</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

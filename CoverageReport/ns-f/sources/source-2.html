@@ -1,0 +1,766 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Edge</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.structure</a>
+</div>
+
+<h1>Coverage Summary for Class: Edge (com.algo.structure)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Edge</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.9%
+  </span>
+  <span class="absValue">
+    (26/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.9%
+  </span>
+  <span class="absValue">
+    (179/326)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Edge$EdgeType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    63.6%
+  </span>
+  <span class="absValue">
+    (28/44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.3%
+  </span>
+  <span class="absValue">
+    (182/329)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;package com.algo.structure;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import com.algo.annotations.DataField;
+<i class="no-highlight">6</i>&nbsp;import com.algo.config.Configuration;
+<i class="no-highlight">7</i>&nbsp;import com.algo.plugins.PluginManager;
+<i class="no-highlight">8</i>&nbsp;import com.algo.plugins.XmlMarshallable;
+<i class="no-highlight">9</i>&nbsp;import com.algo.plugins.XmlName;
+<i class="no-highlight">10</i>&nbsp;import com.algo.rendering.*;
+<i class="no-highlight">11</i>&nbsp;import com.algo.structure.controlpoints.ControlPoint;
+<i class="no-highlight">12</i>&nbsp;import org.w3c.dom.Document;
+<i class="no-highlight">13</i>&nbsp;import org.w3c.dom.Element;
+<i class="no-highlight">14</i>&nbsp;import org.w3c.dom.Node;
+<i class="no-highlight">15</i>&nbsp;import org.w3c.dom.NodeList;
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;import java.io.Serializable;
+<i class="no-highlight">18</i>&nbsp;import java.lang.annotation.Annotation;
+<i class="no-highlight">19</i>&nbsp;import java.lang.reflect.Field;
+<i class="no-highlight">20</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">21</i>&nbsp;import java.util.HashMap;
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;/**
+<i class="no-highlight">24</i>&nbsp; *
+<i class="no-highlight">25</i>&nbsp; */
+<i class="no-highlight">26</i>&nbsp;@XmlName(name = &quot;edge&quot;)
+<i class="no-highlight">27</i>&nbsp;public class Edge extends XmlMarshallable implements Serializable {
+<i class="no-highlight">28</i>&nbsp;
+<b class="fc"><i class="no-highlight">29</i>&nbsp;    public static double edgeSelectionOffset = 0.02;</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;    public static double multiEdgeOffset = 0.2;</b>
+<i class="no-highlight">31</i>&nbsp;    //inspector visible
+<b class="fc"><i class="no-highlight">32</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">33</i>&nbsp;    public String label = &quot;&quot;; //add this
+<b class="fc"><i class="no-highlight">34</i>&nbsp;    @DataField(display = true)</b>
+<b class="fc"><i class="no-highlight">35</i>&nbsp;    public Double weight = 1.0d;</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;    @DataField(display = true)</b>
+<b class="fc"><i class="no-highlight">37</i>&nbsp;    public Boolean isDirected = true;</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;    public Arrow arrowType = Arrow.TYPE2;</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;    public Double endPointDistance = 0d;   //how much distance is between endpoint and target</b>
+<b class="fc"><i class="no-highlight">40</i>&nbsp;    public Double startPointDistance = 0d; //how much distance is between start point and source</b>
+<b class="fc"><i class="no-highlight">41</i>&nbsp;    public double arrowHeadLength = 0.2d; // cm</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;    public double arrowHeadAngle = 40d; // degrees</b>
+<i class="no-highlight">43</i>&nbsp;    // @InspectorName(name = &quot;thickness&quot;)
+<b class="fc"><i class="no-highlight">44</i>&nbsp;    @DataField(display = true)</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;    public Double thickness = 2.54 / 96; // cm</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">47</i>&nbsp;    public GralogColor color = GralogColor.BLACK;
+<b class="fc"><i class="no-highlight">48</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">49</i>&nbsp;    public GralogTikStyles style = GralogTikStyles.EDGE_STYLE;
+<b class="fc"><i class="no-highlight">50</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">51</i>&nbsp;    public GralogGraphicsContext.LineType type = GralogGraphicsContext.LineType.PLAIN;
+<b class="fc"><i class="no-highlight">52</i>&nbsp;    @DataField(display = true)</b>
+<i class="no-highlight">53</i>&nbsp;    public EdgeType edgeType = EdgeType.BEZIER; //TODO: switch to private and use annotations to mark insp vars
+<b class="fc"><i class="no-highlight">54</i>&nbsp;    public ArrayList&lt;Edge&gt; siblings = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;    public ArrayList&lt;EdgeIntermediatePoint&gt; intermediatePoints = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;    public ArrayList&lt;ControlPoint&gt; controlPoints = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;    @DataField(display = true, readOnly = true)</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;    Integer id = -1; //if not -1, then don&#39;t change the id</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;    private Vertex source = null;</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;    private Vertex target = null;</b>
+<i class="no-highlight">61</i>&nbsp;
+<b class="fc"><i class="no-highlight">62</i>&nbsp;    public Edge() {</b>
+<i class="no-highlight">63</i>&nbsp;
+<i class="no-highlight">64</i>&nbsp;    }
+<i class="no-highlight">65</i>&nbsp;
+<i class="no-highlight">66</i>&nbsp;    public Edge(Configuration config) {
+<b class="fc"><i class="no-highlight">67</i>&nbsp;        this();</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;        if (config != null) {</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;            initWithConfig(config);</b>
+<i class="no-highlight">70</i>&nbsp;        }
+<i class="no-highlight">71</i>&nbsp;    }
+<i class="no-highlight">72</i>&nbsp;
+<i class="no-highlight">73</i>&nbsp;    public static boolean isEdgeType(String type) {
+<i class="no-highlight">74</i>&nbsp;
+<b class="nc"><i class="no-highlight">75</i>&nbsp;        for (EdgeType et : EdgeType.values())</b>
+<b class="nc"><i class="no-highlight">76</i>&nbsp;            if (et.name().equalsIgnoreCase(type))</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;                return true;</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        return false;</b>
+<i class="no-highlight">79</i>&nbsp;    }
+<i class="no-highlight">80</i>&nbsp;
+<i class="no-highlight">81</i>&nbsp;    protected void initWithConfig(Configuration config) {
+<b class="nc"><i class="no-highlight">82</i>&nbsp;        color = config.getValue(&quot;Edge_color&quot;, GralogColor::parseColor, GralogColor.BLACK);</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;        endPointDistance = config.getValue(&quot;Edge_endPointDistance&quot;, Double::parseDouble, 0.0);</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;        startPointDistance = config.getValue(&quot;Edge_startPointDistance&quot;, Double::parseDouble, 0.0);</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;        thickness = config.getValue(&quot;Edge_thickness&quot;, Double::parseDouble, 0.025);</b>
+<i class="no-highlight">86</i>&nbsp;    }
+<i class="no-highlight">87</i>&nbsp;
+<i class="no-highlight">88</i>&nbsp;    public EdgeType getEdgeType() {
+<b class="fc"><i class="no-highlight">89</i>&nbsp;        return edgeType;</b>
+<i class="no-highlight">90</i>&nbsp;    }
+<i class="no-highlight">91</i>&nbsp;
+<i class="no-highlight">92</i>&nbsp;    public void setEdgeType(EdgeType e) {
+<b class="fc"><i class="no-highlight">93</i>&nbsp;        if (e == EdgeType.BEZIER &amp;&amp; controlPoints.size() &gt; 2) {</b>
+<i class="no-highlight">94</i>&nbsp;
+<b class="fc"><i class="no-highlight">95</i>&nbsp;            Vector2D ctrl1 = Vector2D.zero(),</b>
+<b class="fc"><i class="no-highlight">96</i>&nbsp;                    ctrl2 = Vector2D.zero();</b>
+<i class="no-highlight">97</i>&nbsp;
+<b class="fc"><i class="no-highlight">98</i>&nbsp;            int offset = (controlPoints.size() + 1) % 2; //0 when uneven</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;            int middle = (controlPoints.size() - 1 - offset) / 2;</b>
+<i class="no-highlight">100</i>&nbsp;
+<b class="fc"><i class="no-highlight">101</i>&nbsp;            for (int i = 0; i &lt;= middle; i++) {</b>
+<b class="fc"><i class="no-highlight">102</i>&nbsp;                ctrl1 = ctrl1.plus(controlPoints.get(i).getPosition());</b>
+<i class="no-highlight">103</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">104</i>&nbsp;            for (int i = middle + offset; i &lt; controlPoints.size(); i++) {</b>
+<b class="fc"><i class="no-highlight">105</i>&nbsp;                ctrl2 = ctrl2.plus(controlPoints.get(i).getPosition());</b>
+<i class="no-highlight">106</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">107</i>&nbsp;            ctrl1 = ctrl1.multiply(1d / (middle + 1));</b>
+<b class="fc"><i class="no-highlight">108</i>&nbsp;            ctrl2 = ctrl2.multiply(1d / (middle + 1));</b>
+<b class="fc"><i class="no-highlight">109</i>&nbsp;            ControlPoint c1 = new ControlPoint(ctrl1, this);</b>
+<b class="fc"><i class="no-highlight">110</i>&nbsp;            ControlPoint c2 = new ControlPoint(ctrl2, this);</b>
+<b class="fc"><i class="no-highlight">111</i>&nbsp;            controlPoints.clear();</b>
+<b class="fc"><i class="no-highlight">112</i>&nbsp;            controlPoints.add(c1);</b>
+<b class="fc"><i class="no-highlight">113</i>&nbsp;            controlPoints.add(c2);</b>
+<i class="no-highlight">114</i>&nbsp;        }
+<i class="no-highlight">115</i>&nbsp;
+<b class="fc"><i class="no-highlight">116</i>&nbsp;        this.edgeType = e;</b>
+<i class="no-highlight">117</i>&nbsp;
+<i class="no-highlight">118</i>&nbsp;    }
+<i class="no-highlight">119</i>&nbsp;
+<i class="no-highlight">120</i>&nbsp;    public void setEdgeType(String e) {
+<b class="fc"><i class="no-highlight">121</i>&nbsp;        if (e == EdgeType.BEZIER.name() &amp;&amp; controlPoints.size() &gt; 2) {</b>
+<i class="no-highlight">122</i>&nbsp;
+<b class="nc"><i class="no-highlight">123</i>&nbsp;            Vector2D ctrl1 = Vector2D.zero(),</b>
+<b class="nc"><i class="no-highlight">124</i>&nbsp;                    ctrl2 = Vector2D.zero();</b>
+<i class="no-highlight">125</i>&nbsp;
+<b class="nc"><i class="no-highlight">126</i>&nbsp;            int offset = (controlPoints.size() + 1) % 2; //0 when uneven</b>
+<b class="nc"><i class="no-highlight">127</i>&nbsp;            int middle = (controlPoints.size() - 1 - offset) / 2;</b>
+<i class="no-highlight">128</i>&nbsp;
+<b class="nc"><i class="no-highlight">129</i>&nbsp;            for (int i = 0; i &lt;= middle; i++) {</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;                ctrl1 = ctrl1.plus(controlPoints.get(i).getPosition());</b>
+<i class="no-highlight">131</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">132</i>&nbsp;            for (int i = middle + offset; i &lt; controlPoints.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">133</i>&nbsp;                ctrl2 = ctrl2.plus(controlPoints.get(i).getPosition());</b>
+<i class="no-highlight">134</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">135</i>&nbsp;            ctrl1 = ctrl1.multiply(1d / (middle + 1));</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;            ctrl2 = ctrl2.multiply(1d / (middle + 1));</b>
+<b class="nc"><i class="no-highlight">137</i>&nbsp;            ControlPoint c1 = new ControlPoint(ctrl1, this);</b>
+<b class="nc"><i class="no-highlight">138</i>&nbsp;            ControlPoint c2 = new ControlPoint(ctrl2, this);</b>
+<b class="nc"><i class="no-highlight">139</i>&nbsp;            controlPoints.clear();</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;            controlPoints.add(c1);</b>
+<b class="nc"><i class="no-highlight">141</i>&nbsp;            controlPoints.add(c2);</b>
+<i class="no-highlight">142</i>&nbsp;        }
+<i class="no-highlight">143</i>&nbsp;
+<b class="fc"><i class="no-highlight">144</i>&nbsp;        if (e.equals(EdgeType.BEZIER.name())) {</b>
+<b class="fc"><i class="no-highlight">145</i>&nbsp;            this.edgeType = EdgeType.BEZIER;</b>
+<b class="nc"><i class="no-highlight">146</i>&nbsp;        } else if (e.equals(EdgeType.SHARP.name())) {</b>
+<b class="nc"><i class="no-highlight">147</i>&nbsp;            this.edgeType = EdgeType.SHARP;</b>
+<i class="no-highlight">148</i>&nbsp;            //} else if (e.equals(EdgeType.ROUND.name())) {
+<i class="no-highlight">149</i>&nbsp;            //	this.edgeType = EdgeType.ROUND;
+<i class="no-highlight">150</i>&nbsp;        }
+<i class="no-highlight">151</i>&nbsp;    }
+<i class="no-highlight">152</i>&nbsp;
+<i class="no-highlight">153</i>&nbsp;    public int getControlPointCount() {
+<b class="nc"><i class="no-highlight">154</i>&nbsp;        return controlPoints.size();</b>
+<i class="no-highlight">155</i>&nbsp;    }
+<i class="no-highlight">156</i>&nbsp;
+<i class="no-highlight">157</i>&nbsp;    /**
+<i class="no-highlight">158</i>&nbsp;     * The clickPosition determines where the edge was initially clicked to
+<i class="no-highlight">159</i>&nbsp;     * add the control point. Depending on clickPosition, the correct edge segment
+<i class="no-highlight">160</i>&nbsp;     * for adding the control point can be determined
+<i class="no-highlight">161</i>&nbsp;     */
+<i class="no-highlight">162</i>&nbsp;    public ControlPoint addControlPoint(Vector2D position, Vector2D clickPosition) {
+<b class="fc"><i class="no-highlight">163</i>&nbsp;        if (edgeType == EdgeType.BEZIER) {</b>
+<b class="fc"><i class="no-highlight">164</i>&nbsp;            return addBezierControlPoint(position);</b>
+<i class="no-highlight">165</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">166</i>&nbsp;            return addSharpControlPoint(position, clickPosition);</b>
+<i class="no-highlight">167</i>&nbsp;        }
+<i class="no-highlight">168</i>&nbsp;    }
+<i class="no-highlight">169</i>&nbsp;
+<i class="no-highlight">170</i>&nbsp;    public int getId() {
+<b class="fc"><i class="no-highlight">171</i>&nbsp;        return this.id;</b>
+<i class="no-highlight">172</i>&nbsp;    }
+<i class="no-highlight">173</i>&nbsp;
+<i class="no-highlight">174</i>&nbsp;    public void setId(int id) {
+<b class="fc"><i class="no-highlight">175</i>&nbsp;        this.id = id;</b>
+<i class="no-highlight">176</i>&nbsp;    }
+<i class="no-highlight">177</i>&nbsp;
+<i class="no-highlight">178</i>&nbsp;    private ControlPoint addBezierControlPoint(Vector2D position) {
+<b class="fc"><i class="no-highlight">179</i>&nbsp;        if (controlPoints.size() &gt;= 2) {</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;            return null;</b>
+<i class="no-highlight">181</i>&nbsp;        }
+<i class="no-highlight">182</i>&nbsp;
+<b class="fc"><i class="no-highlight">183</i>&nbsp;        ControlPoint c = new ControlPoint(position, this);</b>
+<i class="no-highlight">184</i>&nbsp;
+<b class="fc"><i class="no-highlight">185</i>&nbsp;        if (controlPoints.size() == 1) {</b>
+<b class="fc"><i class="no-highlight">186</i>&nbsp;            double c1Dist = c.getPosition().minus(target.getCoordinates()).length();</b>
+<b class="fc"><i class="no-highlight">187</i>&nbsp;            double c2Dist = controlPoints.get(0).getPosition().minus(target.getCoordinates()).length();</b>
+<i class="no-highlight">188</i>&nbsp;            //distance is not the correct metric
+<i class="no-highlight">189</i>&nbsp;            //TODO: project on edge and use x order
+<b class="fc"><i class="no-highlight">190</i>&nbsp;            controlPoints.add(c1Dist &gt; c2Dist ? 0 : 1, c);</b>
+<b class="fc"><i class="no-highlight">191</i>&nbsp;        } else if (controlPoints.isEmpty()) {</b>
+<b class="fc"><i class="no-highlight">192</i>&nbsp;            controlPoints.add(c);</b>
+<i class="no-highlight">193</i>&nbsp;        } else { //can&#39;t add more than 2 bezier control points
+<b class="nc"><i class="no-highlight">194</i>&nbsp;            return null;</b>
+<i class="no-highlight">195</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">196</i>&nbsp;        return c;</b>
+<i class="no-highlight">197</i>&nbsp;    }
+<i class="no-highlight">198</i>&nbsp;
+<i class="no-highlight">199</i>&nbsp;    private ControlPoint addSharpControlPoint(Vector2D position, Vector2D clickPosition) {
+<b class="fc"><i class="no-highlight">200</i>&nbsp;        ControlPoint c = new ControlPoint(position, this);</b>
+<b class="fc"><i class="no-highlight">201</i>&nbsp;        int idx = containsCoordinateSharp(clickPosition.getX(), clickPosition.getY());</b>
+<b class="fc"><i class="no-highlight">202</i>&nbsp;        if (idx &gt;= controlPoints.size()) {</b>
+<b class="fc"><i class="no-highlight">203</i>&nbsp;            controlPoints.add(c);</b>
+<b class="fc"><i class="no-highlight">204</i>&nbsp;        } else controlPoints.add(idx, c);</b>
+<b class="fc"><i class="no-highlight">205</i>&nbsp;        return c;</b>
+<i class="no-highlight">206</i>&nbsp;    }
+<i class="no-highlight">207</i>&nbsp;
+<i class="no-highlight">208</i>&nbsp;    public ControlPoint removeControlPoint(ControlPoint c) {
+<b class="nc"><i class="no-highlight">209</i>&nbsp;        if (controlPoints.size() &gt; 1) {</b>
+<b class="nc"><i class="no-highlight">210</i>&nbsp;            controlPoints.remove(c);</b>
+<b class="nc"><i class="no-highlight">211</i>&nbsp;            return controlPoints.get(0);</b>
+<i class="no-highlight">212</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">213</i>&nbsp;            controlPoints.remove(0);</b>
+<b class="nc"><i class="no-highlight">214</i>&nbsp;            return null;</b>
+<i class="no-highlight">215</i>&nbsp;        }
+<i class="no-highlight">216</i>&nbsp;
+<i class="no-highlight">217</i>&nbsp;    }
+<i class="no-highlight">218</i>&nbsp;
+<i class="no-highlight">219</i>&nbsp;    public Vertex getSource() {
+<b class="fc"><i class="no-highlight">220</i>&nbsp;        return source;</b>
+<i class="no-highlight">221</i>&nbsp;    }
+<i class="no-highlight">222</i>&nbsp;
+<i class="no-highlight">223</i>&nbsp;    public void setSource(Vertex source) {
+<b class="fc"><i class="no-highlight">224</i>&nbsp;        if (this.source != null)</b>
+<b class="nc"><i class="no-highlight">225</i>&nbsp;            this.source.disconnectEdge(this);</b>
+<i class="no-highlight">226</i>&nbsp;
+<b class="fc"><i class="no-highlight">227</i>&nbsp;        this.source = source;</b>
+<b class="fc"><i class="no-highlight">228</i>&nbsp;        if (source != null) {</b>
+<b class="fc"><i class="no-highlight">229</i>&nbsp;            this.source.connectEdge(this);</b>
+<i class="no-highlight">230</i>&nbsp;        }
+<i class="no-highlight">231</i>&nbsp;    }
+<i class="no-highlight">232</i>&nbsp;
+<i class="no-highlight">233</i>&nbsp;    public boolean isDirected() {
+<b class="fc"><i class="no-highlight">234</i>&nbsp;        return this.isDirected;</b>
+<i class="no-highlight">235</i>&nbsp;    }
+<i class="no-highlight">236</i>&nbsp;
+<i class="no-highlight">237</i>&nbsp;    public void setDirectedness(boolean directedness) {
+<b class="fc"><i class="no-highlight">238</i>&nbsp;        this.isDirected = directedness;</b>
+<i class="no-highlight">239</i>&nbsp;    }
+<i class="no-highlight">240</i>&nbsp;
+<i class="no-highlight">241</i>&nbsp;    public Vertex getTarget() {
+<b class="fc"><i class="no-highlight">242</i>&nbsp;        return target;</b>
+<i class="no-highlight">243</i>&nbsp;    }
+<i class="no-highlight">244</i>&nbsp;
+<i class="no-highlight">245</i>&nbsp;    public void setTarget(Vertex target) {
+<b class="fc"><i class="no-highlight">246</i>&nbsp;        if (this.target != null)</b>
+<b class="nc"><i class="no-highlight">247</i>&nbsp;            this.target.disconnectEdge(this);</b>
+<b class="fc"><i class="no-highlight">248</i>&nbsp;        this.target = target;</b>
+<b class="fc"><i class="no-highlight">249</i>&nbsp;        if (target != null) {</b>
+<b class="fc"><i class="no-highlight">250</i>&nbsp;            this.target.connectEdge(this);</b>
+<i class="no-highlight">251</i>&nbsp;        }
+<i class="no-highlight">252</i>&nbsp;    }
+<i class="no-highlight">253</i>&nbsp;
+<i class="no-highlight">254</i>&nbsp;    public boolean isLoop() {
+<b class="nc"><i class="no-highlight">255</i>&nbsp;        return getSource() == getTarget();</b>
+<i class="no-highlight">256</i>&nbsp;    }
+<i class="no-highlight">257</i>&nbsp;
+<i class="no-highlight">258</i>&nbsp;    public boolean isSiblingTo(Edge other) { // TODO: rename to isAdjacent? Check if directed?
+<b class="fc"><i class="no-highlight">259</i>&nbsp;        return getTarget() == other.getTarget() || getTarget() == other.getSource();</b>
+<i class="no-highlight">260</i>&nbsp;    }
+<i class="no-highlight">261</i>&nbsp;
+<i class="no-highlight">262</i>&nbsp;    public double maximumCoordinate(int dimension) {
+<b class="nc"><i class="no-highlight">263</i>&nbsp;        double result = Double.NEGATIVE_INFINITY;</b>
+<b class="nc"><i class="no-highlight">264</i>&nbsp;        return result;</b>
+<i class="no-highlight">265</i>&nbsp;    }
+<i class="no-highlight">266</i>&nbsp;
+<i class="no-highlight">267</i>&nbsp;    public void collapse(Structure structure) {
+<i class="no-highlight">268</i>&nbsp;        //One edge that doesn&#39;t have the same direction as this edge
+<b class="nc"><i class="no-highlight">269</i>&nbsp;        Edge e = null;</b>
+<b class="nc"><i class="no-highlight">270</i>&nbsp;        for (int i = 0; i &lt; siblings.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">271</i>&nbsp;            e = siblings.get(i);</b>
+<b class="nc"><i class="no-highlight">272</i>&nbsp;            if (e != this &amp;&amp; !e.sameOrientationAs(this)) {</b>
+<b class="nc"><i class="no-highlight">273</i>&nbsp;                break;</b>
+<i class="no-highlight">274</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">275</i>&nbsp;            e = null;</b>
+<i class="no-highlight">276</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">277</i>&nbsp;        for (int i = 0; i &lt; siblings.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">278</i>&nbsp;            if (siblings.get(i) != this &amp;&amp; siblings.get(i) != e) {</b>
+<b class="nc"><i class="no-highlight">279</i>&nbsp;                structure.removeEdge(siblings.get(i), false);</b>
+<i class="no-highlight">280</i>&nbsp;            }
+<i class="no-highlight">281</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">282</i>&nbsp;        siblings.clear();</b>
+<b class="nc"><i class="no-highlight">283</i>&nbsp;        siblings = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">284</i>&nbsp;        siblings.add(this);</b>
+<i class="no-highlight">285</i>&nbsp;
+<i class="no-highlight">286</i>&nbsp;        //correct siblings of edge e as well
+<b class="nc"><i class="no-highlight">287</i>&nbsp;        if (e != null) {</b>
+<b class="nc"><i class="no-highlight">288</i>&nbsp;            siblings.add(e);</b>
+<i class="no-highlight">289</i>&nbsp;
+<b class="nc"><i class="no-highlight">290</i>&nbsp;            e.siblings.clear();</b>
+<b class="nc"><i class="no-highlight">291</i>&nbsp;            e.siblings = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">292</i>&nbsp;            e.siblings.add(this);</b>
+<b class="nc"><i class="no-highlight">293</i>&nbsp;            e.siblings.add(e);</b>
+<i class="no-highlight">294</i>&nbsp;        }
+<i class="no-highlight">295</i>&nbsp;    }
+<i class="no-highlight">296</i>&nbsp;
+<i class="no-highlight">297</i>&nbsp;    public void snapToGrid(double gridSize) {
+<i class="no-highlight">298</i>&nbsp;
+<i class="no-highlight">299</i>&nbsp;    }
+<i class="no-highlight">300</i>&nbsp;
+<i class="no-highlight">301</i>&nbsp;
+<i class="no-highlight">302</i>&nbsp;    public double getOffset() {
+<b class="fc"><i class="no-highlight">303</i>&nbsp;        double offset = 0;</b>
+<b class="fc"><i class="no-highlight">304</i>&nbsp;        int index = siblings.indexOf(this);</b>
+<i class="no-highlight">305</i>&nbsp;        //offset both edges orthogonally, offsets differently when both face same direction
+<b class="fc"><i class="no-highlight">306</i>&nbsp;        if (siblings.size() == 2) {</b>
+<b class="nc"><i class="no-highlight">307</i>&nbsp;            offset = 0.5 * multiEdgeOffset;</b>
+<b class="nc"><i class="no-highlight">308</i>&nbsp;            if (index == 1) {</b>
+<b class="nc"><i class="no-highlight">309</i>&nbsp;                if (siblings.get(0).sameOrientationAs(this)) {</b>
+<b class="nc"><i class="no-highlight">310</i>&nbsp;                    offset *= -1;</b>
+<i class="no-highlight">311</i>&nbsp;                }
+<i class="no-highlight">312</i>&nbsp;            }
+<i class="no-highlight">313</i>&nbsp;
+<i class="no-highlight">314</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">315</i>&nbsp;        if (siblings.size() == 3) {</b>
+<b class="nc"><i class="no-highlight">316</i>&nbsp;            if (index == 1) {</b>
+<b class="nc"><i class="no-highlight">317</i>&nbsp;                offset = 0;</b>
+<b class="nc"><i class="no-highlight">318</i>&nbsp;            } else if (index == 0) {</b>
+<b class="nc"><i class="no-highlight">319</i>&nbsp;                offset = multiEdgeOffset;</b>
+<b class="nc"><i class="no-highlight">320</i>&nbsp;            } else if (index == 2) {</b>
+<b class="nc"><i class="no-highlight">321</i>&nbsp;                offset = (siblings.get(0).sameOrientationAs(this) ? -1 : 1) * multiEdgeOffset;</b>
+<i class="no-highlight">322</i>&nbsp;            }
+<i class="no-highlight">323</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">324</i>&nbsp;        if (siblings.size() == 4) {</b>
+<b class="nc"><i class="no-highlight">325</i>&nbsp;            int sameOrientationCount = 0;</b>
+<i class="no-highlight">326</i>&nbsp;            double offsetMultiplier;
+<b class="nc"><i class="no-highlight">327</i>&nbsp;            for (int i = 0; i &lt; siblings.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">328</i>&nbsp;                if (i == index) {</b>
+<b class="nc"><i class="no-highlight">329</i>&nbsp;                    int correctedOffsetCounter = (sameOrientationCount &gt;= 2 ? -(i - 1) : (sameOrientationCount + 1));</b>
+<b class="nc"><i class="no-highlight">330</i>&nbsp;                    if (Math.abs(correctedOffsetCounter) &gt; 1) {</b>
+<b class="nc"><i class="no-highlight">331</i>&nbsp;                        offsetMultiplier = 0.75;</b>
+<i class="no-highlight">332</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">333</i>&nbsp;                        offsetMultiplier = 0.5;</b>
+<i class="no-highlight">334</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">335</i>&nbsp;                    offset = offsetMultiplier * correctedOffsetCounter * multiEdgeOffset;</b>
+<b class="nc"><i class="no-highlight">336</i>&nbsp;                    break;</b>
+<i class="no-highlight">337</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">338</i>&nbsp;                if (siblings.get(i).sameOrientationAs(this)) {</b>
+<b class="nc"><i class="no-highlight">339</i>&nbsp;                    sameOrientationCount++;</b>
+<i class="no-highlight">340</i>&nbsp;                }
+<i class="no-highlight">341</i>&nbsp;
+<i class="no-highlight">342</i>&nbsp;            }
+<i class="no-highlight">343</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">344</i>&nbsp;        return offset;</b>
+<i class="no-highlight">345</i>&nbsp;    }
+<i class="no-highlight">346</i>&nbsp;
+<i class="no-highlight">347</i>&nbsp;    public boolean sameOrientationAs(Edge other) {
+<b class="nc"><i class="no-highlight">348</i>&nbsp;        return getSource() == other.getSource();</b>
+<i class="no-highlight">349</i>&nbsp;    }
+<i class="no-highlight">350</i>&nbsp;
+<i class="no-highlight">351</i>&nbsp;    /**
+<i class="no-highlight">352</i>&nbsp;     * Checks for contains() assuming there are no control points
+<i class="no-highlight">353</i>&nbsp;     *
+<i class="no-highlight">354</i>&nbsp;     * @return 0 if it contains (x,  y), -1 otherwise
+<i class="no-highlight">355</i>&nbsp;     */
+<i class="no-highlight">356</i>&nbsp;    private boolean containsCoordinateLoop(double x, double y) {
+<i class="no-highlight">357</i>&nbsp;        // compute area around loop
+<b class="nc"><i class="no-highlight">358</i>&nbsp;        double angleStart = source.loopAnchor - source.loopAngle;</b>
+<b class="nc"><i class="no-highlight">359</i>&nbsp;        double angleEnd = source.loopAnchor + source.loopAngle;</b>
+<i class="no-highlight">360</i>&nbsp;
+<b class="nc"><i class="no-highlight">361</i>&nbsp;        double r = source.radius;</b>
+<b class="nc"><i class="no-highlight">362</i>&nbsp;        Vector2D intersection = source.shape.getEdgePoint(angleStart, source.getCoordinates());</b>
+<b class="nc"><i class="no-highlight">363</i>&nbsp;        Vector2D intersection2 = source.shape.getEdgePoint(angleEnd, source.getCoordinates());</b>
+<b class="nc"><i class="no-highlight">364</i>&nbsp;        Vector2D tangentToIntersection = Vector2D.getVectorAtAngle(angleEnd, 1).multiply(-1);</b>
+<i class="no-highlight">365</i>&nbsp;
+<i class="no-highlight">366</i>&nbsp;        //the correction retreats the endpoint of the bezier curve orthogonally from the vertex surface
+<b class="nc"><i class="no-highlight">367</i>&nbsp;        double correction = arrowType.endPoint * arrowHeadLength;</b>
+<i class="no-highlight">368</i>&nbsp;
+<i class="no-highlight">369</i>&nbsp;        //Loop description, endpoints and tangents.
+<b class="nc"><i class="no-highlight">370</i>&nbsp;        GralogGraphicsContext.Loop l = new GralogGraphicsContext.Loop();</b>
+<b class="nc"><i class="no-highlight">371</i>&nbsp;        l.start = intersection;</b>
+<b class="nc"><i class="no-highlight">372</i>&nbsp;        l.end = intersection2;</b>
+<b class="nc"><i class="no-highlight">373</i>&nbsp;        l.tangentStart = Vector2D.getVectorAtAngle(angleStart, 1).orthogonal();</b>
+<b class="nc"><i class="no-highlight">374</i>&nbsp;        l.tangentEnd = Vector2D.getVectorAtAngle(angleEnd, 1).orthogonal();</b>
+<i class="no-highlight">375</i>&nbsp;
+<b class="nc"><i class="no-highlight">376</i>&nbsp;        return true;</b>
+<i class="no-highlight">377</i>&nbsp;    }
+<i class="no-highlight">378</i>&nbsp;
+<i class="no-highlight">379</i>&nbsp;    private int containsCoordinateFlat(double x, double y) {
+<b class="fc"><i class="no-highlight">380</i>&nbsp;        Vector2D diff = target.getCoordinates().minus(source.getCoordinates());</b>
+<b class="fc"><i class="no-highlight">381</i>&nbsp;        Vector2D perpendicularToDiff = diff.orthogonal(1).normalized().multiply(getOffset());</b>
+<i class="no-highlight">382</i>&nbsp;
+<b class="fc"><i class="no-highlight">383</i>&nbsp;        Vector2D sourceOffset = source.getCoordinates().plus(perpendicularToDiff);</b>
+<b class="fc"><i class="no-highlight">384</i>&nbsp;        Vector2D targetOffset = target.getCoordinates().plus(perpendicularToDiff);</b>
+<i class="no-highlight">385</i>&nbsp;
+<b class="fc"><i class="no-highlight">386</i>&nbsp;        double fromX = sourceOffset.getX();</b>
+<b class="fc"><i class="no-highlight">387</i>&nbsp;        double fromY = sourceOffset.getY();</b>
+<i class="no-highlight">388</i>&nbsp;
+<b class="fc"><i class="no-highlight">389</i>&nbsp;        double toX = targetOffset.getX();</b>
+<b class="fc"><i class="no-highlight">390</i>&nbsp;        double toY = targetOffset.getY();</b>
+<b class="fc"><i class="no-highlight">391</i>&nbsp;        if (Vector2D.distancePointToLine(x, y, fromX, fromY, toX, toY) &lt; multiEdgeOffset * 0.5) {</b>
+<b class="fc"><i class="no-highlight">392</i>&nbsp;            return 0;</b>
+<i class="no-highlight">393</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">394</i>&nbsp;            return -1;</b>
+<i class="no-highlight">395</i>&nbsp;        }
+<i class="no-highlight">396</i>&nbsp;
+<i class="no-highlight">397</i>&nbsp;    }
+<i class="no-highlight">398</i>&nbsp;
+<i class="no-highlight">399</i>&nbsp;    private boolean containsCoordinateRound(double x, double y) {
+<b class="nc"><i class="no-highlight">400</i>&nbsp;        return false;</b>
+<i class="no-highlight">401</i>&nbsp;    }
+<i class="no-highlight">402</i>&nbsp;
+<i class="no-highlight">403</i>&nbsp;    /**
+<i class="no-highlight">404</i>&nbsp;     * Checks if a given vector (x, y) is within a close margin of the
+<i class="no-highlight">405</i>&nbsp;     * sharp edge (the form of the edge is given by its control points)
+<i class="no-highlight">406</i>&nbsp;     *
+<i class="no-highlight">407</i>&nbsp;     * @param x x coordinate of the position to check
+<i class="no-highlight">408</i>&nbsp;     * @param y y coordinate of the position to check
+<i class="no-highlight">409</i>&nbsp;     * @return -1 if edge does not contain position, i&gt;=0 otherwise (where [i-1, i] are the indices
+<i class="no-highlight">410</i>&nbsp;     * of the control points that have been hit). If i==0, then [i-1] is the source vertex
+<i class="no-highlight">411</i>&nbsp;     */
+<i class="no-highlight">412</i>&nbsp;    private int containsCoordinateSharp(double x, double y) {
+<b class="fc"><i class="no-highlight">413</i>&nbsp;        if (controlPoints.size() == 0) {</b>
+<b class="fc"><i class="no-highlight">414</i>&nbsp;            return containsCoordinateFlat(x, y);</b>
+<i class="no-highlight">415</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">416</i>&nbsp;        double dist = Vector2D.distancePointToLine(x, y, source.getCoordinates(), controlPoints.get(0).getPosition());</b>
+<i class="no-highlight">417</i>&nbsp;
+<b class="fc"><i class="no-highlight">418</i>&nbsp;        if (dist &lt; multiEdgeOffset * 0.5) {</b>
+<b class="nc"><i class="no-highlight">419</i>&nbsp;            return 0;</b>
+<i class="no-highlight">420</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">421</i>&nbsp;        for (int i = 1; i &lt; controlPoints.size(); i++) {</b>
+<b class="fc"><i class="no-highlight">422</i>&nbsp;            Vector2D a = controlPoints.get(i - 1).getPosition();</b>
+<b class="fc"><i class="no-highlight">423</i>&nbsp;            Vector2D b = controlPoints.get(i).getPosition();</b>
+<b class="fc"><i class="no-highlight">424</i>&nbsp;            if (Vector2D.distancePointToLine(x, y, a, b) &lt; multiEdgeOffset * 0.5) {</b>
+<b class="fc"><i class="no-highlight">425</i>&nbsp;                return i;</b>
+<i class="no-highlight">426</i>&nbsp;            }
+<i class="no-highlight">427</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">428</i>&nbsp;        Vector2D last = controlPoints.get(controlPoints.size() - 1).getPosition();</b>
+<b class="fc"><i class="no-highlight">429</i>&nbsp;        dist = Vector2D.distancePointToLine(x, y, last, target.getCoordinates());</b>
+<i class="no-highlight">430</i>&nbsp;
+<b class="fc"><i class="no-highlight">431</i>&nbsp;        return dist &lt; multiEdgeOffset * 0.5 ? controlPoints.size() : -1;</b>
+<i class="no-highlight">432</i>&nbsp;    }
+<i class="no-highlight">433</i>&nbsp;
+<i class="no-highlight">434</i>&nbsp;    public Vector2D getStartingPointSource() {
+<b class="nc"><i class="no-highlight">435</i>&nbsp;        if (controlPoints.size() == 0) {</b>
+<b class="nc"><i class="no-highlight">436</i>&nbsp;            return source.getCoordinates();</b>
+<i class="no-highlight">437</i>&nbsp;        }
+<i class="no-highlight">438</i>&nbsp;
+<b class="nc"><i class="no-highlight">439</i>&nbsp;        if (edgeType == EdgeType.BEZIER) {</b>
+<i class="no-highlight">440</i>&nbsp;
+<b class="nc"><i class="no-highlight">441</i>&nbsp;            Vector2D ctrl1 = controlPoints.get(0).getPosition();</b>
+<b class="nc"><i class="no-highlight">442</i>&nbsp;            Vector2D sourceToCtrl1 = ctrl1.minus(source.getCoordinates()).normalized();</b>
+<i class="no-highlight">443</i>&nbsp;
+<b class="nc"><i class="no-highlight">444</i>&nbsp;            return source.shape.getEdgePoint(sourceToCtrl1.theta(), source.getCoordinates());</b>
+<b class="nc"><i class="no-highlight">445</i>&nbsp;        } else if (edgeType == EdgeType.SHARP) {</b>
+<b class="nc"><i class="no-highlight">446</i>&nbsp;            return source.getCoordinates();</b>
+<i class="no-highlight">447</i>&nbsp;            //} else if (edgeType == EdgeType.ROUND) {
+<i class="no-highlight">448</i>&nbsp;            //    return source.getCoordinates();
+<i class="no-highlight">449</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">450</i>&nbsp;            return source.getCoordinates();</b>
+<i class="no-highlight">451</i>&nbsp;        }
+<i class="no-highlight">452</i>&nbsp;    }
+<i class="no-highlight">453</i>&nbsp;
+<i class="no-highlight">454</i>&nbsp;    public Vector2D getStartingPointTarget() {
+<b class="nc"><i class="no-highlight">455</i>&nbsp;        if (controlPoints.size() == 0) {</b>
+<b class="nc"><i class="no-highlight">456</i>&nbsp;            return target.getCoordinates();</b>
+<i class="no-highlight">457</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">458</i>&nbsp;        if (edgeType == EdgeType.BEZIER) {</b>
+<i class="no-highlight">459</i>&nbsp;
+<b class="nc"><i class="no-highlight">460</i>&nbsp;            Vector2D ctrl2 = controlPoints.get(controlPoints.size() - 1).getPosition();</b>
+<b class="nc"><i class="no-highlight">461</i>&nbsp;            Vector2D targetToCtrl1 = ctrl2.minus(target.getCoordinates()).normalized();</b>
+<b class="nc"><i class="no-highlight">462</i>&nbsp;            double corr = arrowType.endPoint * arrowHeadLength;</b>
+<b class="nc"><i class="no-highlight">463</i>&nbsp;            if (isDirected) {</b>
+<b class="nc"><i class="no-highlight">464</i>&nbsp;                corr = 0;</b>
+<i class="no-highlight">465</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">466</i>&nbsp;            var x = target.shape.getEdgePoint(targetToCtrl1.theta(), target.getCoordinates());</b>
+<b class="nc"><i class="no-highlight">467</i>&nbsp;            x = x.plus(targetToCtrl1.multiply(corr));</b>
+<b class="nc"><i class="no-highlight">468</i>&nbsp;            return x;</b>
+<b class="nc"><i class="no-highlight">469</i>&nbsp;        } else if (edgeType == EdgeType.SHARP) {</b>
+<b class="nc"><i class="no-highlight">470</i>&nbsp;            return target.getCoordinates();</b>
+<i class="no-highlight">471</i>&nbsp;            //} else if (edgeType == EdgeType.ROUND) {
+<i class="no-highlight">472</i>&nbsp;            //    return target.getCoordinates();
+<i class="no-highlight">473</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">474</i>&nbsp;            return target.getCoordinates();</b>
+<i class="no-highlight">475</i>&nbsp;        }
+<i class="no-highlight">476</i>&nbsp;    }
+<i class="no-highlight">477</i>&nbsp;
+<i class="no-highlight">478</i>&nbsp;    public boolean containsVertex(Vertex v) {
+<b class="nc"><i class="no-highlight">479</i>&nbsp;        return source == v || target == v;</b>
+<i class="no-highlight">480</i>&nbsp;    }
+<i class="no-highlight">481</i>&nbsp;
+<i class="no-highlight">482</i>&nbsp;    public double length() {
+<b class="fc"><i class="no-highlight">483</i>&nbsp;        Vector2D from = this.source.getCoordinates();</b>
+<b class="fc"><i class="no-highlight">484</i>&nbsp;        Vector2D to = this.target.getCoordinates();</b>
+<i class="no-highlight">485</i>&nbsp;        //TODO: implement length for control points
+<b class="fc"><i class="no-highlight">486</i>&nbsp;        double result = 0.0;</b>
+<b class="fc"><i class="no-highlight">487</i>&nbsp;        return result + to.minus(from).length();</b>
+<i class="no-highlight">488</i>&nbsp;    }
+<i class="no-highlight">489</i>&nbsp;
+<i class="no-highlight">490</i>&nbsp;    public Element toXml(Document doc, HashMap&lt;Vertex, String&gt; ids) throws Exception {
+<b class="fc"><i class="no-highlight">491</i>&nbsp;        Element enode = super.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">492</i>&nbsp;        enode.setAttribute(&quot;source&quot;, ids.get(source));</b>
+<b class="fc"><i class="no-highlight">493</i>&nbsp;        enode.setAttribute(&quot;type&quot;, getEdgeType().name());</b>
+<b class="fc"><i class="no-highlight">494</i>&nbsp;        enode.setAttribute(&quot;target&quot;, ids.get(target));</b>
+<b class="fc"><i class="no-highlight">495</i>&nbsp;        enode.setAttribute(&quot;isdirected&quot;, isDirected ? &quot;true&quot; : &quot;false&quot;);</b>
+<b class="fc"><i class="no-highlight">496</i>&nbsp;        enode.setAttribute(&quot;label&quot;, label);</b>
+<b class="fc"><i class="no-highlight">497</i>&nbsp;        enode.setAttribute(&quot;weight&quot;, Double.toString(weight));</b>
+<b class="fc"><i class="no-highlight">498</i>&nbsp;        enode.setAttribute(&quot;thickness&quot;, Double.toString(thickness));</b>
+<b class="fc"><i class="no-highlight">499</i>&nbsp;        enode.setAttribute(&quot;arrowheadlength&quot;, Double.toString(arrowHeadLength));</b>
+<b class="fc"><i class="no-highlight">500</i>&nbsp;        enode.setAttribute(&quot;color&quot;, color.toHtmlString());</b>
+<b class="fc"><i class="no-highlight">501</i>&nbsp;        enode.setAttribute(&quot;lineType&quot;, type.toString());</b>
+<i class="no-highlight">502</i>&nbsp;
+<b class="fc"><i class="no-highlight">503</i>&nbsp;        for (EdgeIntermediatePoint p : intermediatePoints) {</b>
+<b class="fc"><i class="no-highlight">504</i>&nbsp;            Element e = p.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">505</i>&nbsp;            if (e != null)</b>
+<b class="fc"><i class="no-highlight">506</i>&nbsp;                enode.appendChild(e);</b>
+<b class="fc"><i class="no-highlight">507</i>&nbsp;        }</b>
+<i class="no-highlight">508</i>&nbsp;
+<b class="fc"><i class="no-highlight">509</i>&nbsp;        for (ControlPoint p : controlPoints) {</b>
+<b class="fc"><i class="no-highlight">510</i>&nbsp;            Element e = p.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">511</i>&nbsp;            if (e != null)</b>
+<b class="fc"><i class="no-highlight">512</i>&nbsp;                enode.appendChild(e);</b>
+<b class="fc"><i class="no-highlight">513</i>&nbsp;        }</b>
+<i class="no-highlight">514</i>&nbsp;
+<b class="fc"><i class="no-highlight">515</i>&nbsp;        return enode;</b>
+<i class="no-highlight">516</i>&nbsp;    }
+<i class="no-highlight">517</i>&nbsp;
+<i class="no-highlight">518</i>&nbsp;    public Element toSimpleXml(Document doc, HashMap&lt;Vertex, String&gt; ids, String style) throws Exception {
+<b class="fc"><i class="no-highlight">519</i>&nbsp;        Element enode = toSimpleXml(doc, ids);</b>
+<b class="fc"><i class="no-highlight">520</i>&nbsp;        enode.setAttribute(&quot;style&quot;, style);</b>
+<b class="fc"><i class="no-highlight">521</i>&nbsp;        return enode;</b>
+<i class="no-highlight">522</i>&nbsp;    }
+<i class="no-highlight">523</i>&nbsp;    public Element toSimpleXml(Document doc, HashMap&lt;Vertex, String&gt; ids) throws Exception {
+<b class="fc"><i class="no-highlight">524</i>&nbsp;        Element enode = super.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">525</i>&nbsp;        enode.setAttribute(&quot;source&quot;, ids.get(source));</b>
+<b class="fc"><i class="no-highlight">526</i>&nbsp;        enode.setAttribute(&quot;target&quot;, ids.get(target));</b>
+<b class="fc"><i class="no-highlight">527</i>&nbsp;        enode.setAttribute(&quot;weight&quot;, Double.toString(weight));</b>
+<i class="no-highlight">528</i>&nbsp;//        enode.setAttribute(&quot;style&quot;, style.getStyle());
+<b class="fc"><i class="no-highlight">529</i>&nbsp;        for (EdgeIntermediatePoint p : intermediatePoints) {</b>
+<b class="nc"><i class="no-highlight">530</i>&nbsp;            Element e = p.toXml(doc);</b>
+<b class="nc"><i class="no-highlight">531</i>&nbsp;            if (e != null)</b>
+<b class="nc"><i class="no-highlight">532</i>&nbsp;                enode.appendChild(e);</b>
+<b class="nc"><i class="no-highlight">533</i>&nbsp;        }</b>
+<i class="no-highlight">534</i>&nbsp;
+<b class="fc"><i class="no-highlight">535</i>&nbsp;        for (ControlPoint p : controlPoints) {</b>
+<b class="fc"><i class="no-highlight">536</i>&nbsp;            Element e = p.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">537</i>&nbsp;            if (e != null)</b>
+<b class="fc"><i class="no-highlight">538</i>&nbsp;                enode.appendChild(e);</b>
+<b class="fc"><i class="no-highlight">539</i>&nbsp;        }</b>
+<i class="no-highlight">540</i>&nbsp;
+<b class="fc"><i class="no-highlight">541</i>&nbsp;        return enode;</b>
+<i class="no-highlight">542</i>&nbsp;    }
+<i class="no-highlight">543</i>&nbsp;
+<i class="no-highlight">544</i>&nbsp;    public void setLabel(String label) {
+<b class="nc"><i class="no-highlight">545</i>&nbsp;        this.label = label;</b>
+<i class="no-highlight">546</i>&nbsp;    }
+<i class="no-highlight">547</i>&nbsp;
+<i class="no-highlight">548</i>&nbsp;    public void fromXml(Element enode, HashMap&lt;String, Vertex&gt; ids) throws Exception {
+<b class="fc"><i class="no-highlight">549</i>&nbsp;        setSource(ids.get(enode.getAttribute(&quot;source&quot;)));</b>
+<b class="fc"><i class="no-highlight">550</i>&nbsp;        setTarget(ids.get(enode.getAttribute(&quot;target&quot;)));</b>
+<i class="no-highlight">551</i>&nbsp;
+<b class="fc"><i class="no-highlight">552</i>&nbsp;        if (enode.hasAttribute(&quot;type&quot;))</b>
+<b class="fc"><i class="no-highlight">553</i>&nbsp;            setEdgeType(enode.getAttribute(&quot;type&quot;));</b>
+<b class="fc"><i class="no-highlight">554</i>&nbsp;        if (enode.hasAttribute(&quot;isdirected&quot;))</b>
+<b class="fc"><i class="no-highlight">555</i>&nbsp;            isDirected = enode.getAttribute(&quot;isdirected&quot;).equals(&quot;true&quot;);</b>
+<b class="fc"><i class="no-highlight">556</i>&nbsp;        label = enode.getAttribute(&quot;label&quot;);</b>
+<b class="fc"><i class="no-highlight">557</i>&nbsp;        if (enode.hasAttribute(&quot;weight&quot;))</b>
+<b class="fc"><i class="no-highlight">558</i>&nbsp;            weight = Double.parseDouble(enode.getAttribute(&quot;weight&quot;));</b>
+<i class="no-highlight">559</i>&nbsp;
+<b class="fc"><i class="no-highlight">560</i>&nbsp;        if (enode.hasAttribute(&quot;thickness&quot;))</b>
+<b class="fc"><i class="no-highlight">561</i>&nbsp;            thickness = Double.parseDouble(enode.getAttribute(&quot;thickness&quot;));</b>
+<i class="no-highlight">562</i>&nbsp;
+<b class="fc"><i class="no-highlight">563</i>&nbsp;        if (enode.hasAttribute(&quot;arrowheadlength&quot;))</b>
+<b class="fc"><i class="no-highlight">564</i>&nbsp;            arrowHeadLength = Double.parseDouble(enode.getAttribute(&quot;arrowheadlength&quot;));</b>
+<b class="fc"><i class="no-highlight">565</i>&nbsp;        if (enode.hasAttribute(&quot;color&quot;))</b>
+<b class="fc"><i class="no-highlight">566</i>&nbsp;            color = GralogColor.parseColor(enode.getAttribute(&quot;color&quot;));</b>
+<i class="no-highlight">567</i>&nbsp;
+<b class="fc"><i class="no-highlight">568</i>&nbsp;        if (enode.hasAttribute(&quot;style&quot;))</b>
+<b class="nc"><i class="no-highlight">569</i>&nbsp;            style = GralogTikStyles.valueOfStyle(enode.getAttribute(&quot;style&quot;));</b>
+<i class="no-highlight">570</i>&nbsp;
+<b class="fc"><i class="no-highlight">571</i>&nbsp;        NodeList children = enode.getChildNodes(); // load intermediate points</b>
+<b class="fc"><i class="no-highlight">572</i>&nbsp;        for (int i = 0; i &lt; children.getLength(); ++i) {</b>
+<b class="fc"><i class="no-highlight">573</i>&nbsp;            Node childNode = children.item(i);</b>
+<b class="fc"><i class="no-highlight">574</i>&nbsp;            if (childNode.getNodeType() != Node.ELEMENT_NODE)</b>
+<b class="fc"><i class="no-highlight">575</i>&nbsp;                continue;</b>
+<i class="no-highlight">576</i>&nbsp;
+<b class="fc"><i class="no-highlight">577</i>&nbsp;            Element child = (Element) childNode;</b>
+<b class="fc"><i class="no-highlight">578</i>&nbsp;            Object obj = PluginManager.instantiateClass(child.getTagName());</b>
+<b class="fc"><i class="no-highlight">579</i>&nbsp;            if (obj instanceof EdgeIntermediatePoint) {</b>
+<b class="nc"><i class="no-highlight">580</i>&nbsp;                EdgeIntermediatePoint p = (EdgeIntermediatePoint) obj;</b>
+<b class="nc"><i class="no-highlight">581</i>&nbsp;                p.fromXml(child);</b>
+<b class="nc"><i class="no-highlight">582</i>&nbsp;                this.intermediatePoints.add(p);</b>
+<i class="no-highlight">583</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">584</i>&nbsp;            if (obj instanceof ControlPoint) {</b>
+<b class="fc"><i class="no-highlight">585</i>&nbsp;                ControlPoint p = (ControlPoint) obj;</b>
+<b class="fc"><i class="no-highlight">586</i>&nbsp;                p.fromXml(child);</b>
+<b class="fc"><i class="no-highlight">587</i>&nbsp;                p.parent = this;</b>
+<b class="fc"><i class="no-highlight">588</i>&nbsp;                this.controlPoints.add(p);</b>
+<i class="no-highlight">589</i>&nbsp;            }
+<i class="no-highlight">590</i>&nbsp;
+<i class="no-highlight">591</i>&nbsp;        }
+<i class="no-highlight">592</i>&nbsp;    }
+<i class="no-highlight">593</i>&nbsp;
+<i class="no-highlight">594</i>&nbsp;    @Override
+<i class="no-highlight">595</i>&nbsp;    public String toString() {
+<b class="nc"><i class="no-highlight">596</i>&nbsp;        return String.format(&quot;id:%d __ E(%d,%d)&quot;, id, this.getSource().getId(), this.getTarget().getId());</b>
+<i class="no-highlight">597</i>&nbsp;    }
+<i class="no-highlight">598</i>&nbsp;
+<i class="no-highlight">599</i>&nbsp;    public String gralogPipify() {
+<b class="nc"><i class="no-highlight">600</i>&nbsp;        Class&lt;?&gt; c = this.getClass();</b>
+<b class="nc"><i class="no-highlight">601</i>&nbsp;        String ret = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">602</i>&nbsp;        for (Field f : c.getDeclaredFields()) {</b>
+<b class="nc"><i class="no-highlight">603</i>&nbsp;            f.setAccessible(true);</b>
+<b class="nc"><i class="no-highlight">604</i>&nbsp;            boolean toBeSent = false;</b>
+<b class="nc"><i class="no-highlight">605</i>&nbsp;            Annotation[] annotations = f.getDeclaredAnnotations();</b>
+<b class="nc"><i class="no-highlight">606</i>&nbsp;            for (Annotation annotation : annotations) {</b>
+<b class="nc"><i class="no-highlight">607</i>&nbsp;                if (annotation instanceof DataField) {</b>
+<b class="nc"><i class="no-highlight">608</i>&nbsp;                    DataField dataField = (DataField) annotation;</b>
+<b class="nc"><i class="no-highlight">609</i>&nbsp;                    toBeSent = dataField.display() &amp;&amp; (!dataField.readOnly());</b>
+<i class="no-highlight">610</i>&nbsp;                }
+<i class="no-highlight">611</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">612</i>&nbsp;            if (toBeSent) {</b>
+<b class="nc"><i class="no-highlight">613</i>&nbsp;                ret = ret + f.getName() + &quot;=&quot;;</b>
+<i class="no-highlight">614</i>&nbsp;                try {
+<b class="nc"><i class="no-highlight">615</i>&nbsp;                    ret = ret + f.get(this).toString() + &quot;|&quot; + Structure.pythonifyClass(f.getDeclaringClass()) + &quot;#&quot;;</b>
+<b class="nc"><i class="no-highlight">616</i>&nbsp;                } catch (Exception e) {</b>
+<i class="no-highlight">617</i>&nbsp;                    //todo: to handle!!!
+<b class="nc"><i class="no-highlight">618</i>&nbsp;                }</b>
+<i class="no-highlight">619</i>&nbsp;            }
+<i class="no-highlight">620</i>&nbsp;
+<i class="no-highlight">621</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">622</i>&nbsp;        if (ret.length() &gt; 0) {</b>
+<b class="nc"><i class="no-highlight">623</i>&nbsp;            ret = ret.substring(0, ret.length() - 1);</b>
+<i class="no-highlight">624</i>&nbsp;        }
+<i class="no-highlight">625</i>&nbsp;
+<b class="nc"><i class="no-highlight">626</i>&nbsp;        return ret;</b>
+<i class="no-highlight">627</i>&nbsp;
+<i class="no-highlight">628</i>&nbsp;    }
+<i class="no-highlight">629</i>&nbsp;
+<b class="fc"><i class="no-highlight">630</i>&nbsp;    public enum EdgeType {</b>
+<b class="fc"><i class="no-highlight">631</i>&nbsp;        SHARP,</b>
+<i class="no-highlight">632</i>&nbsp;        //ROUND, // TODO: choosing this in object inspector makes the edge invisible
+<b class="fc"><i class="no-highlight">633</i>&nbsp;        BEZIER</b>
+<i class="no-highlight">634</i>&nbsp;    }
+<i class="no-highlight">635</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

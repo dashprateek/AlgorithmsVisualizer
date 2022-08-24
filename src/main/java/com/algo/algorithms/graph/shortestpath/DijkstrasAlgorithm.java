@@ -2,11 +2,9 @@
  * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
 package com.algo.algorithms.graph.shortestpath;
 
-import com.algo.algorithms.graph.GraphAlgorithmsRunner;
 import com.algo.annotations.AlgorithmDescription;
-import com.algo.export.ShortestPathIterationsExport;
+import com.algo.export.SingleSourceShortestPathExport;
 import com.algo.models.SingleSourceShortestPathModel;
-import com.algo.rendering.GralogTikStyles;
 import com.algo.structure.DirectedGraph;
 import com.algo.structure.Edge;
 import com.algo.structure.Structure;
@@ -24,7 +22,7 @@ import java.util.stream.Stream;
         text = "Finds a shortest path between from a starting vertice, using Dijkstra's Algorithm",
         url = "https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm"
 )
-public class DijkstrasAlgorithm extends GraphAlgorithmsRunner {
+public class DijkstrasAlgorithm extends ShortestPathRunner {
 
     @Override
     public boolean run(Scanner sc) {
@@ -49,18 +47,12 @@ public class DijkstrasAlgorithm extends GraphAlgorithmsRunner {
         distances.put(start, 0.);
         PriorityQueue<ShortestPathTuple> next = new PriorityQueue<>(Comparator.comparingDouble(ShortestPathTuple::getDistance));
         next.add(ShortestPathTuple.valueOf(start, 0., null));
-        List<Vertex> vList = Stream.concat(Stream.of(start),
-                        new ArrayList<Vertex>(s.getVertices()).stream().filter(e -> !e.equals(start))
-                                .sorted(Comparator.comparingInt(Vertex::getId)))
-                .collect(Collectors.toList());
+        List<Vertex> vList = getVertexList(s, start);
         singleSourceShortestPath.setVertexList(vList.stream().map(Vertex::getId).collect(Collectors.toList()));
         while (!next.isEmpty()) {
             ShortestPathTuple tuple = next.poll();
             Vertex source = tuple.getNode();
-            source.style = GralogTikStyles.SELECTED_NODE_STYLE;
             source.distanceFromSource = tuple.getDistance().toString();
-            if (Objects.nonNull(tuple.edge))
-                tuple.edge.style = GralogTikStyles.SELECTED_EDGE_STYLE;
             if (visited.contains(source))
                 continue;
             visited.add(source);
@@ -74,16 +66,25 @@ public class DijkstrasAlgorithm extends GraphAlgorithmsRunner {
                 }
                 next.add(ShortestPathTuple.valueOf(target, edge.weight + distances.get(source), edge));
             }
-            List<Double> dist = vList.stream()
-                    .map(v -> distances.getOrDefault(v, -1.))
-                    .collect(Collectors.toList());
+            List<Double> dist = getDistanceList(distances, vList);
             singleSourceShortestPath.add(source.getId(), dist, new HashMap<>(predecessor));
-//            graphIterationsExport.appendChild(s);
         }
-//        graphIterationsExport.writeToStream(fileName);
-        ShortestPathIterationsExport export = new ShortestPathIterationsExport(singleSourceShortestPath, s);
+        SingleSourceShortestPathExport export = new SingleSourceShortestPathExport(singleSourceShortestPath, s);
         export.writeToStream(fileName);
         return singleSourceShortestPath;
+    }
+
+    private static List<Double> getDistanceList(HashMap<Vertex, Double> distances, List<Vertex> vList) {
+        return vList.stream()
+                .map(v -> distances.getOrDefault(v, BellmanFordAlgorithm.INF))
+                .collect(Collectors.toList());
+    }
+
+    private static List<Vertex> getVertexList(Structure s, Vertex start) {
+        return Stream.concat(Stream.of(start),
+                        new ArrayList<Vertex>(s.getVertices()).stream().filter(e -> !e.equals(start))
+                                .sorted(Comparator.comparingInt(Vertex::getId)))
+                .collect(Collectors.toList());
     }
 
     private static class ShortestPathTuple {

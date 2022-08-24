@@ -7,70 +7,55 @@ import com.algo.algorithms.graph.shortestpath.DijkstrasAlgorithm;
 import com.algo.algorithms.graph.shortestpath.FloydWarshallAlgorithm;
 import com.algo.algorithms.graph.traversal.BFSTraversal;
 import com.algo.algorithms.graph.traversal.DFSTraversal;
-import com.algo.export.ExportUtils;
+import com.algo.export.XSLTService;
 import com.algo.structure.DirectedGraph;
+import com.algo.structure.StructureUtils;
 import com.algo.structure.UndirectedGraph;
 import com.algo.structure.Vertex;
 
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 import java.util.Scanner;
 
-import static com.algo.export.ExportUtils.*;
+import static com.algo.export.XSLTService.*;
 import static com.algo.structure.StructureUtils.getGraph;
 
 public class Main {
 
 
-    public static void main(String[] args) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws Exception {
         try (Scanner scanner = new Scanner(System.in)) {
             new MainRunner().run(scanner);
-        } catch (IOException | TransformerException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Thank you for using the application! :)");
-//        System.out.println(Algorithms.class);
-//        Algorithms type = AlgorithmsEnum
-//        Enum<?> classType[] = Algorithms.values();
-//        classType.getDeclaringClass()
-//        try (Scanner scanner = new Scanner(System.in)) {
-//            while (true) {
-//                System.out.println("Please Enter the number next to the Algorithm to be used:\n " +
-//                        "Press - to return or * to exit");
-//                List<String> inputs = new ArrayList<>();
-//                for (Algorithms algorithm : Algorithms.values()) {
-//                    System.out.println(algorithm.ordinal() + " " + algorithm.getType());
-//                    inputs.add(String.valueOf(algorithm.ordinal()));
-//                }
-//
-//                String ip = scanner.nextLine();
-//                if(inputs.contains(ip)){
-//                    System.out.println(Algorithms.valueOf(type[Integer.valueOf(ip)].name()));
-//                }else if("-".equals(ip)){
-//
-//                }else if("*".equals(ip)){
-//                    break;
-//                }else{
-//
-//                }
-//
-//                break;
-//            }
-//        }
+//      tempMain();
+//        temp();
+//        dijkstrasShortestPathTransforms("/Users/prateekdash/Semester2/MscProjectPlan/MscProject/xml/RandomStructureTest.xml");
+//        graphTraversal("/Users/prateekdash/Semester2/MscProjectPlan/MscProject/xml/RandomStructureTest.xml");
     }
 
+
+    private static void temp() {
+        try {
+            StructureUtils.getRandomGraph(true, true).writeToFile("/Users/prateekdash/Semester2/MscProjectPlan/MscProject/xml/RandomStructureTest.xml",true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Done! :)");
+    }
     private static void tempMain() {
         try {
-            allPairShortestPath();
-            graphTraversal();
-            dijkstrasShortestPathTransforms();
+            allPairShortestPath(null);
+            graphTraversal(null);
+            dijkstrasShortestPathTransforms(null);
             allPairShortestPathBellmanFordAlgorithm();
             cykAlgorithm();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Done! :)");
+
     }
 
     private static void cykAlgorithm() throws Exception {
@@ -82,7 +67,7 @@ public class Main {
         String texFile = TIK_PATH + "cyk.tex";
         String xsltFile = XSLT_PATH + "cyk.xslt";
 
-        ExportUtils.runXSLTTransform(xmlFile, texFile, xsltFile);
+        XSLTService.runXSLTTransform(xmlFile, texFile, xsltFile);
 
     }
 
@@ -96,18 +81,20 @@ public class Main {
         runXSLTTransform(xmlFile, texFile, xsltFile);
     }
 
-    private static void allPairShortestPath() throws Exception {
+    private static void allPairShortestPath(String structureFile) throws Exception {
         String texFile = TIK_PATH + "floydWarshall.tex";
         String xsltFile = XSLT_PATH + "FloydWarshall.xslt";
-        String structureFile = XML_PATH + "fwGraph.xml";
+        if(Optional.ofNullable(structureFile).map(String::isBlank).orElse(false))
+            structureFile = XML_PATH + "fwGraph.xml";
         String xmlFile = XML_PATH + "fw.xml";
         DirectedGraph structure = (DirectedGraph) getGraph(structureFile);
         FloydWarshallAlgorithm.run(structure, xmlFile);
         runXSLTTransform(xmlFile, texFile, xsltFile);
     }
 
-    private static void graphTraversal() throws Exception {
-        String structureFile = XML_PATH + "UndirectedGraph.xml";
+    private static void graphTraversal(String structureFile) throws Exception {
+        if(Optional.ofNullable(structureFile).map(String::isBlank).orElse(false))
+            structureFile = XML_PATH + "UndirectedGraph.xml";
         UndirectedGraph structure = (UndirectedGraph) getGraph(structureFile);
         String bfsTexFile = TIK_PATH + "bfsIterations.tex";
         String dfsTexFile = TIK_PATH + "dfsIterations.tex";
@@ -121,10 +108,12 @@ public class Main {
         runXSLTTransform(dfsFileName, dfsTexFile, xsltFile);
     }
 
-    private static void dijkstrasShortestPathTransforms() throws Exception {
+    private static void dijkstrasShortestPathTransforms(String structureFile) throws Exception {
+
         String graphTexFile = TIK_PATH + "DijkstrasAlgorithm.tex";
         String xsltFile = XSLT_PATH + "DijkstrasAlgorithm.xslt";
-        String structureFile = XML_PATH + "directedGraph.xml";
+        if(Optional.ofNullable(structureFile).map(String::isBlank).orElse(false))
+            structureFile = XML_PATH + "directedGraph.xml";
         String dspFile = XML_PATH + "dsp.xml";
         DirectedGraph structure = (DirectedGraph) getGraph(structureFile);
         DijkstrasAlgorithm.run(structure, structure.getVertexById(0), dspFile);

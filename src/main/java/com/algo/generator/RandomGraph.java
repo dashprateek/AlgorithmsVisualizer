@@ -21,7 +21,7 @@ import java.util.Random;
  */
 @GeneratorDescription(
         name = "Random graph",
-        text = "Generates a random graph according to the Erdős–Rényi model",
+        text = "Generates a random graph according to the Erdos Renyi model",
         url = "https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93R%C3%A9nyi_model"
 )
 public class RandomGraph extends Generator {
@@ -44,11 +44,11 @@ public class RandomGraph extends Generator {
     @Override
     public Structure generate(AlgorithmParameters param) {
         int n = Integer.parseInt(((RandomGraphParameters) param).parameters.get(0));
-        Preferences.setInteger(this.getClass(), "randomGraphVertexNumber", n);
+//        Preferences.setInteger(this.getClass(), "randomGraphVertexNumber", n);
         double p = Double.parseDouble(((RandomGraphParameters) param).parameters.get(1));
-        Preferences.setDouble(this.getClass(), "edgeProbability", p);
+//        Preferences.setDouble(this.getClass(), "edgeProbability", p);
         boolean directed = Boolean.parseBoolean(((RandomGraphParameters) param).parameters.get(2));
-        Preferences.setBoolean(this.getClass(), "directed", directed);
+//        Preferences.setBoolean(this.getClass(), "directed", directed);
 
 
         Structure result;

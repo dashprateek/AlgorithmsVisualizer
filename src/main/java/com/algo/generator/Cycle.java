@@ -35,9 +35,9 @@ public class Cycle extends Generator {
     @Override
     public Structure generate(AlgorithmParameters p) {
         int n = Integer.parseInt(((CycleParameters) p).parameters.get(0));
-        Preferences.setInteger(this.getClass(), "Number of vertices", n);
+//        Preferences.setInteger(this.getClass(), "Number of vertices", n);
         boolean directed = Boolean.parseBoolean(((CycleParameters) p).parameters.get(1));
-        Preferences.setBoolean(this.getClass(), "directed", directed);
+//        Preferences.setBoolean(this.getClass(), "directed", directed);
         Structure result;
 
         if (directed)

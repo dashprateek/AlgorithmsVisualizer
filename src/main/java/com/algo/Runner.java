@@ -2,12 +2,10 @@ package com.algo;
 
 import com.algo.algorithms.OptionsEnum;
 
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 import java.util.Scanner;
 
 public abstract class Runner {
-    public abstract boolean run(Scanner sc) throws IOException, TransformerException;
+    public abstract boolean run(Scanner sc) throws Exception;
 
     public <T extends OptionsEnum> T getInput(Scanner sc, OptionsEnum[] type) {
         System.out.println("Please select one of the following options:");

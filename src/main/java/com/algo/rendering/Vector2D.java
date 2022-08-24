@@ -36,10 +36,8 @@ public class Vector2D implements Serializable {
         Vector2D l2 = new Vector2D(l2x, l2y);
         Vector2D l = l2.minus(l1);
 
-        // normal-vector
         Vector2D n = l.orthogonal();
 
-        // lotfuß-punkt
         double k = Math.abs(l1.minus(p).multiply(n)) / n.multiply(n);
         Vector2D q = p.plus(n.multiply(k));
 

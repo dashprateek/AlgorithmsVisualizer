@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfg start="S">
+   <variables>VP,PP,NP,S,Det,V,P,N</variables>
+   <terminals>a,eats,Det,she,with,fish,fork</terminals>
+   <projectionRules>
+      <rule>V-&gt;eats</rule>
+      <rule>NP-&gt;Det|N|she</rule>
+      <rule>PP-&gt;P|NP</rule>
+      <rule>S-&gt;NP|VP</rule>
+      <rule>VP-&gt;VP|PP|V|NP|eats</rule>
+      <rule>P->with</rule>
+      <rule>N->fish|fork</rule>
+      <rule>Det->a</rule>
+   </projectionRules>
+</cfg>

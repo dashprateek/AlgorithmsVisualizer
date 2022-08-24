@@ -1,11 +1,14 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:template match="/">
-        \documentclass[crop,tikz, border=5pt]{standalone}
+        \documentclass[crop,tikz, border=5pt]{beamer}
         <xsl:call-template name="import"/>
         \begin{document}
-
+        \begin{frame}
+        \frametitle{Dijkstra's Algorithm : Input}
+        \begin{center}
         <xsl:call-template name="create_graph"/>
-
+        \end{center}
+        \end{frame}
         <xsl:for-each select="/SingleSourceShortestPath/iterations/shortestPath">
             <xsl:variable name="shortestPathIndex" select="position()"/>
             <xsl:variable name="queuedElements">
@@ -13,11 +16,16 @@
                     <xsl:value-of select="concat('|',@queuedElement,'|')"/>
                 </xsl:for-each>
             </xsl:variable>
+            \begin{frame}
+            \frametitle{Dijkstra's Algorithm : Iteration <xsl:value-of select="$shortestPathIndex"/> }
+            \begin{center}
             <xsl:call-template name="create_graph">
                 <xsl:with-param name="queuedElements" select="$queuedElements"/>
                 <xsl:with-param name="pathSet" select="path"/>
                 <xsl:with-param name="shortestPathIndex" select="$shortestPathIndex"/>
             </xsl:call-template>
+            \end{center}
+            \end{frame}
         </xsl:for-each>
 
         \end{document}
@@ -65,7 +73,6 @@
         <xsl:param name="distance_from_source" select="$pathSet[position()=$pos]/@distance"/>
         \node [<xsl:choose><xsl:when test="contains($queuedElements,concat('|',@label,'|'))">selected_node_style</xsl:when><xsl:otherwise>node_style</xsl:otherwise></xsl:choose><xsl:choose><xsl:when test="$print_label = boolean(true)">,label={[text=blue]10:$<xsl:value-of select="$distance_from_source"/>$}</xsl:when></xsl:choose>](<xsl:value-of select="@id"/>) at (<xsl:value-of select="@x"/>,<xsl:value-of select="@y"/>) {<xsl:value-of select="@label"/>};
     </xsl:template>
-
     <xsl:template name = "create_edge" >
         <xsl:param name="label"/>
         \draw [<xsl:value-of select="$label"/>] (<xsl:value-of select="@source"/>) edge node{<xsl:value-of select="@weight"/>} (<xsl:value-of select="@target"/>);
@@ -80,6 +87,11 @@
         \usetikzlibrary{calc}
         \usetikzlibrary{shapes}
         \usepackage[utf8]{inputenc}
+        \usetikzlibrary{calc}
+        \usetheme{default}
+        \usefonttheme{professionalfonts}
+        \setbeamertemplate{navigation symbols}{}
+        \setbeamerfont{frametitle}{series=\bfseries}
     </xsl:template>
 </xsl:stylesheet>
 

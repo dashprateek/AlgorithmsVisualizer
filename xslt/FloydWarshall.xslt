@@ -5,15 +5,22 @@
 <xsl:call-template name="import"/>
     \begin{document}
         <xsl:variable name="root" select="/ShortestPath"/>
-<!--        \begin{frame}-->
-<!--        \frametitle{Example: Floyd-Warshall}-->
+        \begin{frame}
+        \frametitle{Floyd-Warshall Algorithm : Input}
+        \begin{center}
         <xsl:call-template name="create_graph">
             <xsl:with-param name="root" select="$root"/>
         </xsl:call-template>
-<!--        \end{frame}-->
+        \end{center}
+        \end{frame}
 
         <xsl:for-each select="$root/iterations/iteration">
+            \begin{frame}
+            \frametitle{Floyd-Warshall Algorithm : Iteration <xsl:value-of select="position()"/>}
+            \begin{center}
             <xsl:call-template name="matrix"/>
+            \end{center}
+            \end{frame}
         </xsl:for-each>
     \end{document}
     </xsl:template>
@@ -32,7 +39,7 @@
                 <xsl:otherwise>-></xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm, ultra thick,
+        \begin{tikzpicture}[scale=0.90, shorten >=1pt, auto, node distance=3cm, ultra thick,
         node_style/.style={circle,draw=blue,fill=blue!20!,font=\sffamily\Large\bfseries},
         edge_node_style/.style={draw=none,fill=none,midway,sloped},
         selected_node_style/.style={circle,draw=blue,fill=yellow!20!,font=\sffamily\Large\bfseries},
@@ -160,9 +167,6 @@
                 <xsl:value-of select="concat(string(($V*2.0)-(2*(position()-1))),', ')"/>
             </xsl:for-each>
         </xsl:variable>
-        \begin{frame}
-            \frametitle{Round <xsl:value-of select="position()"/>}
-            \begin{center}
                 \begin{tikzpicture}[xscale=0.60, yscale=0.50]
                     \foreach[count=\n] \x in {<xsl:value-of select="replace($xCoordinates,', $','')"/>} \node at (\x, 12) {\n};
                     \foreach[count=\n] \y in {<xsl:value-of select="replace($yCoordinates,', $','')"/>} \node at ( 1, \y) {\n};
@@ -173,8 +177,6 @@
                     <xsl:for-each select="$intermediateVertex">
                     \foreach[count=\n] \d in {  <xsl:value-of select="."/>} \via(<xsl:value-of select="position()"/>,\n){\d};</xsl:for-each>
                 \end{tikzpicture}
-            \end{center}
-        \end{frame}
     </xsl:template>
 
 </xsl:stylesheet>

@@ -13,9 +13,9 @@
          <path distance="0.0"/>
          <path distance="1.0" parent="0"/>
          <path distance="4.0" parent="0"/>
-         <path distance="-1.0"/>
-         <path distance="-1.0"/>
-         <path distance="-1.0"/>
+         <path distance="\infty"/>
+         <path distance="\infty"/>
+         <path distance="\infty"/>
       </shortestPath>
       <shortestPath queuedElement="1">
          <path distance="0.0"/>
@@ -23,7 +23,7 @@
          <path distance="2.0" parent="1"/>
          <path distance="6.0" parent="1"/>
          <path distance="5.0" parent="1"/>
-         <path distance="-1.0"/>
+         <path distance="\infty"/>
       </shortestPath>
       <shortestPath queuedElement="2">
          <path distance="0.0"/>
@@ -31,7 +31,7 @@
          <path distance="2.0" parent="1"/>
          <path distance="4.0" parent="2"/>
          <path distance="3.0" parent="2"/>
-         <path distance="-1.0"/>
+         <path distance="\infty"/>
       </shortestPath>
       <shortestPath queuedElement="4">
          <path distance="0.0"/>
@@ -68,15 +68,17 @@
          <node id="n6" label="5" x="10.493" y="3.511"/>
          <edge source="n5" style="bend left" target="n6" weight="4.0"/>
          <edge source="n6" target="n5" weight="1.0"/>
+         <edge source="n2" target="n4" weight="5.0"/>
+         <edge source="n4" target="n6" weight="1.0"/>
          <edge source="n2" target="n3" weight="1.0"/>
+         <edge source="n1" target="n3" weight="4.0"/>
+         <edge source="n3" target="n5" weight="1.0"/>
+         <edge source="n3" target="n4" weight="2.0"/>
+         <edge source="n2" target="n5" weight="4.0">
+            <controlpoint x="7.473" y="0.442"/>
+         </edge>
          <edge source="n4" target="n5" weight="5.0"/>
          <edge source="n1" target="n2" weight="1.0"/>
-         <edge source="n2" target="n4" weight="5.0"/>
-         <edge source="n1" target="n3" weight="4.0"/>
-         <edge source="n4" target="n6" weight="1.0"/>
-         <edge source="n3" target="n4" weight="2.0"/>
-         <edge source="n2" target="n5" weight="4.0"/>
-         <edge source="n3" target="n5" weight="1.0"/>
       </graph>
    </graphml>
 </SingleSourceShortestPath>

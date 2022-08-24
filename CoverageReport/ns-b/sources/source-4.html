@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SyntaxChecker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.parser</a>
+</div>
+
+<h1>Coverage Summary for Class: SyntaxChecker (com.algo.parser)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SyntaxChecker</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.7%
+  </span>
+  <span class="absValue">
+    (1/13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SyntaxChecker$Result</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.1%
+  </span>
+  <span class="absValue">
+    (1/14)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;package com.algo.parser;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;/**
+<i class="no-highlight">6</i>&nbsp; * A syntax checker for strings.
+<i class="no-highlight">7</i>&nbsp; */
+<b class="fc"><i class="no-highlight">8</i>&nbsp;public abstract class SyntaxChecker {</b>
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;    /**
+<i class="no-highlight">11</i>&nbsp;     * Performs a syntax check on the given string.
+<i class="no-highlight">12</i>&nbsp;     *
+<i class="no-highlight">13</i>&nbsp;     * @param toCheck The string to check.
+<i class="no-highlight">14</i>&nbsp;     * @return The result of syntax checking the given string.
+<i class="no-highlight">15</i>&nbsp;     */
+<i class="no-highlight">16</i>&nbsp;    public abstract Result check(String toCheck);
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;    protected Result checkWith(String toCheck,
+<i class="no-highlight">20</i>&nbsp;                               Parser parser) {
+<b class="nc"><i class="no-highlight">21</i>&nbsp;        Result result = new Result();</b>
+<b class="nc"><i class="no-highlight">22</i>&nbsp;        result.hint = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">23</i>&nbsp;        result.syntaxCorrect = false;</b>
+<b class="nc"><i class="no-highlight">24</i>&nbsp;        if (toCheck.isEmpty())</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;            result.syntaxCorrect = true;</b>
+<i class="no-highlight">26</i>&nbsp;        else {
+<i class="no-highlight">27</i>&nbsp;            try {
+<b class="nc"><i class="no-highlight">28</i>&nbsp;                result.syntaxCorrect = parser.test(toCheck) != null;</b>
+<b class="nc"><i class="no-highlight">29</i>&nbsp;            } catch (ParseError e) {</b>
+<b class="nc"><i class="no-highlight">30</i>&nbsp;                result.hint = e.getMessage();</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;            } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;                result.hint = &quot;Parse error&quot;;</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;            }</b>
+<i class="no-highlight">34</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        return result;</b>
+<i class="no-highlight">36</i>&nbsp;    }
+<i class="no-highlight">37</i>&nbsp;
+<i class="no-highlight">38</i>&nbsp;    /**
+<i class="no-highlight">39</i>&nbsp;     * This function should parse the given formula and in case of an error it
+<i class="no-highlight">40</i>&nbsp;     * should throw an exception or return null. Returning a non-null value is
+<i class="no-highlight">41</i>&nbsp;     * interpreted as success.
+<i class="no-highlight">42</i>&nbsp;     *
+<i class="no-highlight">43</i>&nbsp;     * @param &lt;T&gt; The type produced by the parser.
+<i class="no-highlight">44</i>&nbsp;     */
+<i class="no-highlight">45</i>&nbsp;    @FunctionalInterface
+<i class="no-highlight">46</i>&nbsp;    public interface Parser&lt;T&gt; {
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;        T test(String formula) throws Exception;
+<i class="no-highlight">49</i>&nbsp;    }
+<i class="no-highlight">50</i>&nbsp;
+<b class="nc"><i class="no-highlight">51</i>&nbsp;    public static class Result {</b>
+<i class="no-highlight">52</i>&nbsp;
+<i class="no-highlight">53</i>&nbsp;        public String hint;
+<i class="no-highlight">54</i>&nbsp;        public boolean syntaxCorrect;
+<i class="no-highlight">55</i>&nbsp;    }
+<i class="no-highlight">56</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

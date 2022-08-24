@@ -1,0 +1,388 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CYKAlgorithm</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.algorithms.cfg</a>
+</div>
+
+<h1>Coverage Summary for Class: CYKAlgorithm (com.algo.algorithms.cfg)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CYKAlgorithm</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.2%
+  </span>
+  <span class="absValue">
+    (13/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.6%
+  </span>
+  <span class="absValue">
+    (124/152)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CYKAlgorithm$BTreeNode</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    73.7%
+  </span>
+  <span class="absValue">
+    (14/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (126/154)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.algo.algorithms.cfg;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.algo.algorithms.AlgorithmsRunner;
+<i class="no-highlight">4</i>&nbsp;import com.algo.export.CYKAlgorithmsExport;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import java.util.*;
+<i class="no-highlight">7</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">8</i>&nbsp;
+<b class="fc"><i class="no-highlight">9</i>&nbsp;public class CYKAlgorithm extends AlgorithmsRunner {</b>
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;    public static void run(Grammar grammar, final String s, String fileName) throws Exception {
+<b class="fc"><i class="no-highlight">12</i>&nbsp;        int n = s.length();</b>
+<b class="fc"><i class="no-highlight">13</i>&nbsp;        Set&lt;String&gt;[][] memorizationTable = new Set[n][n];</b>
+<b class="fc"><i class="no-highlight">14</i>&nbsp;        CYKAlgorithmsExport CYKAlgorithmsExport = new CYKAlgorithmsExport(grammar);</b>
+<b class="fc"><i class="no-highlight">15</i>&nbsp;        runCYKAlgorithm(grammar, s, n, memorizationTable, CYKAlgorithmsExport);</b>
+<b class="fc"><i class="no-highlight">16</i>&nbsp;        if (!memorizationTable[0][n - 1].contains(grammar.getStart())) {</b>
+<b class="nc"><i class="no-highlight">17</i>&nbsp;            System.out.println(&quot;String (&quot; + s + &quot;) cannot be produced from start node &quot; + grammar.getStart() + &quot; for this CFG.&quot;);</b>
+<i class="no-highlight">18</i>&nbsp;            return;
+<i class="no-highlight">19</i>&nbsp;        }
+<i class="no-highlight">20</i>&nbsp;
+<b class="fc"><i class="no-highlight">21</i>&nbsp;        Set[][] newV = cloneArray(memorizationTable, grammar.getStart());</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;        printMatrix(newV);</b>
+<i class="no-highlight">23</i>&nbsp;
+<b class="fc"><i class="no-highlight">24</i>&nbsp;        List&lt;BTreeNode&gt; bTrees = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">25</i>&nbsp;        generateEncodingTrees(grammar, grammar.getStart(), s, 0,</b>
+<b class="fc"><i class="no-highlight">26</i>&nbsp;                s.length() - 1,</b>
+<i class="no-highlight">27</i>&nbsp;                newV, bTrees);
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        printOutput(grammar, bTrees);</b>
+<i class="no-highlight">29</i>&nbsp;
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        for (BTreeNode root : bTrees) {</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;            StringBuilder tree = new StringBuilder(&quot;[&quot;);</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;            inorderTraversal(root, tree);</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;            CYKAlgorithmsExport.appendEncodingTrees(getEncoding(grammar, root), tree.append(&quot;]&quot;).toString());</b>
+<b class="fc"><i class="no-highlight">34</i>&nbsp;        }</b>
+<i class="no-highlight">35</i>&nbsp;
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        CYKAlgorithmsExport.writeToStream(fileName);</b>
+<i class="no-highlight">37</i>&nbsp;    }
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    private static void printOutput(Grammar grammar, List&lt;BTreeNode&gt; op) {
+<b class="fc"><i class="no-highlight">40</i>&nbsp;        System.out.println(&quot;output&quot;);</b>
+<b class="fc"><i class="no-highlight">41</i>&nbsp;        op.stream().map(node -&gt; getEncoding(grammar, node)).forEach(System.out::println);</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        op.stream().map(node -&gt; {</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;            StringBuilder str = new StringBuilder();</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;            inorderTraversal(node, str);</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;            return str.toString();</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;        }).forEach(System.out::println);</b>
+<i class="no-highlight">47</i>&nbsp;    }
+<i class="no-highlight">48</i>&nbsp;
+<i class="no-highlight">49</i>&nbsp;    public static BTreeNode generateEncodingTrees(Grammar grammar, String start, String s, int startIndex, int endIndex, Set&lt;String&gt;[][] V, List&lt;BTreeNode&gt; op) {
+<b class="fc"><i class="no-highlight">50</i>&nbsp;        System.out.println(&quot;\n\nstart:&quot; + start + &quot; startIndex&quot; + startIndex + &quot; endIndex&quot; + endIndex);</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;        if (startIndex == endIndex) {</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;            BTreeNode node = new BTreeNode(start);</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;            node.left = new BTreeNode(String.valueOf(s.charAt(startIndex)));</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;            System.out.println(s.charAt(startIndex));</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;            return node;</b>
+<i class="no-highlight">56</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">57</i>&nbsp;        for (int i = startIndex; i &lt; endIndex; i++) {</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;            if (!V[startIndex][i].isEmpty() &amp;&amp; !V[i + 1][endIndex].isEmpty()) {</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;                System.out.println(&quot;start:&quot; + start + &quot; startIndex:&quot; + startIndex + &quot; i:&quot; + i + &quot; endIndex:&quot; + endIndex + &quot; &quot; + V[startIndex][i] + &quot;  &quot; + V[i + 1][endIndex]);</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;                Optional&lt;String&gt; ruleOptional = getCombinations(V[startIndex][i], V[i + 1][endIndex], start).stream()</b>
+<b class="fc"><i class="no-highlight">61</i>&nbsp;                        .filter(l -&gt; grammar.getProductionRules().get(start).contains(l))</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;                        .findAny();</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;                System.out.println(&quot;combinations &quot; + ruleOptional);</b>
+<b class="fc"><i class="no-highlight">64</i>&nbsp;                if (ruleOptional.isPresent()) {</b>
+<b class="fc"><i class="no-highlight">65</i>&nbsp;                    BTreeNode node = new BTreeNode(start);</b>
+<b class="fc"><i class="no-highlight">66</i>&nbsp;                    String rule = ruleOptional.get();</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;                    System.out.println(&quot;rule:&quot; + rule);</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;                    node.left = generateEncodingTrees(grammar, rule.substring(0, 1), s,</b>
+<i class="no-highlight">69</i>&nbsp;                            startIndex, i, V, op);
+<b class="fc"><i class="no-highlight">70</i>&nbsp;                    node.right = generateEncodingTrees(grammar, rule.substring(1, 2), s,</b>
+<i class="no-highlight">71</i>&nbsp;                            i + 1, endIndex, V, op);
+<b class="fc"><i class="no-highlight">72</i>&nbsp;                    System.out.println(&quot;\n\n\n&quot;);</b>
+<b class="fc"><i class="no-highlight">73</i>&nbsp;                    if (grammar.getStart().equals(start))</b>
+<b class="fc"><i class="no-highlight">74</i>&nbsp;                        op.add(node);</b>
+<i class="no-highlight">75</i>&nbsp;                    else
+<b class="fc"><i class="no-highlight">76</i>&nbsp;                        return node;</b>
+<i class="no-highlight">77</i>&nbsp;                }
+<i class="no-highlight">78</i>&nbsp;            }
+<i class="no-highlight">79</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">80</i>&nbsp;        return null;</b>
+<i class="no-highlight">81</i>&nbsp;    }
+<i class="no-highlight">82</i>&nbsp;
+<i class="no-highlight">83</i>&nbsp;    static Set&lt;String&gt; getCombinations(Set&lt;String&gt; s1, Set&lt;String&gt; s2, String start) {
+<b class="fc"><i class="no-highlight">84</i>&nbsp;        Set&lt;String&gt; combinations = new HashSet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">85</i>&nbsp;        for (String i : s1) {</b>
+<b class="fc"><i class="no-highlight">86</i>&nbsp;            for (String j : s2) {</b>
+<b class="fc"><i class="no-highlight">87</i>&nbsp;                combinations.add(i + j);</b>
+<b class="fc"><i class="no-highlight">88</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">89</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">90</i>&nbsp;        System.out.println(&quot;getCombinations&quot; + combinations);</b>
+<b class="fc"><i class="no-highlight">91</i>&nbsp;        return combinations;</b>
+<i class="no-highlight">92</i>&nbsp;    }
+<i class="no-highlight">93</i>&nbsp;
+<i class="no-highlight">94</i>&nbsp;
+<i class="no-highlight">95</i>&nbsp;    private static void inorderTraversal(BTreeNode node, StringBuilder str) {
+<b class="fc"><i class="no-highlight">96</i>&nbsp;        if (Objects.isNull(node))</b>
+<i class="no-highlight">97</i>&nbsp;            return;
+<b class="fc"><i class="no-highlight">98</i>&nbsp;        str.append(node.val);</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;        if (Objects.nonNull(node.left))</b>
+<b class="fc"><i class="no-highlight">100</i>&nbsp;            str.append(&quot;[&quot;);</b>
+<b class="fc"><i class="no-highlight">101</i>&nbsp;        inorderTraversal(node.left, str);</b>
+<b class="fc"><i class="no-highlight">102</i>&nbsp;        if (Objects.nonNull(node.left))</b>
+<b class="fc"><i class="no-highlight">103</i>&nbsp;            str.append(&quot;]&quot;);</b>
+<b class="fc"><i class="no-highlight">104</i>&nbsp;        if (Objects.nonNull(node.right))</b>
+<b class="fc"><i class="no-highlight">105</i>&nbsp;            str.append(&quot;[&quot;);</b>
+<b class="fc"><i class="no-highlight">106</i>&nbsp;        inorderTraversal(node.right, str);</b>
+<b class="fc"><i class="no-highlight">107</i>&nbsp;        if (Objects.nonNull(node.right))</b>
+<b class="fc"><i class="no-highlight">108</i>&nbsp;            str.append(&quot;]&quot;);</b>
+<i class="no-highlight">109</i>&nbsp;    }
+<i class="no-highlight">110</i>&nbsp;
+<i class="no-highlight">111</i>&nbsp;    private static String getEncoding(Grammar grammar, BTreeNode node) {
+<b class="fc"><i class="no-highlight">112</i>&nbsp;        StringBuilder preOrderTraversal = new StringBuilder();</b>
+<b class="fc"><i class="no-highlight">113</i>&nbsp;        preOrderTraversal(node, preOrderTraversal, grammar);</b>
+<b class="fc"><i class="no-highlight">114</i>&nbsp;        return preOrderTraversal.toString();</b>
+<i class="no-highlight">115</i>&nbsp;    }
+<i class="no-highlight">116</i>&nbsp;
+<i class="no-highlight">117</i>&nbsp;    public static void preOrderTraversal(BTreeNode node, StringBuilder str, Grammar grammar) {
+<b class="fc"><i class="no-highlight">118</i>&nbsp;        if (Objects.isNull(node))</b>
+<i class="no-highlight">119</i>&nbsp;            return;
+<b class="fc"><i class="no-highlight">120</i>&nbsp;        if (grammar.getTerminals().contains(node.val))</b>
+<b class="fc"><i class="no-highlight">121</i>&nbsp;            str.append(node.val);</b>
+<i class="no-highlight">122</i>&nbsp;        else {
+<b class="fc"><i class="no-highlight">123</i>&nbsp;            boolean brackets = Objects.nonNull(node.left) &amp;&amp; Objects.nonNull(node.right) &amp;&amp; !grammar.getStart().equals(node.val);</b>
+<b class="fc"><i class="no-highlight">124</i>&nbsp;            if (brackets)</b>
+<b class="fc"><i class="no-highlight">125</i>&nbsp;                str.append(&#39;(&#39;);</b>
+<b class="fc"><i class="no-highlight">126</i>&nbsp;            preOrderTraversal(node.left, str, grammar);</b>
+<b class="fc"><i class="no-highlight">127</i>&nbsp;            preOrderTraversal(node.right, str, grammar);</b>
+<b class="fc"><i class="no-highlight">128</i>&nbsp;            if (brackets)</b>
+<b class="fc"><i class="no-highlight">129</i>&nbsp;                str.append(&#39;)&#39;);</b>
+<i class="no-highlight">130</i>&nbsp;        }
+<i class="no-highlight">131</i>&nbsp;    }
+<i class="no-highlight">132</i>&nbsp;
+<i class="no-highlight">133</i>&nbsp;    private static void runCYKAlgorithm(Grammar grammar, String s, int n, Set&lt;String&gt;[][] memoTable, CYKAlgorithmsExport CYKAlgorithmsExport) throws Exception {
+<b class="fc"><i class="no-highlight">134</i>&nbsp;        CYKAlgorithmsExport.appendChildIteration(memoTable);</b>
+<b class="fc"><i class="no-highlight">135</i>&nbsp;        for (int i = 0; i &lt; n; i++) {</b>
+<b class="fc"><i class="no-highlight">136</i>&nbsp;            final int index = i;</b>
+<b class="fc"><i class="no-highlight">137</i>&nbsp;            memoTable[i][i] = grammar.getProductionRules().entrySet().stream()</b>
+<b class="fc"><i class="no-highlight">138</i>&nbsp;                    .filter(e -&gt; e.getValue().contains(String.valueOf(s.charAt(index)))).map(Map.Entry::getKey).collect(Collectors.toSet());</b>
+<i class="no-highlight">139</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">140</i>&nbsp;        for (int b = 0; b &lt; n; b++) {</b>
+<b class="fc"><i class="no-highlight">141</i>&nbsp;            for (int i = 0; i &lt; n - b; i++) {</b>
+<b class="fc"><i class="no-highlight">142</i>&nbsp;                final int k = i + b;</b>
+<b class="fc"><i class="no-highlight">143</i>&nbsp;                if (Objects.isNull(memoTable[i][k]))</b>
+<b class="fc"><i class="no-highlight">144</i>&nbsp;                    memoTable[i][k] = new HashSet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">145</i>&nbsp;                for (int j = i; j &lt; k; j++) {</b>
+<b class="fc"><i class="no-highlight">146</i>&nbsp;                    final int finalI = i, finalJ = j;</b>
+<b class="fc"><i class="no-highlight">147</i>&nbsp;                    for (Map.Entry&lt;String, Set&lt;String&gt;&gt; entry : grammar.getProductionRules().entrySet()) {</b>
+<b class="fc"><i class="no-highlight">148</i>&nbsp;                        String var = entry.getKey();</b>
+<b class="fc"><i class="no-highlight">149</i>&nbsp;                        Set&lt;String&gt; rules = entry.getValue();</b>
+<b class="fc"><i class="no-highlight">150</i>&nbsp;                        for (String production : rules) {</b>
+<b class="fc"><i class="no-highlight">151</i>&nbsp;                            if (grammar.getTerminals().contains(production))</b>
+<b class="fc"><i class="no-highlight">152</i>&nbsp;                                continue;</b>
+<b class="fc"><i class="no-highlight">153</i>&nbsp;                            for (Map.Entry&lt;String, String&gt; e : getCombinations(production)) {</b>
+<b class="fc"><i class="no-highlight">154</i>&nbsp;                                if ((e.getKey().isBlank() || (Objects.nonNull(memoTable[finalI][finalJ]) &amp;&amp; memoTable[finalI][finalJ].contains(e.getKey())))</b>
+<b class="fc"><i class="no-highlight">155</i>&nbsp;                                        &amp;&amp; (e.getValue().isBlank() || (Objects.nonNull(memoTable[finalJ + 1][k]) &amp;&amp; memoTable[finalJ + 1][k].contains(e.getValue())))) {</b>
+<b class="fc"><i class="no-highlight">156</i>&nbsp;                                    if (Objects.isNull(memoTable[finalI][k])) {</b>
+<b class="nc"><i class="no-highlight">157</i>&nbsp;                                        memoTable[finalI][k] = new LinkedHashSet&lt;&gt;();</b>
+<i class="no-highlight">158</i>&nbsp;                                    }
+<b class="fc"><i class="no-highlight">159</i>&nbsp;                                    memoTable[finalI][k].add(var);</b>
+<i class="no-highlight">160</i>&nbsp;                                }
+<b class="fc"><i class="no-highlight">161</i>&nbsp;                            }</b>
+<b class="fc"><i class="no-highlight">162</i>&nbsp;                        }</b>
+<b class="fc"><i class="no-highlight">163</i>&nbsp;                    }</b>
+<i class="no-highlight">164</i>&nbsp;                }
+<i class="no-highlight">165</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">166</i>&nbsp;            CYKAlgorithmsExport.appendChildIteration(memoTable);</b>
+<i class="no-highlight">167</i>&nbsp;        }
+<i class="no-highlight">168</i>&nbsp;    }
+<i class="no-highlight">169</i>&nbsp;
+<i class="no-highlight">170</i>&nbsp;    //TODO Remove this method
+<i class="no-highlight">171</i>&nbsp;    private static Grammar buildGrammar() {
+<b class="nc"><i class="no-highlight">172</i>&nbsp;        Set&lt;String&gt; v = Arrays.stream(&quot;S,A,B,C&quot;.split(&quot;,&quot;)).collect(Collectors.toSet());</b>
+<b class="nc"><i class="no-highlight">173</i>&nbsp;        Set&lt;String&gt; t = Arrays.stream(&quot;a,b&quot;.split(&quot;,&quot;)).collect(Collectors.toSet());</b>
+<i class="no-highlight">174</i>&nbsp;
+<b class="nc"><i class="no-highlight">175</i>&nbsp;        Map&lt;String, Set&lt;String&gt;&gt; pr = Arrays.stream(&quot;S-&gt;AB|BC,A-&gt;BA|a,B-&gt;CC|b,C-&gt;AB|a&quot;.split(&quot;,&quot;))</b>
+<b class="nc"><i class="no-highlight">176</i>&nbsp;                .map(s -&gt; s.split(&quot;-&gt;&quot;))</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;                .map(s -&gt; Map.entry(s[0], new HashSet&lt;&gt;(Arrays.asList(s[1].split(&quot;\\|&quot;)))))</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;                .collect(Collectors.toMap(e -&gt; e.getKey(), e -&gt; e.getValue(), (v1, v2) -&gt; {</b>
+<b class="nc"><i class="no-highlight">179</i>&nbsp;                    v1.addAll(v2);</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;                    return v1;</b>
+<i class="no-highlight">181</i>&nbsp;                }));
+<b class="nc"><i class="no-highlight">182</i>&nbsp;        Grammar grammar = new Grammar(&quot;S&quot;, v, t, pr);</b>
+<b class="nc"><i class="no-highlight">183</i>&nbsp;        return grammar;</b>
+<i class="no-highlight">184</i>&nbsp;    }
+<i class="no-highlight">185</i>&nbsp;
+<i class="no-highlight">186</i>&nbsp;    //TODO Remove this method
+<i class="no-highlight">187</i>&nbsp;    private static void printMatrix(Set[][] V) {
+<b class="fc"><i class="no-highlight">188</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i class="no-highlight">189</i>&nbsp;        for (Set[] t : V) {</b>
+<b class="fc"><i class="no-highlight">190</i>&nbsp;            System.out.println(i++ + &quot; &quot; + Arrays.toString(t));</b>
+<i class="no-highlight">191</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">192</i>&nbsp;        System.out.println();</b>
+<i class="no-highlight">193</i>&nbsp;    }
+<i class="no-highlight">194</i>&nbsp;
+<i class="no-highlight">195</i>&nbsp;
+<i class="no-highlight">196</i>&nbsp;    private static Set&lt;Map.Entry&lt;String, String&gt;&gt; getCombinations(String s) {
+<b class="fc"><i class="no-highlight">197</i>&nbsp;        Set&lt;Map.Entry&lt;String, String&gt;&gt; combinations = new HashSet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">198</i>&nbsp;        for (int i = 0; i &lt; s.length(); i++) {</b>
+<b class="fc"><i class="no-highlight">199</i>&nbsp;            combinations.add(Map.entry(s.substring(0, i), s.substring(i)));</b>
+<i class="no-highlight">200</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">201</i>&nbsp;        return combinations;</b>
+<i class="no-highlight">202</i>&nbsp;    }
+<i class="no-highlight">203</i>&nbsp;
+<i class="no-highlight">204</i>&nbsp;    private static Set&lt;String&gt;[][] cloneArray(Set&lt;String&gt;[][] V, String start) {
+<b class="fc"><i class="no-highlight">205</i>&nbsp;        Set&lt;String&gt;[][] newV = new Set[V.length][V.length];</b>
+<b class="fc"><i class="no-highlight">206</i>&nbsp;        for (int i = 0; i &lt; newV.length; i++)</b>
+<b class="fc"><i class="no-highlight">207</i>&nbsp;            for (int j = 0; j &lt; newV[i].length; j++) {</b>
+<b class="fc"><i class="no-highlight">208</i>&nbsp;                newV[i][j] = V[i][j];</b>
+<b class="fc"><i class="no-highlight">209</i>&nbsp;                if (Objects.nonNull(newV[i][j]))</b>
+<b class="fc"><i class="no-highlight">210</i>&nbsp;                    newV[i][j].remove(start);</b>
+<i class="no-highlight">211</i>&nbsp;            }
+<i class="no-highlight">212</i>&nbsp;
+<b class="fc"><i class="no-highlight">213</i>&nbsp;        return newV;</b>
+<i class="no-highlight">214</i>&nbsp;    }
+<i class="no-highlight">215</i>&nbsp;
+<i class="no-highlight">216</i>&nbsp;    @Override
+<i class="no-highlight">217</i>&nbsp;    public boolean run(Scanner sc) {
+<i class="no-highlight">218</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">219</i>&nbsp;            Grammar grammar = getGrammar(sc);</b>
+<b class="nc"><i class="no-highlight">220</i>&nbsp;            String outputFile = getOutputFile(sc);</b>
+<b class="nc"><i class="no-highlight">221</i>&nbsp;            String inputString = getParsingString(sc);</b>
+<b class="nc"><i class="no-highlight">222</i>&nbsp;            run(grammar, inputString, outputFile);</b>
+<b class="nc"><i class="no-highlight">223</i>&nbsp;            transform(sc, outputFile, true);</b>
+<b class="nc"><i class="no-highlight">224</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">225</i>&nbsp;            System.out.println(&quot;The execution of the algorithm terminates with the following stack trace:&quot;);</b>
+<b class="nc"><i class="no-highlight">226</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;            System.out.println(&quot;Please try again&quot;);</b>
+<b class="nc"><i class="no-highlight">228</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">229</i>&nbsp;        return false;</b>
+<i class="no-highlight">230</i>&nbsp;    }
+<i class="no-highlight">231</i>&nbsp;
+<i class="no-highlight">232</i>&nbsp;    private String getParsingString(Scanner sc) {
+<b class="nc"><i class="no-highlight">233</i>&nbsp;        System.out.println(&quot;Please enter the String to be parsed:&quot;);</b>
+<b class="nc"><i class="no-highlight">234</i>&nbsp;        return sc.nextLine();</b>
+<i class="no-highlight">235</i>&nbsp;    }
+<i class="no-highlight">236</i>&nbsp;
+<i class="no-highlight">237</i>&nbsp;    private Grammar getGrammar(Scanner sc) throws Exception {
+<b class="nc"><i class="no-highlight">238</i>&nbsp;        System.out.println(&quot;Please enter the absolute path for the CFG file&quot;);</b>
+<i class="no-highlight">239</i>&nbsp;
+<b class="nc"><i class="no-highlight">240</i>&nbsp;        String cfgFile = sc.nextLine();</b>
+<b class="nc"><i class="no-highlight">241</i>&nbsp;        return Grammar.loadFromFile(cfgFile.trim());</b>
+<i class="no-highlight">242</i>&nbsp;    }
+<i class="no-highlight">243</i>&nbsp;
+<i class="no-highlight">244</i>&nbsp;    private static class BTreeNode implements Cloneable {
+<i class="no-highlight">245</i>&nbsp;        String val;
+<i class="no-highlight">246</i>&nbsp;        BTreeNode left;
+<i class="no-highlight">247</i>&nbsp;        BTreeNode right;
+<i class="no-highlight">248</i>&nbsp;
+<b class="fc"><i class="no-highlight">249</i>&nbsp;        public BTreeNode(String val) {</b>
+<b class="fc"><i class="no-highlight">250</i>&nbsp;            this.val = val;</b>
+<i class="no-highlight">251</i>&nbsp;        }
+<i class="no-highlight">252</i>&nbsp;    }
+<i class="no-highlight">253</i>&nbsp;
+<i class="no-highlight">254</i>&nbsp;}
+<i class="no-highlight">255</i>&nbsp;
+<i class="no-highlight">256</i>&nbsp;
+<i class="no-highlight">257</i>&nbsp;
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

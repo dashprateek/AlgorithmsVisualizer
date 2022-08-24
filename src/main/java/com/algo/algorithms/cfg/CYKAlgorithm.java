@@ -1,52 +1,42 @@
 package com.algo.algorithms.cfg;
 
 import com.algo.algorithms.AlgorithmsRunner;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import com.algo.export.CYKAlgorithmsExport;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CYKAlgorithm extends AlgorithmsRunner {
 
-    private static final Function<String, Set<String>> rules = s -> new HashSet<>(Arrays.asList(s.split("\\-\\>")[1].split("\\|")));
-    private static final Function<String, String> getVariable = s -> s.substring(0, 1);
-
     public static void run(Grammar grammar, final String s, String fileName) throws Exception {
         int n = s.length();
-        Set<String>[][] V = new Set[n][n];
-        Export export = new Export(grammar);
-        runCYKAlgorithm(grammar, s, n, V, export);
-        if (!V[0][n - 1].contains(grammar.getStart())) {
+        Set<String>[][] memorizationTable = new Set[n][n];
+        CYKAlgorithmsExport CYKAlgorithmsExport = new CYKAlgorithmsExport(grammar);
+        runCYKAlgorithm(grammar, s, n, memorizationTable, CYKAlgorithmsExport);
+        if (!memorizationTable[0][n - 1].contains(grammar.getStart())) {
             System.out.println("String (" + s + ") cannot be produced from start node " + grammar.getStart() + " for this CFG.");
             return;
         }
 
-        Set[][] newV = cloneArray(V, grammar.getStart());
+        Set[][] newV = cloneArray(memorizationTable, grammar.getStart());
         printMatrix(newV);
 
-        List<TreeNode> op = new ArrayList<>();
+        List<BTreeNode> bTrees = new ArrayList<>();
         generateEncodingTrees(grammar, grammar.getStart(), s, 0,
                 s.length() - 1,
-                newV, op);
-        printOutput(grammar, op);
+                newV, bTrees);
+        printOutput(grammar, bTrees);
 
-        for (TreeNode root : op) {
+        for (BTreeNode root : bTrees) {
             StringBuilder tree = new StringBuilder("[");
             inorderTraversal(root, tree);
-            export.appendEncodingTrees(getEncoding(grammar, root), tree.append("]").toString());
+            CYKAlgorithmsExport.appendEncodingTrees(getEncoding(grammar, root), tree.append("]").toString());
         }
 
-        export.writeToStream(fileName);
+        CYKAlgorithmsExport.writeToStream(fileName);
     }
 
-    private static void printOutput(Grammar grammar, List<TreeNode> op) {
+    private static void printOutput(Grammar grammar, List<BTreeNode> op) {
         System.out.println("output");
         op.stream().map(node -> getEncoding(grammar, node)).forEach(System.out::println);
         op.stream().map(node -> {
@@ -56,17 +46,14 @@ public class CYKAlgorithm extends AlgorithmsRunner {
         }).forEach(System.out::println);
     }
 
-    public static TreeNode generateEncodingTrees(Grammar grammar, String start, String s, int startIndex, int endIndex, Set<String>[][] V, List<TreeNode> op) {
-
+    public static BTreeNode generateEncodingTrees(Grammar grammar, String start, String s, int startIndex, int endIndex, Set<String>[][] V, List<BTreeNode> op) {
         System.out.println("\n\nstart:" + start + " startIndex" + startIndex + " endIndex" + endIndex);
         if (startIndex == endIndex) {
-            TreeNode node = new TreeNode(start);
-            node.left = new TreeNode(String.valueOf(s.charAt(startIndex)));
+            BTreeNode node = new BTreeNode(start);
+            node.left = new BTreeNode(String.valueOf(s.charAt(startIndex)));
             System.out.println(s.charAt(startIndex));
             return node;
-
         }
-
         for (int i = startIndex; i < endIndex; i++) {
             if (!V[startIndex][i].isEmpty() && !V[i + 1][endIndex].isEmpty()) {
                 System.out.println("start:" + start + " startIndex:" + startIndex + " i:" + i + " endIndex:" + endIndex + " " + V[startIndex][i] + "  " + V[i + 1][endIndex]);
@@ -75,9 +62,7 @@ public class CYKAlgorithm extends AlgorithmsRunner {
                         .findAny();
                 System.out.println("combinations " + ruleOptional);
                 if (ruleOptional.isPresent()) {
-                    TreeNode node = new TreeNode(start);
-
-
+                    BTreeNode node = new BTreeNode(start);
                     String rule = ruleOptional.get();
                     System.out.println("rule:" + rule);
                     node.left = generateEncodingTrees(grammar, rule.substring(0, 1), s,
@@ -107,12 +92,10 @@ public class CYKAlgorithm extends AlgorithmsRunner {
     }
 
 
-    private static void inorderTraversal(TreeNode node, StringBuilder str) {
+    private static void inorderTraversal(BTreeNode node, StringBuilder str) {
         if (Objects.isNull(node))
             return;
         str.append(node.val);
-
-        boolean brackets = Objects.nonNull(node.left) && Objects.nonNull(node.right);
         if (Objects.nonNull(node.left))
             str.append("[");
         inorderTraversal(node.left, str);
@@ -125,25 +108,21 @@ public class CYKAlgorithm extends AlgorithmsRunner {
             str.append("]");
     }
 
-    private static String getEncoding(Grammar grammar, TreeNode node) {
-        StringBuilder postOrderTraversal = new StringBuilder();
-        preOrderTraversal(node, postOrderTraversal, grammar);
-        return postOrderTraversal.toString();
+    private static String getEncoding(Grammar grammar, BTreeNode node) {
+        StringBuilder preOrderTraversal = new StringBuilder();
+        preOrderTraversal(node, preOrderTraversal, grammar);
+        return preOrderTraversal.toString();
     }
 
-    public static void preOrderTraversal(TreeNode node, StringBuilder str, Grammar grammar) {
+    public static void preOrderTraversal(BTreeNode node, StringBuilder str, Grammar grammar) {
         if (Objects.isNull(node))
             return;
-        if (grammar.getTerminals().contains(node.val)) {
-//            if (!str.toString().isBlank())
-//                str.append(",");
+        if (grammar.getTerminals().contains(node.val))
             str.append(node.val);
-        } else {
+        else {
             boolean brackets = Objects.nonNull(node.left) && Objects.nonNull(node.right) && !grammar.getStart().equals(node.val);
             if (brackets)
-//            if(str.charAt(str.length()-1)!='('){
                 str.append('(');
-//            }
             preOrderTraversal(node.left, str, grammar);
             preOrderTraversal(node.right, str, grammar);
             if (brackets)
@@ -151,51 +130,41 @@ public class CYKAlgorithm extends AlgorithmsRunner {
         }
     }
 
-    private static void runCYKAlgorithm(Grammar grammar, String s, int n, Set<String>[][] V, Export export) throws Exception {
-        export.appendChildIteration(V);
+    private static void runCYKAlgorithm(Grammar grammar, String s, int n, Set<String>[][] memoTable, CYKAlgorithmsExport CYKAlgorithmsExport) throws Exception {
+        CYKAlgorithmsExport.appendChildIteration(memoTable);
         for (int i = 0; i < n; i++) {
             final int index = i;
-            V[i][i] = grammar.getProductionRules().entrySet().stream()
-                    .filter(e -> e.getValue().contains(String.valueOf(s.charAt(index))))
-                    .collect(Collectors.mapping(Map.Entry::getKey, Collectors.toSet()));
+            memoTable[i][i] = grammar.getProductionRules().entrySet().stream()
+                    .filter(e -> e.getValue().contains(String.valueOf(s.charAt(index)))).map(Map.Entry::getKey).collect(Collectors.toSet());
         }
-//        System.out.println("start");
-//        print(V);
         for (int b = 0; b < n; b++) {
             for (int i = 0; i < n - b; i++) {
                 final int k = i + b;
-                if (Objects.isNull(V[i][k]))//Check should be present - report to professor
-                    V[i][k] = new HashSet<>();
-                for (int j = i; j < k; j++) { //report to professor
-//                    System.out.println("i=" + i + " j=" + j + " k=" + k);
-                    int finalI = i;
-                    int finalJ = j;
+                if (Objects.isNull(memoTable[i][k]))
+                    memoTable[i][k] = new HashSet<>();
+                for (int j = i; j < k; j++) {
+                    final int finalI = i, finalJ = j;
                     for (Map.Entry<String, Set<String>> entry : grammar.getProductionRules().entrySet()) {
                         String var = entry.getKey();
                         Set<String> rules = entry.getValue();
                         for (String production : rules) {
                             if (grammar.getTerminals().contains(production))
                                 continue;
-                            for (Map.Entry<String, String> e : combinations(production)) {
-                                if ((e.getKey().isBlank() || (Objects.nonNull(V[finalI][finalJ]) && V[finalI][finalJ].contains(e.getKey())))
-                                        && (e.getValue().isBlank() || (Objects.nonNull(V[finalJ + 1][k]) && V[finalJ + 1][k].contains(e.getValue())))) {
-                                    if (Objects.isNull(V[finalI][k])) {
-                                        V[finalI][k] = new LinkedHashSet<>();
+                            for (Map.Entry<String, String> e : getCombinations(production)) {
+                                if ((e.getKey().isBlank() || (Objects.nonNull(memoTable[finalI][finalJ]) && memoTable[finalI][finalJ].contains(e.getKey())))
+                                        && (e.getValue().isBlank() || (Objects.nonNull(memoTable[finalJ + 1][k]) && memoTable[finalJ + 1][k].contains(e.getValue())))) {
+                                    if (Objects.isNull(memoTable[finalI][k])) {
+                                        memoTable[finalI][k] = new LinkedHashSet<>();
                                     }
-                                    V[finalI][k].add(var);
-//                                    System.out.println("i=" + finalI + " j=" + finalJ + " V[i][k]=" + V[finalI][k] + " l=" + rules + " e= " + e);
+                                    memoTable[finalI][k].add(var);
                                 }
                             }
                         }
                     }
                 }
-//                System.out.println("i=" + i + " k=" + k);
-
-//                print(V);
             }
-            export.appendChildIteration(V);
+            CYKAlgorithmsExport.appendChildIteration(memoTable);
         }
-//        print(V);
     }
 
     //TODO Remove this method
@@ -224,7 +193,7 @@ public class CYKAlgorithm extends AlgorithmsRunner {
     }
 
 
-    private static Set<Map.Entry<String, String>> combinations(String s) {
+    private static Set<Map.Entry<String, String>> getCombinations(String s) {
         Set<Map.Entry<String, String>> combinations = new HashSet<>();
         for (int i = 0; i < s.length(); i++) {
             combinations.add(Map.entry(s.substring(0, i), s.substring(i)));
@@ -252,11 +221,12 @@ public class CYKAlgorithm extends AlgorithmsRunner {
             String inputString = getParsingString(sc);
             run(grammar, inputString, outputFile);
             transform(sc, outputFile, true);
-            return false;
         } catch (Exception e) {
+            System.out.println("The execution of the algorithm terminates with the following stack trace:");
             e.printStackTrace();
-            return true;
+            System.out.println("Please try again");
         }
+        return false;
     }
 
     private String getParsingString(Scanner sc) {
@@ -271,63 +241,16 @@ public class CYKAlgorithm extends AlgorithmsRunner {
         return Grammar.loadFromFile(cfgFile.trim());
     }
 
-    private static class TreeNode implements Cloneable {
+    private static class BTreeNode implements Cloneable {
         String val;
-        TreeNode left;
-        TreeNode right;
+        BTreeNode left;
+        BTreeNode right;
 
-        public TreeNode(String val) {
+        public BTreeNode(String val) {
             this.val = val;
         }
     }
 
-    public static class Export {
-        private final Document doc;
-        private final Element root;
-        private final Element iterations;
-        private final Element encodingTrees;
-
-        public Export(Grammar grammar) throws Exception {
-            doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            root = doc.createElement("cyk");
-            iterations = doc.createElement("iterations");
-            encodingTrees = doc.createElement("encodingTrees");
-            Element gNode = grammar.toXml(doc);
-            root.appendChild(gNode);
-        }
-
-        public void writeToStream(String filename) throws Exception {
-            root.appendChild(iterations);
-            root.appendChild(encodingTrees);
-            doc.appendChild(root);
-            Transformer transformer = (new net.sf.saxon.TransformerFactoryImpl()).newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            StreamResult stream = new StreamResult(filename);
-            transformer.transform(new DOMSource(doc), stream);
-        }
-
-        public void appendChildIteration(Set<String>[][] V) throws Exception {
-            Element iteration = doc.createElement("iteration");
-            Arrays.stream(V).forEach(v -> {
-                Element rNode = doc.createElement("row");
-                String text = Arrays.stream(v).map(Optional::ofNullable)
-                        .map(op -> op.map(String::valueOf).orElse(" "))
-                        .collect(Collectors.joining(";"));
-//                text = text.replaceAll("\\[", "{").replaceAll("]", "}");
-                rNode.setTextContent(text);
-                iteration.appendChild(rNode);
-            });
-            iterations.appendChild(iteration);
-        }
-
-        public void appendEncodingTrees(String encoding, String tree) throws Exception {
-            Element encodingTree = doc.createElement("encodingTree");
-            encodingTree.setAttribute("encoding", encoding);
-            encodingTree.setTextContent(tree);
-            encodingTrees.appendChild(encodingTree);
-        }
-    }
 }
 
 

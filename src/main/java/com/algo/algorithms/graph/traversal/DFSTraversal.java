@@ -2,13 +2,14 @@
  * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
 package com.algo.algorithms.graph.traversal;
 
-import com.algo.algorithms.graph.GraphAlgorithmsRunner;
 import com.algo.annotations.AlgorithmDescription;
 import com.algo.export.GraphTraversalExport;
 import com.algo.structure.DirectedGraph;
 import com.algo.structure.Structure;
 import com.algo.structure.Vertex;
 
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,15 +21,7 @@ import java.util.stream.Collectors;
         text = "The process of visiting (checking and/or updating) each vertex in a graph.",
         url = "https://en.wikipedia.org/wiki/Graph_traversal"
 )
-public class DFSTraversal extends GraphAlgorithmsRunner {
-
-    private static List<Vertex> getNeighbours(Vertex v, boolean directed) {
-        return (directed ? v.getOutgoingNeighbours() : v.getNeighbours())
-                .stream()
-                .distinct()
-                .sorted(Comparator.comparingInt(Vertex::getId))
-                .collect(Collectors.toList());
-    }
+public class DFSTraversal extends GraphTraversalRunner {
 
     public static void run(Structure s, Vertex root, String fileName) throws Exception {
         boolean[] visited = new boolean[s.getVertices().size()];
@@ -54,18 +47,21 @@ public class DFSTraversal extends GraphAlgorithmsRunner {
             stack.pop();
     }
 
+    private static List<Vertex> getNeighbours(Vertex v, boolean directed) {
+        return (directed ? v.getOutgoingNeighbours() : v.getNeighbours())
+                .stream()
+                .distinct()
+                .sorted(Comparator.comparingInt(Vertex::getId))
+                .collect(Collectors.toList());
+    }
+
     @Override
-    public boolean run(Scanner sc) {
-        try {
+    public boolean run(Scanner sc) throws Exception {
             Structure structure = getGraph(sc);
             String outputFile = getOutputFile(sc);
             Vertex source = getSourceVertex(sc, structure);
             run(structure, source, outputFile);
             transform(sc, outputFile, true);
             return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return true;
-        }
     }
 }

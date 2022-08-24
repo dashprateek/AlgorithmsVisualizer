@@ -1,0 +1,223 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Rectangle</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.rendering.shapes</a>
+</div>
+
+<h1>Coverage Summary for Class: Rectangle (com.algo.rendering.shapes)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Rectangle</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/66)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;package com.algo.rendering.shapes;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import com.algo.rendering.GralogColor;
+<i class="no-highlight">7</i>&nbsp;import com.algo.rendering.GralogGraphicsContext;
+<i class="no-highlight">8</i>&nbsp;import com.algo.rendering.Vector2D;
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;public class Rectangle extends RenderingShape {
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;    public Rectangle(SizeBox s) {
+<b class="nc"><i class="no-highlight">13</i>&nbsp;        super(s);</b>
+<i class="no-highlight">14</i>&nbsp;    }
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;    private static double mod360(double alpha) {
+<b class="nc"><i class="no-highlight">17</i>&nbsp;        alpha %= 360;</b>
+<b class="nc"><i class="no-highlight">18</i>&nbsp;        if (alpha &lt; 0) {</b>
+<b class="nc"><i class="no-highlight">19</i>&nbsp;            alpha += 360;</b>
+<i class="no-highlight">20</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">21</i>&nbsp;        return alpha;</b>
+<i class="no-highlight">22</i>&nbsp;    }
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    private static double tan(double alphaInDeg) {
+<b class="nc"><i class="no-highlight">25</i>&nbsp;        return Math.tan(Math.toRadians(alphaInDeg));</b>
+<i class="no-highlight">26</i>&nbsp;    }
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    @Override
+<i class="no-highlight">29</i>&nbsp;    public void render(GralogGraphicsContext gc, Vector2D center, String label, GralogColor strokeColor, GralogColor fillColor) {
+<i class="no-highlight">30</i>&nbsp;        //rendered shape is already given by sizeBox
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        double x1 = center.getX() - sizeBox.width / 2;</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        double y1 = center.getY() - sizeBox.height / 2;</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        double x2 = center.getX() + sizeBox.width / 2;</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        double y2 = center.getY() + sizeBox.height / 2;</b>
+<i class="no-highlight">35</i>&nbsp;
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        gc.fillRectangle(x1, y1, x2, y2, fillColor);</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        gc.strokeRectangle(x1, y1, x2, y2, strokeWidth, strokeColor);</b>
+<i class="no-highlight">38</i>&nbsp;
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        super.render(gc, center, label, strokeColor, fillColor);</b>
+<i class="no-highlight">40</i>&nbsp;    }
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;    @Override
+<i class="no-highlight">43</i>&nbsp;    public boolean containsCoordinate(Vector2D point, Vector2D center) {
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        Vector2D p = point.minus(center); // the point relative to center</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        return Math.abs(p.getX()) &lt; sizeBox.width / 2 &amp;&amp; Math.abs(p.getY()) &lt; sizeBox.height / 2;</b>
+<i class="no-highlight">46</i>&nbsp;    }
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;    @Override
+<i class="no-highlight">49</i>&nbsp;    public Vector2D getEdgePoint(double alpha, Vector2D center) {
+<i class="no-highlight">50</i>&nbsp;        double x;
+<i class="no-highlight">51</i>&nbsp;        double y;
+<b class="nc"><i class="no-highlight">52</i>&nbsp;        double thresholdAngle = Math.toDegrees(Math.atan(sizeBox.height / sizeBox.width));</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;        alpha = alpha % 360;</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        if (alpha &lt;= 0) {</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;            alpha += 360;</b>
+<i class="no-highlight">56</i>&nbsp;        }
+<i class="no-highlight">57</i>&nbsp;
+<b class="nc"><i class="no-highlight">58</i>&nbsp;        if (alpha &lt;= thresholdAngle) {</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;            x = sizeBox.width / 2;</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;            y = tan(alpha) * x;</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        } else if (alpha &lt;= 90) {</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;            alpha = 90 - alpha;</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;            y = sizeBox.height / 2;</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            x = tan(alpha) * y;</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;        } else if (alpha &lt;= 180 - thresholdAngle) {</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;            alpha = alpha - 90;</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;            y = sizeBox.height / 2;</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;            x = -tan(alpha) * y;</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        } else if (alpha &lt;= 180) {</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;            alpha = 180 - alpha;</b>
+<b class="nc"><i class="no-highlight">71</i>&nbsp;            x = -sizeBox.width / 2;</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;            y = tan(alpha) * sizeBox.width / 2;</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;        } else if (alpha &lt;= 180 + thresholdAngle) {</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;            alpha = alpha - 180;</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;            x = -sizeBox.width / 2;</b>
+<b class="nc"><i class="no-highlight">76</i>&nbsp;            y = tan(alpha) * x;</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;        } else if (alpha &lt;= 270) {</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;            alpha = 270 - alpha;</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;            y = -sizeBox.height / 2;</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;            x = tan(alpha) * y;</b>
+<b class="nc"><i class="no-highlight">81</i>&nbsp;        } else if (alpha &lt;= 360 - thresholdAngle) {</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;            alpha = alpha - 270;</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;            y = -sizeBox.height / 2;</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;            x = tan(alpha) * sizeBox.height / 2;</b>
+<i class="no-highlight">85</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">86</i>&nbsp;            alpha = 360 - alpha;</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;            x = sizeBox.width / 2;</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;            y = -tan(alpha) * x;</b>
+<i class="no-highlight">89</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">90</i>&nbsp;        return new Vector2D(x, y).plus(center);</b>
+<i class="no-highlight">91</i>&nbsp;    }
+<i class="no-highlight">92</i>&nbsp;
+<i class="no-highlight">93</i>&nbsp;    @Override
+<i class="no-highlight">94</i>&nbsp;    public Vector2D getIntersection(Vector2D a, Vector2D b, Vector2D center) {
+<b class="nc"><i class="no-highlight">95</i>&nbsp;        final double mainLineAngle = a.minus(b).theta();</b>
+<i class="no-highlight">96</i>&nbsp;
+<i class="no-highlight">97</i>&nbsp;        //line from b to first corner
+<b class="nc"><i class="no-highlight">98</i>&nbsp;        final Vector2D corner1 = center.plus(sizeBox.width / 2, sizeBox.height / 2);</b>
+<b class="nc"><i class="no-highlight">99</i>&nbsp;        final Vector2D corner2 = center.plus(-sizeBox.width / 2, sizeBox.height / 2);</b>
+<b class="nc"><i class="no-highlight">100</i>&nbsp;        final Vector2D corner3 = center.plus(-sizeBox.width / 2, -sizeBox.height / 2);</b>
+<b class="nc"><i class="no-highlight">101</i>&nbsp;        final Vector2D corner4 = center.plus(sizeBox.width / 2, -sizeBox.height / 2);</b>
+<i class="no-highlight">102</i>&nbsp;
+<i class="no-highlight">103</i>&nbsp;        //if line is between corner 4 and 1
+<b class="nc"><i class="no-highlight">104</i>&nbsp;        if (mainLineAngle &lt; corner1.minus(b).theta() || mainLineAngle &gt; corner4.minus(b).theta()) {</b>
+<b class="nc"><i class="no-highlight">105</i>&nbsp;            double t = (corner1.getX() - a.getX()) / (b.getX() - a.getX());</b>
+<b class="nc"><i class="no-highlight">106</i>&nbsp;            return a.plus(b.minus(a).multiply(t));</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;        } else if (mainLineAngle &lt; corner2.minus(b).theta()) { //if line is between corner 1 and 2</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;            double t = (corner1.getY() - a.getY()) / (b.getY() - a.getY());</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;            return a.plus(b.minus(a).multiply(t));</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;        } else if (mainLineAngle &lt; corner3.minus(b).theta()) { //if line is between corner 2 and 3</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;            double t = (corner2.getX() - a.getX()) / (b.getX() - a.getX());</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;            return a.plus(b.minus(a).multiply(t));</b>
+<i class="no-highlight">113</i>&nbsp;        } else { //if line is between corner 3 and 4
+<b class="nc"><i class="no-highlight">114</i>&nbsp;            double t = (corner3.getY() - a.getY()) / (b.getY() - a.getY());</b>
+<b class="nc"><i class="no-highlight">115</i>&nbsp;            return a.plus(b.minus(a).multiply(t));</b>
+<i class="no-highlight">116</i>&nbsp;        }
+<i class="no-highlight">117</i>&nbsp;    }
+<i class="no-highlight">118</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

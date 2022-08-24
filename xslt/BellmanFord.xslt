@@ -4,25 +4,27 @@
         <xsl:call-template name="import"/>
         \begin{document}
         <xsl:variable name="root" select="SingleSourceShortestPath"/>
+        \begin{frame}
+        \frametitle{Bellman-Ford Algorithm : Input}
+        \begin{center}
         <xsl:call-template name="create_graph">
             <xsl:with-param name="root" select="$root"/>
         </xsl:call-template>
-
+        \end{center}
+        \end{frame}
         <xsl:for-each select="$root/iterations/shortestPath">
+            \begin{frame}
+            \frametitle{Bellman-Ford Algorithm : Iteration <xsl:value-of select="position()"/> }
+            \begin{center}
             <xsl:variable name="shortestPathIndex" select="position()"/>
-            <xsl:variable name="queuedElements">
-                <xsl:for-each select="$root/iterations/shortestPath[position()&lt;=($shortestPathIndex)]">
-                    <xsl:value-of select="concat('|',@queuedElement,'|')"/>
-                </xsl:for-each>
-            </xsl:variable>
             <xsl:call-template name="create_graph">
-                <xsl:with-param name="queuedElements" select="$queuedElements"/>
                 <xsl:with-param name="pathSet" select="path"/>
                 <xsl:with-param name="shortestPathIndex" select="$shortestPathIndex"/>
                 <xsl:with-param name="root" select="$root"/>
             </xsl:call-template>
+            \end{center}
+            \end{frame}
         </xsl:for-each>
-
         \end{document}
     </xsl:template>
 
@@ -30,7 +32,6 @@
 
     <xsl:template name="create_graph">
         <xsl:param name="root"/>
-        <xsl:param name="queuedElements" select="''"/>
         <xsl:param name="shortestPathIndex" select="-1"/>
         <xsl:param name="shortestPathSet" select="$root/iterations/shortestPath[position()&lt;=($shortestPathIndex)]"/>
         <xsl:param name="pathSet" select="node()"/>
@@ -50,7 +51,6 @@
         \tikzset{quadratic bezier/.style={ to path={(\tikztostart) .. controls($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$).. (\tikztotarget)}}}
         <xsl:for-each select="$root/graphml/graph/node">
             <xsl:call-template name="create_node">
-                <xsl:with-param name="queuedElements" select="$queuedElements"/>
                 <xsl:with-param name="pathSet" select="$pathSet"/>
                 <xsl:with-param name="print_label" select="$print_label"/>
             </xsl:call-template>
@@ -73,22 +73,16 @@
     </xsl:template>
 
     <xsl:template name = "create_node" >
-        <xsl:param name="queuedElements"/>
         <xsl:param name="pathSet"/>
         <xsl:param name="pos" select="position()"/>
         <xsl:param name="print_label" select="true()"/>
         <xsl:param name="distance_from_source" select="$pathSet[position()=$pos]/@distance"/>
         <xsl:variable name="style">node_style</xsl:variable>
-<!--            <xsl:choose>-->
-<!--                <xsl:when test="contains($queuedElements,concat('|',@label,'|'))">selected_node_style</xsl:when>-->
-<!--                <xsl:otherwise>node_style</xsl:otherwise>-->
-<!--            </xsl:choose>-->
-
-<!--        </xsl:variable>-->
         <xsl:variable name="distLabel">
             <xsl:if test="$print_label = true()">,label={[text=blue]10:$<xsl:value-of select="$distance_from_source"/>$}</xsl:if>
         </xsl:variable>
-        \node [<xsl:value-of select="concat($style,$distLabel)"/>](<xsl:value-of select="@id"/>) at (<xsl:value-of select="concat(@x,',',@y)"/>) {<xsl:value-of select="@label"/>};</xsl:template>
+        \node [<xsl:value-of select="concat($style,$distLabel,'](',@id,') at (',@x,',',@y,') {',@label,'};')"/>
+    </xsl:template>
 
     <xsl:template name = "create_edge" >
         <xsl:param name="label"/>
@@ -98,12 +92,14 @@
                     <xsl:when test="count(controlpoint)=2">
                         <xsl:variable name="cp1" select="controlpoint[position()=1]"/>
                         <xsl:variable name="cp2" select="controlpoint[position()=2]"/>
-                        <xsl:value-of select="concat('\draw [',$label,'] (',@source,') .. controls (',$cp1/@x,',',$cp1/@y,') and (',$cp2/@x,',',$cp2/@y,') .. node [edge_node_style] {$',@weight,'$} (',@target)"/>);
+                        <xsl:value-of select="concat('\draw [',$label,'] (',@source,') .. controls (',$cp1/@x,',',$cp1/@y,') and (',$cp2/@x,',',$cp2/@y,
+                            ') .. node [edge_node_style] {$',@weight,'$} (',@target)"/>);
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:variable name="crtl" select="concat('crtl',position())"/>
                         <xsl:value-of select="concat('\coordinate (',$crtl,')  at (',controlpoint/@x,',',controlpoint/@y)"/>);
-                        <xsl:value-of select="concat('\draw [',$label,'] (',@source,') .. controls($(',$crtl,')!1/3!(',@source,')$) and ($(',$crtl,')!1/3!(',@target,')$).. node [edge_node_style] {$',@weight,'$} (',@target)"/>);
+                        <xsl:value-of select="concat('\draw [',$label,'] (',@source,') .. controls($(',$crtl,')!1/3!(',@source,
+                            ')$) and ($(',$crtl,')!1/3!(',@target,')$).. node [edge_node_style] {$',@weight,'$} (',@target)"/>);
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>

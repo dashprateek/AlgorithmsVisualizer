@@ -1,0 +1,200 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Cycle</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.rendering.shapes</a>
+</div>
+
+<h1>Coverage Summary for Class: Cycle (com.algo.rendering.shapes)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cycle</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;package com.algo.rendering.shapes;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import com.algo.rendering.GralogColor;
+<i class="no-highlight">7</i>&nbsp;import com.algo.rendering.GralogGraphicsContext;
+<i class="no-highlight">8</i>&nbsp;import com.algo.rendering.Vector2D;
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;public class Cycle extends RenderingShape {
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;    public Cycle(SizeBox s) {
+<b class="nc"><i class="no-highlight">13</i>&nbsp;        super(s);</b>
+<i class="no-highlight">14</i>&nbsp;    }
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;    public static Cycle create(double radius) {
+<b class="nc"><i class="no-highlight">17</i>&nbsp;        return new Cycle(new SizeBox(radius, radius));</b>
+<i class="no-highlight">18</i>&nbsp;    }
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    public void setRadius(double radius) {
+<b class="nc"><i class="no-highlight">21</i>&nbsp;        sizeBox.width = Math.min(radius, MAX_WIDTH);</b>
+<b class="nc"><i class="no-highlight">22</i>&nbsp;        sizeBox.height = Math.min(radius, MAX_HEIGHT);</b>
+<i class="no-highlight">23</i>&nbsp;    }
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;    @Override
+<i class="no-highlight">26</i>&nbsp;    public void render(GralogGraphicsContext gc, Vector2D center, String label, GralogColor strokeColor, GralogColor fillColor) {
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        gc.strokeOval(center, sizeBox.width - strokeWidth,</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;                sizeBox.width - strokeWidth, strokeWidth, strokeColor);</b>
+<b class="nc"><i class="no-highlight">29</i>&nbsp;        gc.fillOval(center, sizeBox.width - 2 * strokeWidth,</b>
+<b class="nc"><i class="no-highlight">30</i>&nbsp;                sizeBox.width - 2 * strokeWidth, fillColor);</b>
+<i class="no-highlight">31</i>&nbsp;
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        super.render(gc, center, label, strokeColor, fillColor);</b>
+<i class="no-highlight">33</i>&nbsp;    }
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;    @Override
+<i class="no-highlight">36</i>&nbsp;    public boolean containsCoordinate(Vector2D point, Vector2D center) {
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        Vector2D p = point.minus(center); // the point relative to center</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        double a = sizeBox.width * sizeBox.width / 4;</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        return (p.getX() * p.getX()) / a + (p.getY() * p.getY()) / a &lt; 1;</b>
+<i class="no-highlight">40</i>&nbsp;    }
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;    @Override
+<i class="no-highlight">43</i>&nbsp;    public Vector2D getEdgePoint(double alpha, Vector2D center) {
+<i class="no-highlight">44</i>&nbsp;        //TODO: also for cycle
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        alpha = Math.toRadians(alpha);</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;        return new Vector2D(sizeBox.width / 2 * Math.cos(alpha),</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;                sizeBox.height / 2 * Math.sin(alpha)).plus(center);</b>
+<i class="no-highlight">48</i>&nbsp;    }
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;    @Override
+<i class="no-highlight">51</i>&nbsp;    public Vector2D getIntersection(Vector2D a, Vector2D b, Vector2D center) {
+<i class="no-highlight">52</i>&nbsp;        //TODO: Ellipse-Function! Shorten for cycle
+<i class="no-highlight">53</i>&nbsp;        //move origin to center
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        a = a.minus(center);</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;        b = b.minus(center);</b>
+<i class="no-highlight">56</i>&nbsp;        //parameters that define the ellipse
+<b class="nc"><i class="no-highlight">57</i>&nbsp;        final double w2 = Math.pow(sizeBox.width, 2);</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;        final double h2 = Math.pow(sizeBox.height, 2);</b>
+<i class="no-highlight">59</i>&nbsp;
+<i class="no-highlight">60</i>&nbsp;        //slope
+<i class="no-highlight">61</i>&nbsp;        double d;
+<i class="no-highlight">62</i>&nbsp;
+<b class="nc"><i class="no-highlight">63</i>&nbsp;        if (a.getX() != b.getX()) {</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            d = (a.getY() - b.getY()) / (a.getX() - b.getX());</b>
+<i class="no-highlight">65</i>&nbsp;        } else {
+<i class="no-highlight">66</i>&nbsp;            //special case where a is on top or below b
+<b class="nc"><i class="no-highlight">67</i>&nbsp;            double y = Math.signum(a.getY()) * Math.sqrt(h2 / 4 - a.getX() * a.getX() * h2 / w2);</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;            return new Vector2D(a.getX(), y).plus(center);</b>
+<i class="no-highlight">69</i>&nbsp;        }
+<i class="no-highlight">70</i>&nbsp;
+<i class="no-highlight">71</i>&nbsp;        //constant factor for linear function of a + (b-a)t
+<i class="no-highlight">72</i>&nbsp;        double c;
+<i class="no-highlight">73</i>&nbsp;
+<b class="nc"><i class="no-highlight">74</i>&nbsp;        if (b.getX() != 0) {</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;            c = b.getY() - (d * b.getX());</b>
+<i class="no-highlight">76</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">77</i>&nbsp;            c = b.getY();</b>
+<i class="no-highlight">78</i>&nbsp;        }
+<i class="no-highlight">79</i>&nbsp;
+<i class="no-highlight">80</i>&nbsp;        //pq formula
+<b class="nc"><i class="no-highlight">81</i>&nbsp;        double bracketTerm = (4 / w2 + 4 * d * d / h2);</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;        double p = (8 * d * c) / (bracketTerm * h2);</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;        double q = (4 * c * c * (1 / h2) - 1) / bracketTerm;</b>
+<i class="no-highlight">84</i>&nbsp;
+<b class="nc"><i class="no-highlight">85</i>&nbsp;        double sqrt = Math.sqrt(p * p / 4 - q);</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;        double x1 = -p / 2 + sqrt;</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;        double x2 = -p / 2 - sqrt;</b>
+<i class="no-highlight">88</i>&nbsp;
+<b class="nc"><i class="no-highlight">89</i>&nbsp;        if (Math.abs(x1 - a.getX()) &lt; Math.abs(x2 - a.getX())) {</b>
+<b class="nc"><i class="no-highlight">90</i>&nbsp;            return new Vector2D(x1, d * x1 + c).plus(center);</b>
+<i class="no-highlight">91</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">92</i>&nbsp;            return new Vector2D(x2, d * x2 + c).plus(center);</b>
+<i class="no-highlight">93</i>&nbsp;        }
+<i class="no-highlight">94</i>&nbsp;    }
+<i class="no-highlight">95</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

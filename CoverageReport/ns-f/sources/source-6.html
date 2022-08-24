@@ -1,0 +1,1487 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Structure</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.structure</a>
+</div>
+
+<h1>Coverage Summary for Class: Structure (com.algo.structure)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Structure</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (24/72)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    36%
+  </span>
+  <span class="absValue">
+    (198/550)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Structure$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Structure$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Structure$Interval</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Structure$Pair</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.7%
+  </span>
+  <span class="absValue">
+    (8/11)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    39%
+  </span>
+  <span class="absValue">
+    (32/82)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37.4%
+  </span>
+  <span class="absValue">
+    (213/569)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;package com.algo.structure;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import com.algo.annotations.StructureDescription;
+<i class="no-highlight">6</i>&nbsp;import com.algo.config.Configuration;
+<i class="no-highlight">7</i>&nbsp;import com.algo.plugins.PluginManager;
+<i class="no-highlight">8</i>&nbsp;import com.algo.plugins.XmlMarshallable;
+<i class="no-highlight">9</i>&nbsp;import com.algo.plugins.XmlName;
+<i class="no-highlight">10</i>&nbsp;import com.algo.rendering.Vector2D;
+<i class="no-highlight">11</i>&nbsp;import com.algo.utility.DeepCopy;
+<i class="no-highlight">12</i>&nbsp;import org.w3c.dom.Document;
+<i class="no-highlight">13</i>&nbsp;import org.w3c.dom.Element;
+<i class="no-highlight">14</i>&nbsp;import org.w3c.dom.Node;
+<i class="no-highlight">15</i>&nbsp;import org.w3c.dom.NodeList;
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;import javax.xml.parsers.DocumentBuilder;
+<i class="no-highlight">18</i>&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+<i class="no-highlight">19</i>&nbsp;import javax.xml.transform.OutputKeys;
+<i class="no-highlight">20</i>&nbsp;import javax.xml.transform.Transformer;
+<i class="no-highlight">21</i>&nbsp;import javax.xml.transform.TransformerFactory;
+<i class="no-highlight">22</i>&nbsp;import javax.xml.transform.dom.DOMSource;
+<i class="no-highlight">23</i>&nbsp;import javax.xml.transform.stream.StreamResult;
+<i class="no-highlight">24</i>&nbsp;import java.awt.geom.Rectangle2D;
+<i class="no-highlight">25</i>&nbsp;import java.io.FileInputStream;
+<i class="no-highlight">26</i>&nbsp;import java.io.InputStream;
+<i class="no-highlight">27</i>&nbsp;import java.io.StringWriter;
+<i class="no-highlight">28</i>&nbsp;import java.util.*;
+<i class="no-highlight">29</i>&nbsp;import java.util.concurrent.ThreadLocalRandom;
+<i class="no-highlight">30</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;/**
+<i class="no-highlight">33</i>&nbsp; *
+<i class="no-highlight">34</i>&nbsp; */
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;@XmlName(name = &quot;graph&quot;)
+<i class="no-highlight">37</i>&nbsp;public abstract class Structure&lt;V extends Vertex, E extends Edge&gt; extends XmlMarshallable {
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    //    private final Set&lt;StructureListener&gt; listeners = new HashSet&lt;&gt;();
+<i class="no-highlight">40</i>&nbsp;    public TreeSet&lt;Interval&gt; vertexIdHoles;
+<i class="no-highlight">41</i>&nbsp;    public TreeSet&lt;Interval&gt; edgeIdHoles;
+<i class="no-highlight">42</i>&nbsp;    protected HashMap&lt;Integer, V&gt; vertices;
+<i class="no-highlight">43</i>&nbsp;    protected HashMap&lt;Integer, E&gt; edges;
+<i class="no-highlight">44</i>&nbsp;    //File IO
+<b class="fc"><i class="no-highlight">45</i>&nbsp;    private boolean isOpenFile = false;</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;    private String structureFilePath = &quot;&quot;;</b>
+<i class="no-highlight">47</i>&nbsp;
+<b class="fc"><i class="no-highlight">48</i>&nbsp;    public Structure() {</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        vertices = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">50</i>&nbsp;        edges = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;        vertexIdHoles = new TreeSet&lt;&gt;(new Comparator&lt;&gt;() {</b>
+<i class="no-highlight">52</i>&nbsp;            /**
+<i class="no-highlight">53</i>&nbsp;             * Returns a positive value if number1 is larger than number 2, a
+<i class="no-highlight">54</i>&nbsp;             * negative number if number1 is less than number2, and 0 if they
+<i class="no-highlight">55</i>&nbsp;             * are equal.
+<i class="no-highlight">56</i>&nbsp;             */
+<i class="no-highlight">57</i>&nbsp;            public int compare(Interval first, Interval second) {
+<b class="fc"><i class="no-highlight">58</i>&nbsp;                return first.a - second.a;</b>
+<i class="no-highlight">59</i>&nbsp;            }
+<i class="no-highlight">60</i>&nbsp;        });
+<b class="fc"><i class="no-highlight">61</i>&nbsp;        edgeIdHoles = new TreeSet&lt;&gt;(new Comparator&lt;&gt;() {</b>
+<i class="no-highlight">62</i>&nbsp;            /**
+<i class="no-highlight">63</i>&nbsp;             * Returns a positive value if number1 is larger than number 2, a
+<i class="no-highlight">64</i>&nbsp;             * negative number if number1 is less than number2, and 0 if they
+<i class="no-highlight">65</i>&nbsp;             * are equal.
+<i class="no-highlight">66</i>&nbsp;             */
+<i class="no-highlight">67</i>&nbsp;            public int compare(Interval first, Interval second) {
+<b class="fc"><i class="no-highlight">68</i>&nbsp;                return first.a - second.a;</b>
+<i class="no-highlight">69</i>&nbsp;            }
+<i class="no-highlight">70</i>&nbsp;        });
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        vertexIdHoles.add(new Interval(0, Integer.MAX_VALUE));</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;        edgeIdHoles.add(new Interval(0, Integer.MAX_VALUE));</b>
+<i class="no-highlight">73</i>&nbsp;    }
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;    protected static String pythonifyClass(Class c) {
+<b class="nc"><i class="no-highlight">76</i>&nbsp;        if (c == String.class) {</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;            return &quot;string&quot;;</b>
+<i class="no-highlight">78</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">79</i>&nbsp;        if (c == Integer.class || c == int.class) {</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;            return &quot;int&quot;;</b>
+<i class="no-highlight">81</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">82</i>&nbsp;        if (c == Double.class || c == double.class) {</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;            return &quot;float&quot;;</b>
+<i class="no-highlight">84</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">85</i>&nbsp;        if (c == Boolean.class || c == boolean.class) {</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;            return &quot;bool&quot;;</b>
+<i class="no-highlight">87</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">88</i>&nbsp;        return &quot;notAPythonifiableClass&quot;;</b>
+<i class="no-highlight">89</i>&nbsp;    }
+<i class="no-highlight">90</i>&nbsp;
+<i class="no-highlight">91</i>&nbsp;    private static boolean rectContainsVector(Rectangle2D rect, Vector2D c) {
+<b class="nc"><i class="no-highlight">92</i>&nbsp;        return rect.contains(c.getX(), c.getY());</b>
+<i class="no-highlight">93</i>&nbsp;    }
+<i class="no-highlight">94</i>&nbsp;
+<i class="no-highlight">95</i>&nbsp;    private static boolean checkContainsAnyX(Vector2D[] vectors, Rectangle2D rect) {
+<b class="nc"><i class="no-highlight">96</i>&nbsp;        for (int i = 0; i &lt; vectors.length; i++) {</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;            if (vectors[i] != null) {</b>
+<b class="nc"><i class="no-highlight">98</i>&nbsp;                if (rect.getMinX() &lt; vectors[i].getX()</b>
+<b class="nc"><i class="no-highlight">99</i>&nbsp;                        &amp;&amp; rect.getMaxX() &gt; vectors[i].getX()) {</b>
+<b class="nc"><i class="no-highlight">100</i>&nbsp;                    return true;</b>
+<i class="no-highlight">101</i>&nbsp;                }
+<i class="no-highlight">102</i>&nbsp;            }
+<i class="no-highlight">103</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">104</i>&nbsp;        return false;</b>
+<i class="no-highlight">105</i>&nbsp;    }
+<i class="no-highlight">106</i>&nbsp;
+<i class="no-highlight">107</i>&nbsp;    private static boolean checkContainsAnyY(Vector2D[] vectors, Rectangle2D rect) {
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        for (int i = 0; i &lt; vectors.length; i++) {</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;            if (vectors[i] != null) {</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;                if (rect.getMinY() &lt; vectors[i].getY()</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;                        &amp;&amp; rect.getMaxY() &gt; vectors[i].getY()) {</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;                    return true;</b>
+<i class="no-highlight">113</i>&nbsp;                }
+<i class="no-highlight">114</i>&nbsp;            }
+<i class="no-highlight">115</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">116</i>&nbsp;        return false;</b>
+<i class="no-highlight">117</i>&nbsp;    }
+<i class="no-highlight">118</i>&nbsp;
+<i class="no-highlight">119</i>&nbsp;    public static Structure loadFromFile(String fileName) throws Exception {
+<b class="fc"><i class="no-highlight">120</i>&nbsp;        return loadFromStream(new FileInputStream(fileName));</b>
+<i class="no-highlight">121</i>&nbsp;    }
+<i class="no-highlight">122</i>&nbsp;
+<i class="no-highlight">123</i>&nbsp;    public static Structure loadFromStream(InputStream stream) throws Exception {
+<b class="fc"><i class="no-highlight">124</i>&nbsp;        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="fc"><i class="no-highlight">125</i>&nbsp;        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();</b>
+<b class="fc"><i class="no-highlight">126</i>&nbsp;        Document doc = dBuilder.parse(stream);</b>
+<b class="fc"><i class="no-highlight">127</i>&nbsp;        doc.getDocumentElement().normalize();</b>
+<b class="fc"><i class="no-highlight">128</i>&nbsp;        Element root = doc.getDocumentElement();</b>
+<b class="fc"><i class="no-highlight">129</i>&nbsp;        if (!root.getTagName().equalsIgnoreCase(&quot;graphml&quot;))</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;            throw new Exception(&quot;Not a GraphML file&quot;);</b>
+<i class="no-highlight">131</i>&nbsp;
+<b class="fc"><i class="no-highlight">132</i>&nbsp;        NodeList children = root.getChildNodes();</b>
+<b class="fc"><i class="no-highlight">133</i>&nbsp;        for (int i = children.getLength() - 1; i &gt;= 0; --i) {</b>
+<b class="fc"><i class="no-highlight">134</i>&nbsp;            Node childNode = children.item(i);</b>
+<b class="fc"><i class="no-highlight">135</i>&nbsp;            if (childNode.getNodeType() != Node.ELEMENT_NODE)</b>
+<b class="fc"><i class="no-highlight">136</i>&nbsp;                continue;</b>
+<b class="fc"><i class="no-highlight">137</i>&nbsp;            Element child = (Element) childNode;</b>
+<b class="fc"><i class="no-highlight">138</i>&nbsp;            String className = child.getTagName();        // catch additional</b>
+<i class="no-highlight">139</i>&nbsp;            // tag name(should be type) = buechiautomat/automaton if existent
+<b class="fc"><i class="no-highlight">140</i>&nbsp;            if (child.hasAttribute(&quot;type&quot;)) {</b>
+<b class="fc"><i class="no-highlight">141</i>&nbsp;                className = child.getAttribute(&quot;type&quot;);</b>
+<i class="no-highlight">142</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">143</i>&nbsp;                if (child.hasAttribute(&quot;edgedefault&quot;)) {</b>
+<b class="nc"><i class="no-highlight">144</i>&nbsp;                    if (child.getAttribute(&quot;edgedefault&quot;).equals(&quot;directed&quot;)) {</b>
+<b class="nc"><i class="no-highlight">145</i>&nbsp;                        className = &quot;digraph&quot;;</b>
+<i class="no-highlight">146</i>&nbsp;                    }
+<i class="no-highlight">147</i>&nbsp;                }
+<i class="no-highlight">148</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">149</i>&nbsp;            Object result = PluginManager.instantiateClass(className);</b>
+<b class="fc"><i class="no-highlight">150</i>&nbsp;            if (result == null)</b>
+<b class="nc"><i class="no-highlight">151</i>&nbsp;                continue;</b>
+<b class="fc"><i class="no-highlight">152</i>&nbsp;            if (result instanceof Structure) {</b>
+<b class="fc"><i class="no-highlight">153</i>&nbsp;                ((Structure) result).fromXml(child);</b>
+<b class="fc"><i class="no-highlight">154</i>&nbsp;                return (Structure) result;</b>
+<i class="no-highlight">155</i>&nbsp;            }
+<i class="no-highlight">156</i>&nbsp;        }
+<i class="no-highlight">157</i>&nbsp;
+<b class="nc"><i class="no-highlight">158</i>&nbsp;        return null;</b>
+<i class="no-highlight">159</i>&nbsp;    }
+<i class="no-highlight">160</i>&nbsp;
+<i class="no-highlight">161</i>&nbsp;    public boolean isEmpty() {
+<b class="nc"><i class="no-highlight">162</i>&nbsp;        return vertices.size() + edges.size() == 0;</b>
+<i class="no-highlight">163</i>&nbsp;    }
+<i class="no-highlight">164</i>&nbsp;
+<i class="no-highlight">165</i>&nbsp;    /**
+<i class="no-highlight">166</i>&nbsp;     * @return An unmodifiable set of vertices.
+<i class="no-highlight">167</i>&nbsp;     */
+<i class="no-highlight">168</i>&nbsp;    //public Set&lt;V&gt; getVertices() { return Collections.unmodifiableSet(vertices); }
+<i class="no-highlight">169</i>&nbsp;    public Collection&lt;V&gt; getVertices() {
+<b class="fc"><i class="no-highlight">170</i>&nbsp;        return vertices.values();</b>
+<i class="no-highlight">171</i>&nbsp;    }
+<i class="no-highlight">172</i>&nbsp;
+<i class="no-highlight">173</i>&nbsp;    /**
+<i class="no-highlight">174</i>&nbsp;     * @return A pseudo-randommly selected vertrex.
+<i class="no-highlight">175</i>&nbsp;     */
+<i class="no-highlight">176</i>&nbsp;    public Edge getRandomEdge() {
+<b class="nc"><i class="no-highlight">177</i>&nbsp;        ArrayList&lt;Edge&gt; edges = new ArrayList&lt;Edge&gt;(this.getEdges());</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;        int randomEdgeIndex = ThreadLocalRandom.current().nextInt(0, edges.size());</b>
+<b class="nc"><i class="no-highlight">179</i>&nbsp;        Edge edge = edges.get(randomEdgeIndex);</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;        return edge;</b>
+<i class="no-highlight">181</i>&nbsp;    }
+<i class="no-highlight">182</i>&nbsp;
+<i class="no-highlight">183</i>&nbsp;    /**
+<i class="no-highlight">184</i>&nbsp;     * @return A pseudo-randommly selected vertrex.
+<i class="no-highlight">185</i>&nbsp;     */
+<i class="no-highlight">186</i>&nbsp;    public Vertex getRandomVertex() {
+<b class="nc"><i class="no-highlight">187</i>&nbsp;        ArrayList&lt;Vertex&gt; vertices = new ArrayList&lt;Vertex&gt;(this.getVertices());</b>
+<b class="nc"><i class="no-highlight">188</i>&nbsp;        int randomVertexIndex = ThreadLocalRandom.current().nextInt(0, vertices.size());</b>
+<b class="nc"><i class="no-highlight">189</i>&nbsp;        Vertex vertex = vertices.get(randomVertexIndex);</b>
+<b class="nc"><i class="no-highlight">190</i>&nbsp;        return vertex;</b>
+<i class="no-highlight">191</i>&nbsp;    }
+<i class="no-highlight">192</i>&nbsp;
+<i class="no-highlight">193</i>&nbsp;    public HashMap&lt;Integer, V&gt; getVerticesT() {
+<b class="nc"><i class="no-highlight">194</i>&nbsp;        return vertices;</b>
+<i class="no-highlight">195</i>&nbsp;    }
+<i class="no-highlight">196</i>&nbsp;
+<i class="no-highlight">197</i>&nbsp;    /**
+<i class="no-highlight">198</i>&nbsp;     * Overrides vertices. Only for internal use
+<i class="no-highlight">199</i>&nbsp;     */
+<i class="no-highlight">200</i>&nbsp;    public void setVerticesT(HashMap&lt;Integer, V&gt; verticesNew) {
+<b class="nc"><i class="no-highlight">201</i>&nbsp;        vertices = verticesNew;</b>
+<i class="no-highlight">202</i>&nbsp;    }
+<i class="no-highlight">203</i>&nbsp;
+<i class="no-highlight">204</i>&nbsp;    public HashMap&lt;Integer, E&gt; getEdgesT() {
+<b class="nc"><i class="no-highlight">205</i>&nbsp;        return edges;</b>
+<i class="no-highlight">206</i>&nbsp;    }
+<i class="no-highlight">207</i>&nbsp;
+<i class="no-highlight">208</i>&nbsp;    public void setEdgesT(HashMap&lt;Integer, E&gt; edgesNew) {
+<b class="nc"><i class="no-highlight">209</i>&nbsp;        edges = edgesNew;</b>
+<i class="no-highlight">210</i>&nbsp;    }
+<i class="no-highlight">211</i>&nbsp;
+<i class="no-highlight">212</i>&nbsp;    /**
+<i class="no-highlight">213</i>&nbsp;     * @return An unmodifiable set of edges.
+<i class="no-highlight">214</i>&nbsp;     */
+<i class="no-highlight">215</i>&nbsp;    public Set&lt;E&gt; getEdges() {
+<b class="fc"><i class="no-highlight">216</i>&nbsp;        return new HashSet&lt;&gt;(edges.values());</b>
+<i class="no-highlight">217</i>&nbsp;    }
+<i class="no-highlight">218</i>&nbsp;
+<i class="no-highlight">219</i>&nbsp;    public void snapToGrid(double gridSize) {
+<b class="nc"><i class="no-highlight">220</i>&nbsp;        for (Edge e : getEdges())</b>
+<b class="nc"><i class="no-highlight">221</i>&nbsp;            e.snapToGrid(gridSize);</b>
+<b class="nc"><i class="no-highlight">222</i>&nbsp;        for (Vertex v : getVertices())</b>
+<b class="nc"><i class="no-highlight">223</i>&nbsp;            v.snapToGrid(gridSize);</b>
+<i class="no-highlight">224</i>&nbsp;    }
+<i class="no-highlight">225</i>&nbsp;
+<i class="no-highlight">226</i>&nbsp;    /**
+<i class="no-highlight">227</i>&nbsp;     * @param dimension 0 for the x-dimension and 1 for the y-dimension.
+<i class="no-highlight">228</i>&nbsp;     * @return The largest x or y value occurring in vertex/edges coordinates.
+<i class="no-highlight">229</i>&nbsp;     */
+<i class="no-highlight">230</i>&nbsp;    public double maximumCoordinate(int dimension) {
+<b class="nc"><i class="no-highlight">231</i>&nbsp;        double result = Double.NEGATIVE_INFINITY;</b>
+<b class="nc"><i class="no-highlight">232</i>&nbsp;        for (Vertex v : getVertices())</b>
+<b class="nc"><i class="no-highlight">233</i>&nbsp;            result = Math.max(result, v.maximumCoordinate(dimension));</b>
+<b class="nc"><i class="no-highlight">234</i>&nbsp;        for (Edge e : getEdges())</b>
+<b class="nc"><i class="no-highlight">235</i>&nbsp;            result = Math.max(result, e.maximumCoordinate(dimension));</b>
+<b class="nc"><i class="no-highlight">236</i>&nbsp;        return result;</b>
+<i class="no-highlight">237</i>&nbsp;    }
+<i class="no-highlight">238</i>&nbsp;
+<i class="no-highlight">239</i>&nbsp;    /**
+<i class="no-highlight">240</i>&nbsp;     * Creates a new vertex instance without adding it to the structure.
+<i class="no-highlight">241</i>&nbsp;     *
+<i class="no-highlight">242</i>&nbsp;     * @return The new vertex.
+<i class="no-highlight">243</i>&nbsp;     */
+<i class="no-highlight">244</i>&nbsp;    public abstract V createVertex();
+<i class="no-highlight">245</i>&nbsp;
+<i class="no-highlight">246</i>&nbsp;    /**
+<i class="no-highlight">247</i>&nbsp;     * Creates a new vertex instance without adding it to the structure.
+<i class="no-highlight">248</i>&nbsp;     *
+<i class="no-highlight">249</i>&nbsp;     * @return The new vertex.
+<i class="no-highlight">250</i>&nbsp;     */
+<i class="no-highlight">251</i>&nbsp;    public abstract V createVertex(Configuration config);
+<i class="no-highlight">252</i>&nbsp;
+<i class="no-highlight">253</i>&nbsp;    /**
+<i class="no-highlight">254</i>&nbsp;     * Adds a vertex to the structure, and uses the given id, given it is
+<i class="no-highlight">255</i>&nbsp;     * it is stil available. if not, it uses the next free id.
+<i class="no-highlight">256</i>&nbsp;     *
+<i class="no-highlight">257</i>&nbsp;     * @param config The configuration of the vertex
+<i class="no-highlight">258</i>&nbsp;     * @param id     The id of which v will soon hopefully be the proud owner
+<i class="no-highlight">259</i>&nbsp;     */
+<i class="no-highlight">260</i>&nbsp;    public V addVertex(Configuration config, int id) {
+<i class="no-highlight">261</i>&nbsp;        // v.id = pollNextFreeVertexID();
+<b class="nc"><i class="no-highlight">262</i>&nbsp;        V v = createVertex(config);</b>
+<b class="nc"><i class="no-highlight">263</i>&nbsp;        if (this.getVertexById(id) != null) {</b>
+<i class="no-highlight">264</i>&nbsp;            //send warning to console that the id has already been assigned
+<b class="nc"><i class="no-highlight">265</i>&nbsp;            v.setId(pollNextFreeVertexID());</b>
+<b class="nc"><i class="no-highlight">266</i>&nbsp;            vertices.put(v.getId(), v);</b>
+<b class="nc"><i class="no-highlight">267</i>&nbsp;            return v;</b>
+<i class="no-highlight">268</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">269</i>&nbsp;        Interval me = new Interval(id, id);</b>
+<b class="nc"><i class="no-highlight">270</i>&nbsp;        Interval smallestGreaterThanOrEqual = this.vertexIdHoles.ceiling(me);</b>
+<b class="nc"><i class="no-highlight">271</i>&nbsp;        Interval newInterval = new Interval(0, 0);</b>
+<b class="nc"><i class="no-highlight">272</i>&nbsp;        if (smallestGreaterThanOrEqual != null) { //if the next biggest</b>
+<i class="no-highlight">273</i>&nbsp;            //interval starts with the id we want to add
+<b class="nc"><i class="no-highlight">274</i>&nbsp;            newInterval.a = id + 1;</b>
+<b class="nc"><i class="no-highlight">275</i>&nbsp;            newInterval.b = smallestGreaterThanOrEqual.b;</b>
+<b class="nc"><i class="no-highlight">276</i>&nbsp;            this.vertexIdHoles.remove(smallestGreaterThanOrEqual);</b>
+<b class="nc"><i class="no-highlight">277</i>&nbsp;            if (newInterval.a &lt; newInterval.b) {</b>
+<b class="nc"><i class="no-highlight">278</i>&nbsp;                this.vertexIdHoles.add(newInterval);</b>
+<i class="no-highlight">279</i>&nbsp;            }
+<i class="no-highlight">280</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">281</i>&nbsp;        v.setId(id);</b>
+<b class="nc"><i class="no-highlight">282</i>&nbsp;        vertices.put(id, v);</b>
+<b class="nc"><i class="no-highlight">283</i>&nbsp;        return v;</b>
+<i class="no-highlight">284</i>&nbsp;    }
+<i class="no-highlight">285</i>&nbsp;
+<i class="no-highlight">286</i>&nbsp;    /**
+<i class="no-highlight">287</i>&nbsp;     * Adds another structure s to this structure (this) identifying thisVertex from this structure with thatVertex from s.
+<i class="no-highlight">288</i>&nbsp;     * The identified vertex has the properties of thatVertex (only properties from Vertex and Edge, not from their descendants).
+<i class="no-highlight">289</i>&nbsp;     * Structure s remains unchanged (the objects from s are copied to this).
+<i class="no-highlight">290</i>&nbsp;     * If the same structure is given as s, produces a copy an merges it into this structure.
+<i class="no-highlight">291</i>&nbsp;     *
+<i class="no-highlight">292</i>&nbsp;     * @param s          Another structure
+<i class="no-highlight">293</i>&nbsp;     * @param thisVertex A vertex from this structure
+<i class="no-highlight">294</i>&nbsp;     * @param thatVertex A vertex from that structure
+<i class="no-highlight">295</i>&nbsp;     */
+<i class="no-highlight">296</i>&nbsp;    public void mergeStructure(Structure&lt;V, E&gt; s, V thisVertex, V thatVertex) {
+<b class="nc"><i class="no-highlight">297</i>&nbsp;        Structure&lt;V, E&gt; sCopy = (Structure&lt;V, E&gt;) DeepCopy.copy(s);</b>
+<i class="no-highlight">298</i>&nbsp;
+<i class="no-highlight">299</i>&nbsp;        // this handles also the ids
+<b class="nc"><i class="no-highlight">300</i>&nbsp;        this.addVertices(sCopy.getVertices());</b>
+<b class="nc"><i class="no-highlight">301</i>&nbsp;        this.addEdges(sCopy.getEdges());</b>
+<i class="no-highlight">302</i>&nbsp;
+<b class="nc"><i class="no-highlight">303</i>&nbsp;        V thatVertexCopy = sCopy.getVertexById(thatVertex.getId());</b>
+<i class="no-highlight">304</i>&nbsp;        // reconnect edges incident with thisVertex to thatVertexCopy
+<b class="nc"><i class="no-highlight">305</i>&nbsp;        for (E e : getEdges()) {</b>
+<b class="nc"><i class="no-highlight">306</i>&nbsp;            if (e.isLoop() &amp;&amp; e.getSource() == thisVertex) {</b>
+<b class="nc"><i class="no-highlight">307</i>&nbsp;                e.setSource(thatVertexCopy);</b>
+<b class="nc"><i class="no-highlight">308</i>&nbsp;                e.setTarget(thatVertexCopy);</b>
+<b class="nc"><i class="no-highlight">309</i>&nbsp;                thatVertex.incidentEdges.add(e);</b>
+<b class="nc"><i class="no-highlight">310</i>&nbsp;                thatVertexCopy.outgoingEdges.add(e);</b>
+<b class="nc"><i class="no-highlight">311</i>&nbsp;                thatVertexCopy.incomingEdges.add(e);</b>
+<b class="nc"><i class="no-highlight">312</i>&nbsp;                continue;</b>
+<i class="no-highlight">313</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">314</i>&nbsp;            if (e.getSource() == thisVertex) {</b>
+<b class="nc"><i class="no-highlight">315</i>&nbsp;                e.setSource(thatVertexCopy);</b>
+<b class="nc"><i class="no-highlight">316</i>&nbsp;                thatVertexCopy.incidentEdges.add(e);</b>
+<b class="nc"><i class="no-highlight">317</i>&nbsp;                thatVertexCopy.outgoingEdges.add(e);</b>
+<i class="no-highlight">318</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">319</i>&nbsp;            if (e.getTarget() == thisVertex) {</b>
+<b class="nc"><i class="no-highlight">320</i>&nbsp;                e.setTarget(thatVertexCopy);</b>
+<b class="nc"><i class="no-highlight">321</i>&nbsp;                thatVertexCopy.incidentEdges.add(e);</b>
+<b class="nc"><i class="no-highlight">322</i>&nbsp;                thatVertexCopy.incomingEdges.add(e);</b>
+<i class="no-highlight">323</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">324</i>&nbsp;        }</b>
+<i class="no-highlight">325</i>&nbsp;
+<b class="nc"><i class="no-highlight">326</i>&nbsp;        removeVertex(thisVertex);</b>
+<i class="no-highlight">327</i>&nbsp;    }
+<i class="no-highlight">328</i>&nbsp;
+<i class="no-highlight">329</i>&nbsp;    public V addVertex() {
+<b class="fc"><i class="no-highlight">330</i>&nbsp;        return addVertex((Configuration) null);</b>
+<i class="no-highlight">331</i>&nbsp;    }
+<i class="no-highlight">332</i>&nbsp;
+<i class="no-highlight">333</i>&nbsp;    /**
+<i class="no-highlight">334</i>&nbsp;     * Don&#39;t use this method. Adding vertices this way is deprecated.
+<i class="no-highlight">335</i>&nbsp;     *
+<i class="no-highlight">336</i>&nbsp;     * @param v
+<i class="no-highlight">337</i>&nbsp;     */
+<i class="no-highlight">338</i>&nbsp;    @Deprecated
+<i class="no-highlight">339</i>&nbsp;    public void addVertex(V v) {
+<b class="fc"><i class="no-highlight">340</i>&nbsp;        if (!vertices.containsKey(v.id)) {</b>
+<b class="fc"><i class="no-highlight">341</i>&nbsp;            v.id = pollNextFreeVertexID();</b>
+<b class="fc"><i class="no-highlight">342</i>&nbsp;            vertices.put(v.id, v);</b>
+<i class="no-highlight">343</i>&nbsp;        }
+<i class="no-highlight">344</i>&nbsp;    } //todo why depricated?
+<i class="no-highlight">345</i>&nbsp;
+<i class="no-highlight">346</i>&nbsp;    /**
+<i class="no-highlight">347</i>&nbsp;     * Adds a vertex to the structure. Has no effect if the vertex already
+<i class="no-highlight">348</i>&nbsp;     * exists in the structure.
+<i class="no-highlight">349</i>&nbsp;     *
+<i class="no-highlight">350</i>&nbsp;     * @param config The config with which the vertex will be initialized
+<i class="no-highlight">351</i>&nbsp;     * @return The created vertex
+<i class="no-highlight">352</i>&nbsp;     */
+<i class="no-highlight">353</i>&nbsp;    public V addVertex(Configuration config) {
+<b class="fc"><i class="no-highlight">354</i>&nbsp;        V v = createVertex(config);</b>
+<b class="fc"><i class="no-highlight">355</i>&nbsp;        v.id = pollNextFreeVertexID();</b>
+<b class="fc"><i class="no-highlight">356</i>&nbsp;        vertices.put(v.id, v);</b>
+<b class="fc"><i class="no-highlight">357</i>&nbsp;        return v;</b>
+<i class="no-highlight">358</i>&nbsp;    }
+<i class="no-highlight">359</i>&nbsp;
+<i class="no-highlight">360</i>&nbsp;    /**
+<i class="no-highlight">361</i>&nbsp;     * Creates a new vertex with the given label and adds it to the structure.
+<i class="no-highlight">362</i>&nbsp;     * This is a convenience function combining createVertex and addVertex.
+<i class="no-highlight">363</i>&nbsp;     * Adding multiple vertices with the same name adds multiple vertices.
+<i class="no-highlight">364</i>&nbsp;     *
+<i class="no-highlight">365</i>&nbsp;     * @param label The label of the new vertex to be added.
+<i class="no-highlight">366</i>&nbsp;     * @return The new vertex.
+<i class="no-highlight">367</i>&nbsp;     */
+<i class="no-highlight">368</i>&nbsp;    public V addVertex(String label) {
+<b class="fc"><i class="no-highlight">369</i>&nbsp;        V v = addVertex();</b>
+<b class="fc"><i class="no-highlight">370</i>&nbsp;        v.label = label;</b>
+<b class="fc"><i class="no-highlight">371</i>&nbsp;        return v;</b>
+<i class="no-highlight">372</i>&nbsp;    }
+<i class="no-highlight">373</i>&nbsp;
+<i class="no-highlight">374</i>&nbsp;    public V addVertex(String label, Configuration config) {
+<b class="nc"><i class="no-highlight">375</i>&nbsp;        V v = addVertex(config);</b>
+<b class="nc"><i class="no-highlight">376</i>&nbsp;        v.label = label;</b>
+<b class="nc"><i class="no-highlight">377</i>&nbsp;        return v;</b>
+<i class="no-highlight">378</i>&nbsp;    }
+<i class="no-highlight">379</i>&nbsp;
+<i class="no-highlight">380</i>&nbsp;    /**
+<i class="no-highlight">381</i>&nbsp;     * Adds a set of vertices to the structure. Incident edges are not added.Vertex IDs are generated automatically.
+<i class="no-highlight">382</i>&nbsp;     *
+<i class="no-highlight">383</i>&nbsp;     * @param vs The vertices to be added.
+<i class="no-highlight">384</i>&nbsp;     */
+<i class="no-highlight">385</i>&nbsp;    public void addVertices(Collection&lt;V&gt; vs) {
+<b class="nc"><i class="no-highlight">386</i>&nbsp;        for (V v : vs) {</b>
+<b class="nc"><i class="no-highlight">387</i>&nbsp;            v.id = pollNextFreeVertexID();</b>
+<b class="nc"><i class="no-highlight">388</i>&nbsp;            vertices.put(v.id, v);</b>
+<b class="nc"><i class="no-highlight">389</i>&nbsp;        }</b>
+<i class="no-highlight">390</i>&nbsp;    }
+<i class="no-highlight">391</i>&nbsp;
+<i class="no-highlight">392</i>&nbsp;    /**
+<i class="no-highlight">393</i>&nbsp;     * Clear the structure. Removes all vertices and all edges.
+<i class="no-highlight">394</i>&nbsp;     */
+<i class="no-highlight">395</i>&nbsp;    public void clear() {
+<b class="nc"><i class="no-highlight">396</i>&nbsp;        vertices.clear();</b>
+<b class="nc"><i class="no-highlight">397</i>&nbsp;        edges.clear();</b>
+<i class="no-highlight">398</i>&nbsp;    }
+<i class="no-highlight">399</i>&nbsp;
+<i class="no-highlight">400</i>&nbsp;    public Edge getEdgeByEndVertices(Vertex sourceVertex, Vertex targetVertex) {
+<i class="no-highlight">401</i>&nbsp;
+<b class="nc"><i class="no-highlight">402</i>&nbsp;        int inputSourceId = sourceVertex.getId();</b>
+<b class="nc"><i class="no-highlight">403</i>&nbsp;        int inputTargetId = targetVertex.getId();</b>
+<b class="nc"><i class="no-highlight">404</i>&nbsp;        if (sourceVertex == null || targetVertex == null) {</b>
+<b class="nc"><i class="no-highlight">405</i>&nbsp;            return null;</b>
+<i class="no-highlight">406</i>&nbsp;        }
+<i class="no-highlight">407</i>&nbsp;
+<b class="nc"><i class="no-highlight">408</i>&nbsp;        for (Edge e : sourceVertex.getIncidentEdges()) {</b>
+<i class="no-highlight">409</i>&nbsp;
+<b class="nc"><i class="no-highlight">410</i>&nbsp;            int sourceId = e.getSource().getId();</b>
+<b class="nc"><i class="no-highlight">411</i>&nbsp;            int targetId = e.getTarget().getId();</b>
+<i class="no-highlight">412</i>&nbsp;
+<i class="no-highlight">413</i>&nbsp;
+<b class="nc"><i class="no-highlight">414</i>&nbsp;            if (targetId == inputTargetId &amp;&amp; sourceId == inputSourceId) {</b>
+<b class="nc"><i class="no-highlight">415</i>&nbsp;                return e;</b>
+<b class="nc"><i class="no-highlight">416</i>&nbsp;            } else if (!e.isDirected &amp;&amp; (targetId == inputSourceId) &amp;&amp; (sourceId == inputTargetId)) {</b>
+<b class="nc"><i class="no-highlight">417</i>&nbsp;                return e;</b>
+<i class="no-highlight">418</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">419</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">420</i>&nbsp;        return null;</b>
+<i class="no-highlight">421</i>&nbsp;    }
+<i class="no-highlight">422</i>&nbsp;
+<i class="no-highlight">423</i>&nbsp;    /**
+<i class="no-highlight">424</i>&nbsp;     * preliminary method (to be updated with edge id&#39;s) for removing an edge
+<i class="no-highlight">425</i>&nbsp;     * very inefficient
+<i class="no-highlight">426</i>&nbsp;     */
+<i class="no-highlight">427</i>&nbsp;    public Edge getEdgeByVertexIds(int inputSourceId, int inputTargetId) {
+<i class="no-highlight">428</i>&nbsp;
+<b class="nc"><i class="no-highlight">429</i>&nbsp;        Vertex sourceVertex = this.getVertexById(inputSourceId);</b>
+<b class="nc"><i class="no-highlight">430</i>&nbsp;        Vertex targetVertex = this.getVertexById(inputTargetId);</b>
+<b class="nc"><i class="no-highlight">431</i>&nbsp;        if (sourceVertex == null || targetVertex == null) {</b>
+<b class="nc"><i class="no-highlight">432</i>&nbsp;            return null;</b>
+<i class="no-highlight">433</i>&nbsp;        }
+<i class="no-highlight">434</i>&nbsp;
+<b class="nc"><i class="no-highlight">435</i>&nbsp;        for (Edge e : sourceVertex.getIncidentEdges()) {</b>
+<i class="no-highlight">436</i>&nbsp;
+<b class="nc"><i class="no-highlight">437</i>&nbsp;            int sourceId = e.getSource().getId();</b>
+<b class="nc"><i class="no-highlight">438</i>&nbsp;            int targetId = e.getTarget().getId();</b>
+<i class="no-highlight">439</i>&nbsp;
+<i class="no-highlight">440</i>&nbsp;
+<b class="nc"><i class="no-highlight">441</i>&nbsp;            if (targetId == inputTargetId &amp;&amp; sourceId == inputSourceId) {</b>
+<i class="no-highlight">442</i>&nbsp;
+<b class="nc"><i class="no-highlight">443</i>&nbsp;                return e;</b>
+<b class="nc"><i class="no-highlight">444</i>&nbsp;            } else if (!e.isDirected &amp;&amp; (targetId == inputSourceId) &amp;&amp; (sourceId == inputTargetId)) {</b>
+<b class="nc"><i class="no-highlight">445</i>&nbsp;                return e;</b>
+<i class="no-highlight">446</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">447</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">448</i>&nbsp;        return null;</b>
+<i class="no-highlight">449</i>&nbsp;    }
+<i class="no-highlight">450</i>&nbsp;
+<i class="no-highlight">451</i>&nbsp;    /*!!!!!!
+<i class="no-highlight">452</i>&nbsp;    *
+<i class="no-highlight">453</i>&nbsp;    DEPRECATED method for local vertex id&#39;s. To be perhaps undeprecated...*/
+<i class="no-highlight">454</i>&nbsp;    @Deprecated
+<i class="no-highlight">455</i>&nbsp;    public Edge getEdgeByVertexIdsAndId(int inputSourceId, int inputTargetId, int inputEdgeId) {
+<i class="no-highlight">456</i>&nbsp;
+<b class="nc"><i class="no-highlight">457</i>&nbsp;        Vertex sourceVertex = this.getVertexById(inputSourceId);</b>
+<b class="nc"><i class="no-highlight">458</i>&nbsp;        Vertex targetVertex = this.getVertexById(inputTargetId);</b>
+<b class="nc"><i class="no-highlight">459</i>&nbsp;        if (sourceVertex == null || targetVertex == null) {</b>
+<b class="nc"><i class="no-highlight">460</i>&nbsp;            return null;</b>
+<i class="no-highlight">461</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">462</i>&nbsp;        for (Edge e : sourceVertex.getIncidentEdges()) {</b>
+<i class="no-highlight">463</i>&nbsp;
+<b class="nc"><i class="no-highlight">464</i>&nbsp;            int sourceId = e.getSource().getId();</b>
+<b class="nc"><i class="no-highlight">465</i>&nbsp;            int targetId = e.getTarget().getId();</b>
+<b class="nc"><i class="no-highlight">466</i>&nbsp;            int edgeId = e.getId();</b>
+<b class="nc"><i class="no-highlight">467</i>&nbsp;            if (targetId == inputTargetId &amp;&amp; sourceId == inputSourceId &amp;&amp; edgeId == inputEdgeId) {</b>
+<b class="nc"><i class="no-highlight">468</i>&nbsp;                return e;</b>
+<b class="nc"><i class="no-highlight">469</i>&nbsp;            } else if (!e.isDirected &amp;&amp; (targetId == inputSourceId) &amp;&amp; (sourceId == inputTargetId) &amp;&amp; edgeId == inputEdgeId) {</b>
+<b class="nc"><i class="no-highlight">470</i>&nbsp;                return e;</b>
+<i class="no-highlight">471</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">472</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">473</i>&nbsp;        return null;</b>
+<i class="no-highlight">474</i>&nbsp;    }
+<i class="no-highlight">475</i>&nbsp;
+<i class="no-highlight">476</i>&nbsp;    public Edge getEdgeById(int inputEdgeId) {
+<i class="no-highlight">477</i>&nbsp;
+<b class="fc"><i class="no-highlight">478</i>&nbsp;        return edges.get(inputEdgeId);</b>
+<i class="no-highlight">479</i>&nbsp;    }
+<i class="no-highlight">480</i>&nbsp;
+<i class="no-highlight">481</i>&nbsp;    /**
+<i class="no-highlight">482</i>&nbsp;     * Find the vertex with a given ID. Lookup speed is O(1), since
+<i class="no-highlight">483</i>&nbsp;     * vertices are implemented as a HashMap.
+<i class="no-highlight">484</i>&nbsp;     *
+<i class="no-highlight">485</i>&nbsp;     * @param id The id of the vertex
+<i class="no-highlight">486</i>&nbsp;     * @return Returns the Vertex or null if no vertex has the ID
+<i class="no-highlight">487</i>&nbsp;     */
+<i class="no-highlight">488</i>&nbsp;    public V getVertexById(int id) {
+<b class="fc"><i class="no-highlight">489</i>&nbsp;        return vertices.get(id);</b>
+<i class="no-highlight">490</i>&nbsp;    }
+<i class="no-highlight">491</i>&nbsp;
+<i class="no-highlight">492</i>&nbsp;    /**
+<i class="no-highlight">493</i>&nbsp;     * Removes vertex from the structure for a given ID. You can remove by
+<i class="no-highlight">494</i>&nbsp;     * Object as well
+<i class="no-highlight">495</i>&nbsp;     *
+<i class="no-highlight">496</i>&nbsp;     * @param id The id of the vertex
+<i class="no-highlight">497</i>&nbsp;     * @return True if the vertex was removed, false if either no entry could be found
+<i class="no-highlight">498</i>&nbsp;     * or the associated vertex was null to begin with (see HashMap.remove() for further details)
+<i class="no-highlight">499</i>&nbsp;     */
+<i class="no-highlight">500</i>&nbsp;    public boolean removeVertexByID(int id) {
+<b class="nc"><i class="no-highlight">501</i>&nbsp;        return vertices.remove(id) != null;</b>
+<i class="no-highlight">502</i>&nbsp;    }
+<i class="no-highlight">503</i>&nbsp;
+<i class="no-highlight">504</i>&nbsp;    /**
+<i class="no-highlight">505</i>&nbsp;     * Removes a vertex and its incident edges from the structure.
+<i class="no-highlight">506</i>&nbsp;     *
+<i class="no-highlight">507</i>&nbsp;     * @param v The vertex to be removed.
+<i class="no-highlight">508</i>&nbsp;     */
+<i class="no-highlight">509</i>&nbsp;    public void removeVertex(Vertex v) {
+<b class="nc"><i class="no-highlight">510</i>&nbsp;        Set&lt;Edge&gt; deletedEdges = new HashSet&lt;&gt;(v.incidentEdges);</b>
+<i class="no-highlight">511</i>&nbsp;
+<b class="nc"><i class="no-highlight">512</i>&nbsp;        for (Edge e : deletedEdges) {</b>
+<i class="no-highlight">513</i>&nbsp;            Vertex other;
+<b class="nc"><i class="no-highlight">514</i>&nbsp;            removeEdge(e);</b>
+<i class="no-highlight">515</i>&nbsp;            // e.getSource().disconnectEdge(e);
+<i class="no-highlight">516</i>&nbsp;            // e.getTarget().disconnectEdge(e);
+<b class="nc"><i class="no-highlight">517</i>&nbsp;        }</b>
+<i class="no-highlight">518</i>&nbsp;
+<b class="nc"><i class="no-highlight">519</i>&nbsp;        vertices.remove(v.id);</b>
+<i class="no-highlight">520</i>&nbsp;
+<b class="nc"><i class="no-highlight">521</i>&nbsp;        Interval deleteThisInterval = null;</b>
+<b class="nc"><i class="no-highlight">522</i>&nbsp;        if (vertexIdHoles.size() == 0) {</b>
+<b class="nc"><i class="no-highlight">523</i>&nbsp;            vertexIdHoles.add(new Interval(v.id, v.id));</b>
+<i class="no-highlight">524</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">525</i>&nbsp;            for (Interval hole : vertexIdHoles) {</b>
+<i class="no-highlight">526</i>&nbsp;                //find hole with[,]..v.id..[a,b]
+<b class="nc"><i class="no-highlight">527</i>&nbsp;                if (hole.a &gt; v.id + 1) {</b>
+<i class="no-highlight">528</i>&nbsp;                    //find the hole smaller than [a,b]
+<b class="nc"><i class="no-highlight">529</i>&nbsp;                    Interval minInterval = vertexIdHoles.lower(hole);</b>
+<b class="nc"><i class="no-highlight">530</i>&nbsp;                    if (minInterval == null) {</b>
+<b class="nc"><i class="no-highlight">531</i>&nbsp;                        vertexIdHoles.add(new Interval(v.id, v.id));</b>
+<i class="no-highlight">532</i>&nbsp;                        return;
+<i class="no-highlight">533</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">534</i>&nbsp;                    int min = minInterval.b;</b>
+<b class="nc"><i class="no-highlight">535</i>&nbsp;                    if (min &lt; v.id - 1) {</b>
+<b class="nc"><i class="no-highlight">536</i>&nbsp;                        vertexIdHoles.add(new Interval(v.id, v.id));</b>
+<i class="no-highlight">537</i>&nbsp;                        return;
+<b class="nc"><i class="no-highlight">538</i>&nbsp;                    } else if (min == v.id - 1) {</b>
+<b class="nc"><i class="no-highlight">539</i>&nbsp;                        minInterval.b += 1;</b>
+<i class="no-highlight">540</i>&nbsp;                        return;
+<i class="no-highlight">541</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">542</i>&nbsp;                        System.err.println(&quot;vertex hole indexing error&quot;);</b>
+<i class="no-highlight">543</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">544</i>&nbsp;                } else if (hole.a == v.id + 1) { //if v.id is exactly below the hole, extend it [,]..v.id,[a,b] -&gt; [,]..[v.id,b]</b>
+<b class="nc"><i class="no-highlight">545</i>&nbsp;                    hole.a--;</b>
+<i class="no-highlight">546</i>&nbsp;                    //in case the extension makes hole lie next to a different interval, merge
+<b class="nc"><i class="no-highlight">547</i>&nbsp;                    Interval lower = vertexIdHoles.lower(hole);</b>
+<b class="nc"><i class="no-highlight">548</i>&nbsp;                    if (lower != null &amp;&amp; lower.b == hole.a - 1) {</b>
+<i class="no-highlight">549</i>&nbsp;                        //merge
+<b class="nc"><i class="no-highlight">550</i>&nbsp;                        lower.b = hole.b;</b>
+<b class="nc"><i class="no-highlight">551</i>&nbsp;                        deleteThisInterval = hole;</b>
+<i class="no-highlight">552</i>&nbsp;                    }
+<i class="no-highlight">553</i>&nbsp;                    break;
+<i class="no-highlight">554</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">555</i>&nbsp;            }</b>
+<i class="no-highlight">556</i>&nbsp;            //did two intervals merge
+<b class="nc"><i class="no-highlight">557</i>&nbsp;            if (deleteThisInterval != null) {</b>
+<b class="nc"><i class="no-highlight">558</i>&nbsp;                vertexIdHoles.remove(deleteThisInterval);</b>
+<i class="no-highlight">559</i>&nbsp;            } else { //if not, for loop exited without finding a hole that&#39;s greater than v.id.
+<i class="no-highlight">560</i>&nbsp;                // Get last hole and decide if to extend or create new interval
+<b class="nc"><i class="no-highlight">561</i>&nbsp;                if (vertexIdHoles.last().b == v.id - 1) {</b>
+<b class="nc"><i class="no-highlight">562</i>&nbsp;                    vertexIdHoles.last().b += 1;</b>
+<i class="no-highlight">563</i>&nbsp;                } else {
+<b class="nc"><i class="no-highlight">564</i>&nbsp;                    vertexIdHoles.add(new Interval(v.id, v.id));</b>
+<i class="no-highlight">565</i>&nbsp;                }
+<i class="no-highlight">566</i>&nbsp;            }
+<i class="no-highlight">567</i>&nbsp;        }
+<i class="no-highlight">568</i>&nbsp;    }
+<i class="no-highlight">569</i>&nbsp;
+<i class="no-highlight">570</i>&nbsp;    //TODO: implement
+<i class="no-highlight">571</i>&nbsp;    public void removeVertices(Collection&lt;V&gt; v) {
+<i class="no-highlight">572</i>&nbsp;        //vertices.removeAll(v);
+<b class="nc"><i class="no-highlight">573</i>&nbsp;        System.err.println(&quot;not implemented&quot;);</b>
+<i class="no-highlight">574</i>&nbsp;    }
+<i class="no-highlight">575</i>&nbsp;
+<i class="no-highlight">576</i>&nbsp;    /**
+<i class="no-highlight">577</i>&nbsp;     * Create a new edge instance without adding it to the structure.
+<i class="no-highlight">578</i>&nbsp;     *
+<i class="no-highlight">579</i>&nbsp;     * @return The new edge.
+<i class="no-highlight">580</i>&nbsp;     */
+<i class="no-highlight">581</i>&nbsp;    protected abstract E createEdge(Configuration config);
+<i class="no-highlight">582</i>&nbsp;
+<i class="no-highlight">583</i>&nbsp;    @Deprecated
+<i class="no-highlight">584</i>&nbsp;    public E createEdge(V source, V target) {
+<b class="fc"><i class="no-highlight">585</i>&nbsp;        E e = createEdge(-1, null);</b>
+<b class="fc"><i class="no-highlight">586</i>&nbsp;        e.setSource(source);</b>
+<b class="fc"><i class="no-highlight">587</i>&nbsp;        e.setTarget(target);</b>
+<b class="fc"><i class="no-highlight">588</i>&nbsp;        return e;</b>
+<i class="no-highlight">589</i>&nbsp;    }
+<i class="no-highlight">590</i>&nbsp;
+<i class="no-highlight">591</i>&nbsp;    /**
+<i class="no-highlight">592</i>&nbsp;     * Creates an edge without adding it to the graph.
+<i class="no-highlight">593</i>&nbsp;     *
+<i class="no-highlight">594</i>&nbsp;     * @return The new edge.
+<i class="no-highlight">595</i>&nbsp;     */
+<i class="no-highlight">596</i>&nbsp;    public E createEdge(int id, Configuration config) {
+<b class="fc"><i class="no-highlight">597</i>&nbsp;        E edge = createEdge(config);</b>
+<i class="no-highlight">598</i>&nbsp;//        if (this.edges.get(id) != null) {
+<i class="no-highlight">599</i>&nbsp;//            // return (E)null;
+<i class="no-highlight">600</i>&nbsp;//            //send warning message that the id had already been assigned
+<i class="no-highlight">601</i>&nbsp;//        }
+<b class="fc"><i class="no-highlight">602</i>&nbsp;        if (id != -1) {</b>
+<b class="fc"><i class="no-highlight">603</i>&nbsp;            if (this.getEdgeById(id) != null) {</b>
+<i class="no-highlight">604</i>&nbsp;                //send warning to console that the id has already been assigned
+<b class="nc"><i class="no-highlight">605</i>&nbsp;                edge.setId(pollNextFreeEdgeID());</b>
+<b class="nc"><i class="no-highlight">606</i>&nbsp;                edges.put(edge.getId(), edge);</b>
+<i class="no-highlight">607</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">608</i>&nbsp;                Interval me = new Interval(id, id);</b>
+<b class="fc"><i class="no-highlight">609</i>&nbsp;                Interval smallestGreaterThanOrEqual = this.edgeIdHoles.ceiling(me);</b>
+<b class="fc"><i class="no-highlight">610</i>&nbsp;                Interval newInterval = new Interval(0, 0);</b>
+<i class="no-highlight">611</i>&nbsp;
+<b class="fc"><i class="no-highlight">612</i>&nbsp;                if (smallestGreaterThanOrEqual != null) { //if the next biggest</b>
+<i class="no-highlight">613</i>&nbsp;                    //interval starts with the id we want to add
+<b class="fc"><i class="no-highlight">614</i>&nbsp;                    newInterval.a = id + 1;</b>
+<b class="fc"><i class="no-highlight">615</i>&nbsp;                    newInterval.b = smallestGreaterThanOrEqual.b;</b>
+<b class="fc"><i class="no-highlight">616</i>&nbsp;                    this.edgeIdHoles.remove(smallestGreaterThanOrEqual);</b>
+<b class="fc"><i class="no-highlight">617</i>&nbsp;                    if (newInterval.a &lt; newInterval.b) {</b>
+<b class="fc"><i class="no-highlight">618</i>&nbsp;                        this.edgeIdHoles.add(newInterval);</b>
+<i class="no-highlight">619</i>&nbsp;                    }
+<i class="no-highlight">620</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">621</i>&nbsp;                edge.setId(id);</b>
+<b class="fc"><i class="no-highlight">622</i>&nbsp;                edges.put(id, edge);</b>
+<b class="fc"><i class="no-highlight">623</i>&nbsp;            }</b>
+<i class="no-highlight">624</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">625</i>&nbsp;            int nextFreeId = this.pollNextFreeEdgeID();</b>
+<b class="fc"><i class="no-highlight">626</i>&nbsp;            edge.setId(nextFreeId);</b>
+<i class="no-highlight">627</i>&nbsp;        }
+<i class="no-highlight">628</i>&nbsp;
+<b class="fc"><i class="no-highlight">629</i>&nbsp;        return edge;</b>
+<i class="no-highlight">630</i>&nbsp;    }
+<i class="no-highlight">631</i>&nbsp;
+<i class="no-highlight">632</i>&nbsp;    public boolean addEdge(E e, V source, V target) {
+<b class="fc"><i class="no-highlight">633</i>&nbsp;        e.setSource(source);</b>
+<b class="fc"><i class="no-highlight">634</i>&nbsp;        e.setTarget(target);</b>
+<i class="no-highlight">635</i>&nbsp;
+<b class="fc"><i class="no-highlight">636</i>&nbsp;        return addEdge(e);</b>
+<i class="no-highlight">637</i>&nbsp;    }
+<i class="no-highlight">638</i>&nbsp;
+<i class="no-highlight">639</i>&nbsp;    /**
+<i class="no-highlight">640</i>&nbsp;     * Add an edge to the structure. Has no effect if the edge already exists in
+<i class="no-highlight">641</i>&nbsp;     * the structure.
+<i class="no-highlight">642</i>&nbsp;     *
+<i class="no-highlight">643</i>&nbsp;     * @param e The edge to be added.
+<i class="no-highlight">644</i>&nbsp;     */
+<i class="no-highlight">645</i>&nbsp;    public boolean addEdge(E e) {
+<i class="no-highlight">646</i>&nbsp;        //correct siblings first
+<b class="fc"><i class="no-highlight">647</i>&nbsp;        e.siblings.clear();</b>
+<b class="fc"><i class="no-highlight">648</i>&nbsp;        int nonLoopEdges = 0; // # other edges edge with the same ends {edge.target,edge.source} = {e.target,e.source},</b>
+<i class="no-highlight">649</i>&nbsp;        // non-loops
+<i class="no-highlight">650</i>&nbsp;
+<b class="fc"><i class="no-highlight">651</i>&nbsp;        for (Edge edge : e.getSource().getIncidentEdges()) {</b>
+<b class="fc"><i class="no-highlight">652</i>&nbsp;            if (edge == e) {</b>
+<b class="fc"><i class="no-highlight">653</i>&nbsp;                continue;</b>
+<i class="no-highlight">654</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">655</i>&nbsp;            if (edge.getTarget() == e.getTarget() || edge.getSource() == e.getTarget()) {</b>
+<i class="no-highlight">656</i>&nbsp;
+<b class="fc"><i class="no-highlight">657</i>&nbsp;                if (edge.getSource() != edge.getTarget()) {</b>
+<b class="fc"><i class="no-highlight">658</i>&nbsp;                    nonLoopEdges++;</b>
+<b class="nc"><i class="no-highlight">659</i>&nbsp;                } else if (e.getSource() == e.getTarget()) { //if vertex has loop, don&#39;t add another loop e</b>
+<b class="nc"><i class="no-highlight">660</i>&nbsp;                    removeEdge(e);</b>
+<b class="nc"><i class="no-highlight">661</i>&nbsp;                    return false;</b>
+<i class="no-highlight">662</i>&nbsp;                }
+<i class="no-highlight">663</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">664</i>&nbsp;        }</b>
+<i class="no-highlight">665</i>&nbsp;
+<b class="fc"><i class="no-highlight">666</i>&nbsp;        if (e.getSource() == e.getTarget()) {</b>
+<b class="fc"><i class="no-highlight">667</i>&nbsp;            edges.put(e.getId(), e);</b>
+<i class="no-highlight">668</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">669</i>&nbsp;            for (Edge edge : e.getSource().getIncidentEdges()) {</b>
+<b class="fc"><i class="no-highlight">670</i>&nbsp;                if (e.isSiblingTo(edge)) {</b>
+<b class="fc"><i class="no-highlight">671</i>&nbsp;                    e.siblings.add(edge);</b>
+<i class="no-highlight">672</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">673</i>&nbsp;            }</b>
+<i class="no-highlight">674</i>&nbsp;
+<i class="no-highlight">675</i>&nbsp;            //very special case: if the two outer edges of a 3-edge multi edge connection are
+<i class="no-highlight">676</i>&nbsp;            //oriented the opposite way of the middle one (do that for all sibling lists)
+<b class="fc"><i class="no-highlight">677</i>&nbsp;            if (e.siblings.size() == 3) {</b>
+<b class="nc"><i class="no-highlight">678</i>&nbsp;                if (!e.siblings.get(0).sameOrientationAs(e.siblings.get(1)) &amp;&amp; !e.siblings.get(1).sameOrientationAs(e)) {</b>
+<b class="nc"><i class="no-highlight">679</i>&nbsp;                    Collections.swap(e.siblings, 1, 2);</b>
+<i class="no-highlight">680</i>&nbsp;                }
+<i class="no-highlight">681</i>&nbsp;            }
+<i class="no-highlight">682</i>&nbsp;
+<i class="no-highlight">683</i>&nbsp;
+<b class="fc"><i class="no-highlight">684</i>&nbsp;            for (Edge edge : e.getSource().getIncidentEdges()) {</b>
+<b class="fc"><i class="no-highlight">685</i>&nbsp;                if (edge == e) {</b>
+<b class="fc"><i class="no-highlight">686</i>&nbsp;                    continue;</b>
+<i class="no-highlight">687</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">688</i>&nbsp;                if (e.isSiblingTo(edge)) {</b>
+<b class="fc"><i class="no-highlight">689</i>&nbsp;                    edge.siblings = e.siblings;</b>
+<i class="no-highlight">690</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">691</i>&nbsp;            }</b>
+<i class="no-highlight">692</i>&nbsp;
+<b class="fc"><i class="no-highlight">693</i>&nbsp;            edges.put(e.getId(), e);</b>
+<i class="no-highlight">694</i>&nbsp;
+<i class="no-highlight">695</i>&nbsp;        }
+<i class="no-highlight">696</i>&nbsp;
+<b class="fc"><i class="no-highlight">697</i>&nbsp;        return true;</b>
+<i class="no-highlight">698</i>&nbsp;    }
+<i class="no-highlight">699</i>&nbsp;
+<i class="no-highlight">700</i>&nbsp;    /**
+<i class="no-highlight">701</i>&nbsp;     * Adds a set of edges to the structure if their ends are contained in the structure. Edges whose at least one vertex
+<i class="no-highlight">702</i>&nbsp;     * is not in the structure are not addded. IDs are generated automatically.
+<i class="no-highlight">703</i>&nbsp;     *
+<i class="no-highlight">704</i>&nbsp;     * @param es The edges to be added.
+<i class="no-highlight">705</i>&nbsp;     */
+<i class="no-highlight">706</i>&nbsp;    public void addEdges(Collection&lt;E&gt; es) {
+<i class="no-highlight">707</i>&nbsp;
+<b class="nc"><i class="no-highlight">708</i>&nbsp;        for (E e : es) {</b>
+<b class="nc"><i class="no-highlight">709</i>&nbsp;            if (vertices.containsKey(e.getSource().id) &amp;&amp; vertices.containsKey(e.getTarget().id)) {</b>
+<b class="nc"><i class="no-highlight">710</i>&nbsp;                int id = pollNextFreeEdgeID();</b>
+<b class="nc"><i class="no-highlight">711</i>&nbsp;                e.setId(id);</b>
+<b class="nc"><i class="no-highlight">712</i>&nbsp;                edges.put(e.getId(), e);</b>
+<i class="no-highlight">713</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">714</i>&nbsp;        }</b>
+<i class="no-highlight">715</i>&nbsp;    }
+<i class="no-highlight">716</i>&nbsp;
+<i class="no-highlight">717</i>&nbsp;    /**
+<i class="no-highlight">718</i>&nbsp;     * @param sourceID ID of the source vertex
+<i class="no-highlight">719</i>&nbsp;     * @param targetID ID of the target vertex=
+<i class="no-highlight">720</i>&nbsp;     */
+<i class="no-highlight">721</i>&nbsp;    public E addEdge(int sourceID, int targetID) {
+<b class="nc"><i class="no-highlight">722</i>&nbsp;        return addEdge(vertices.get(sourceID), vertices.get(targetID));</b>
+<i class="no-highlight">723</i>&nbsp;    }
+<i class="no-highlight">724</i>&nbsp;
+<i class="no-highlight">725</i>&nbsp;    public E addEdge(V source, V target) {
+<b class="fc"><i class="no-highlight">726</i>&nbsp;        return addEdge(source, target, -1, null);</b>
+<i class="no-highlight">727</i>&nbsp;    }
+<i class="no-highlight">728</i>&nbsp;
+<i class="no-highlight">729</i>&nbsp;    public E addEdge(V source, V target, Configuration config) {
+<b class="nc"><i class="no-highlight">730</i>&nbsp;        return addEdge(source, target, -1, config);</b>
+<i class="no-highlight">731</i>&nbsp;    }
+<i class="no-highlight">732</i>&nbsp;
+<i class="no-highlight">733</i>&nbsp;    public E addEdge(V source, V target, int id) {
+<b class="nc"><i class="no-highlight">734</i>&nbsp;        return addEdge(source, target, id, null);</b>
+<i class="no-highlight">735</i>&nbsp;    }
+<i class="no-highlight">736</i>&nbsp;
+<i class="no-highlight">737</i>&nbsp;    public E addEdge(V source, V target, int id, Configuration config) {
+<i class="no-highlight">738</i>&nbsp;        /*
+<i class="no-highlight">739</i>&nbsp;         * Add a new edge with source source, target target, id id and config config.
+<i class="no-highlight">740</i>&nbsp;         * If no edge is added (e.g., a new selfloop is not addded), returns null, otherwise
+<i class="no-highlight">741</i>&nbsp;         * the added new edge.
+<i class="no-highlight">742</i>&nbsp;         * */
+<b class="fc"><i class="no-highlight">743</i>&nbsp;        E e = createEdge(id, config);</b>
+<i class="no-highlight">744</i>&nbsp;
+<b class="fc"><i class="no-highlight">745</i>&nbsp;        if (addEdge(e, source, target)) {</b>
+<b class="fc"><i class="no-highlight">746</i>&nbsp;            return e;</b>
+<i class="no-highlight">747</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">748</i>&nbsp;        return null;</b>
+<i class="no-highlight">749</i>&nbsp;    }
+<i class="no-highlight">750</i>&nbsp;
+<i class="no-highlight">751</i>&nbsp;    public void removeEdge(int id) {
+<i class="no-highlight">752</i>&nbsp;
+<b class="nc"><i class="no-highlight">753</i>&nbsp;        Edge e = this.getEdgeById(id);</b>
+<b class="nc"><i class="no-highlight">754</i>&nbsp;        if (e != null) {</b>
+<b class="nc"><i class="no-highlight">755</i>&nbsp;            this.removeEdge(e, true);</b>
+<i class="no-highlight">756</i>&nbsp;        }
+<i class="no-highlight">757</i>&nbsp;
+<i class="no-highlight">758</i>&nbsp;    }
+<i class="no-highlight">759</i>&nbsp;
+<i class="no-highlight">760</i>&nbsp;    /**
+<i class="no-highlight">761</i>&nbsp;     * Removes an edge from the structure. Does not affect vertices, incident or
+<i class="no-highlight">762</i>&nbsp;     * not.
+<i class="no-highlight">763</i>&nbsp;     *
+<i class="no-highlight">764</i>&nbsp;     * @param edge The edge to be removed.
+<i class="no-highlight">765</i>&nbsp;     * @return boolean whether the edge was successfully removed
+<i class="no-highlight">766</i>&nbsp;     */
+<i class="no-highlight">767</i>&nbsp;    public void removeEdge(Edge edge, boolean removeSiblingsEntries) {
+<b class="nc"><i class="no-highlight">768</i>&nbsp;        if (edges.get(edge.getId()) == null) { //tried to delete an edge that already exists!</b>
+<i class="no-highlight">769</i>&nbsp;            return;
+<i class="no-highlight">770</i>&nbsp;        }
+<i class="no-highlight">771</i>&nbsp;
+<i class="no-highlight">772</i>&nbsp;
+<i class="no-highlight">773</i>&nbsp;        // edge.getSource().disconnectEdge(edge);
+<i class="no-highlight">774</i>&nbsp;        // edge.getTarget().disconnectEdge(edge);
+<b class="nc"><i class="no-highlight">775</i>&nbsp;        edge.setSource(null);</b>
+<b class="nc"><i class="no-highlight">776</i>&nbsp;        edge.setTarget(null);</b>
+<b class="nc"><i class="no-highlight">777</i>&nbsp;        if (removeSiblingsEntries) {</b>
+<b class="nc"><i class="no-highlight">778</i>&nbsp;            for (int i = 0; i &lt; edge.siblings.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">779</i>&nbsp;                if (edge != edge.siblings.get(i)) {</b>
+<b class="nc"><i class="no-highlight">780</i>&nbsp;                    edge.siblings.get(i).siblings.remove(edge);</b>
+<i class="no-highlight">781</i>&nbsp;                }
+<i class="no-highlight">782</i>&nbsp;            }
+<i class="no-highlight">783</i>&nbsp;        }
+<i class="no-highlight">784</i>&nbsp;
+<b class="nc"><i class="no-highlight">785</i>&nbsp;        edges.remove(edge.getId());</b>
+<i class="no-highlight">786</i>&nbsp;
+<i class="no-highlight">787</i>&nbsp;
+<b class="nc"><i class="no-highlight">788</i>&nbsp;        Interval deleteThisInterval = null;</b>
+<b class="nc"><i class="no-highlight">789</i>&nbsp;        if (this.edgeIdHoles.size() == 0) {</b>
+<b class="nc"><i class="no-highlight">790</i>&nbsp;            this.edgeIdHoles.add(new Interval(edge.getId(), edge.getId()));</b>
+<i class="no-highlight">791</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">792</i>&nbsp;            int id = edge.getId();</b>
+<b class="nc"><i class="no-highlight">793</i>&nbsp;            Interval me = new Interval(edge.getId(), id);</b>
+<b class="nc"><i class="no-highlight">794</i>&nbsp;            Interval justAbove = this.edgeIdHoles.ceiling(me);</b>
+<b class="nc"><i class="no-highlight">795</i>&nbsp;            Interval justBelow = this.edgeIdHoles.floor(me);</b>
+<i class="no-highlight">796</i>&nbsp;
+<i class="no-highlight">797</i>&nbsp;
+<b class="nc"><i class="no-highlight">798</i>&nbsp;            if (justAbove == null) {</b>
+<i class="no-highlight">799</i>&nbsp;                //this means justBelow cannot be null
+<b class="nc"><i class="no-highlight">800</i>&nbsp;                if (justBelow.b == id - 1) {</b>
+<b class="nc"><i class="no-highlight">801</i>&nbsp;                    Interval newJustBelow = new Interval(justBelow.a, id);</b>
+<b class="nc"><i class="no-highlight">802</i>&nbsp;                    this.edgeIdHoles.remove(justBelow);</b>
+<b class="nc"><i class="no-highlight">803</i>&nbsp;                    this.edgeIdHoles.add(newJustBelow);</b>
+<b class="nc"><i class="no-highlight">804</i>&nbsp;                } else {</b>
+<b class="nc"><i class="no-highlight">805</i>&nbsp;                    this.edgeIdHoles.add(me);</b>
+<i class="no-highlight">806</i>&nbsp;                }
+<i class="no-highlight">807</i>&nbsp;                return;
+<i class="no-highlight">808</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">809</i>&nbsp;                if (justBelow == null) {</b>
+<b class="nc"><i class="no-highlight">810</i>&nbsp;                    if (justAbove.a == id + 1) {</b>
+<b class="nc"><i class="no-highlight">811</i>&nbsp;                        Interval newJustAbove = new Interval(id, justAbove.b);</b>
+<b class="nc"><i class="no-highlight">812</i>&nbsp;                        this.edgeIdHoles.remove(justAbove);</b>
+<b class="nc"><i class="no-highlight">813</i>&nbsp;                        this.edgeIdHoles.add(newJustAbove);</b>
+<b class="nc"><i class="no-highlight">814</i>&nbsp;                    } else {</b>
+<b class="nc"><i class="no-highlight">815</i>&nbsp;                        this.edgeIdHoles.add(me);</b>
+<i class="no-highlight">816</i>&nbsp;                    }
+<i class="no-highlight">817</i>&nbsp;                    return;
+<i class="no-highlight">818</i>&nbsp;                }
+<i class="no-highlight">819</i>&nbsp;            }
+<i class="no-highlight">820</i>&nbsp;
+<i class="no-highlight">821</i>&nbsp;
+<b class="nc"><i class="no-highlight">822</i>&nbsp;            if (justAbove.a == id + 1) {</b>
+<b class="nc"><i class="no-highlight">823</i>&nbsp;                if (justBelow.b == id - 1) {</b>
+<i class="no-highlight">824</i>&nbsp;                    //case 1: [x,id-1] [id+1,y]
+<b class="nc"><i class="no-highlight">825</i>&nbsp;                    Interval combinedInterval = new Interval(justBelow.a, justAbove.b);</b>
+<b class="nc"><i class="no-highlight">826</i>&nbsp;                    this.edgeIdHoles.remove(justAbove);</b>
+<b class="nc"><i class="no-highlight">827</i>&nbsp;                    this.edgeIdHoles.remove(justBelow);</b>
+<b class="nc"><i class="no-highlight">828</i>&nbsp;                    this.edgeIdHoles.add(combinedInterval);</b>
+<b class="nc"><i class="no-highlight">829</i>&nbsp;                } else {</b>
+<b class="nc"><i class="no-highlight">830</i>&nbsp;                    Interval newJustAbove = new Interval(id, justAbove.b);</b>
+<b class="nc"><i class="no-highlight">831</i>&nbsp;                    this.edgeIdHoles.remove(justAbove);</b>
+<b class="nc"><i class="no-highlight">832</i>&nbsp;                    this.edgeIdHoles.add(newJustAbove);</b>
+<i class="no-highlight">833</i>&nbsp;                }
+<i class="no-highlight">834</i>&nbsp;                return;
+<i class="no-highlight">835</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">836</i>&nbsp;                if (justBelow.b == id - 1) {</b>
+<b class="nc"><i class="no-highlight">837</i>&nbsp;                    Interval newJustBelow = new Interval(justBelow.a, id);</b>
+<b class="nc"><i class="no-highlight">838</i>&nbsp;                    this.edgeIdHoles.remove(justBelow);</b>
+<b class="nc"><i class="no-highlight">839</i>&nbsp;                    this.edgeIdHoles.add(newJustBelow);</b>
+<i class="no-highlight">840</i>&nbsp;                    return;
+<i class="no-highlight">841</i>&nbsp;                }
+<i class="no-highlight">842</i>&nbsp;
+<i class="no-highlight">843</i>&nbsp;            }
+<i class="no-highlight">844</i>&nbsp;
+<b class="nc"><i class="no-highlight">845</i>&nbsp;            this.edgeIdHoles.add(me);</b>
+<i class="no-highlight">846</i>&nbsp;        }
+<i class="no-highlight">847</i>&nbsp;
+<i class="no-highlight">848</i>&nbsp;
+<i class="no-highlight">849</i>&nbsp;    }
+<i class="no-highlight">850</i>&nbsp;
+<i class="no-highlight">851</i>&nbsp;    public void removeEdge(Edge e) {
+<b class="nc"><i class="no-highlight">852</i>&nbsp;        removeEdge(e, true);</b>
+<i class="no-highlight">853</i>&nbsp;    }
+<i class="no-highlight">854</i>&nbsp;
+<i class="no-highlight">855</i>&nbsp;    /**
+<i class="no-highlight">856</i>&nbsp;     * @param a The first vertex.
+<i class="no-highlight">857</i>&nbsp;     * @param b The second vertex.
+<i class="no-highlight">858</i>&nbsp;     * @return True if the given two vertices are adjacent.
+<i class="no-highlight">859</i>&nbsp;     */
+<i class="no-highlight">860</i>&nbsp;    public boolean adjacent(V a, V b) {
+<b class="nc"><i class="no-highlight">861</i>&nbsp;        for (Edge e : this.getEdges())</b>
+<b class="nc"><i class="no-highlight">862</i>&nbsp;            if (e.containsVertex(a) &amp;&amp; e.containsVertex(b))</b>
+<b class="nc"><i class="no-highlight">863</i>&nbsp;                return true;</b>
+<b class="nc"><i class="no-highlight">864</i>&nbsp;        return false;</b>
+<i class="no-highlight">865</i>&nbsp;    }
+<i class="no-highlight">866</i>&nbsp;
+<i class="no-highlight">867</i>&nbsp;    public Set&lt;Edge&gt; edgesBetweenVertices(V a, V b) {
+<b class="nc"><i class="no-highlight">868</i>&nbsp;        Set&lt;Edge&gt; edges = new HashSet&lt;Edge&gt;();</b>
+<b class="nc"><i class="no-highlight">869</i>&nbsp;        for (Edge e : a.getIncidentEdges()) {</b>
+<b class="nc"><i class="no-highlight">870</i>&nbsp;            if ((e.getSource() == a &amp;&amp; e.getTarget() == b) || ((!e.isDirected()) &amp;&amp; e.getSource() == b &amp;&amp; e.getTarget() == a)) {</b>
+<b class="nc"><i class="no-highlight">871</i>&nbsp;                edges.add(e);</b>
+<i class="no-highlight">872</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">873</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">874</i>&nbsp;        return edges;</b>
+<i class="no-highlight">875</i>&nbsp;    }
+<i class="no-highlight">876</i>&nbsp;
+<i class="no-highlight">877</i>&nbsp;    /**
+<i class="no-highlight">878</i>&nbsp;     * Returns the next free available ID, so that all vertices&#39; ids are continuously
+<i class="no-highlight">879</i>&nbsp;     * filled on a single interval [0, n)
+<i class="no-highlight">880</i>&nbsp;     */
+<i class="no-highlight">881</i>&nbsp;    public int pollNextFreeEdgeID() {
+<b class="fc"><i class="no-highlight">882</i>&nbsp;        if (edgeIdHoles.size() != 0) {</b>
+<b class="fc"><i class="no-highlight">883</i>&nbsp;            Interval hole = edgeIdHoles.first();</b>
+<b class="fc"><i class="no-highlight">884</i>&nbsp;            hole.a++;</b>
+<b class="fc"><i class="no-highlight">885</i>&nbsp;            if (hole.a &gt; hole.b) {</b>
+<b class="nc"><i class="no-highlight">886</i>&nbsp;                edgeIdHoles.remove(hole);</b>
+<i class="no-highlight">887</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">888</i>&nbsp;            return hole.a - 1;</b>
+<i class="no-highlight">889</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">890</i>&nbsp;            return 0;</b>
+<i class="no-highlight">891</i>&nbsp;        }
+<i class="no-highlight">892</i>&nbsp;    }
+<i class="no-highlight">893</i>&nbsp;
+<i class="no-highlight">894</i>&nbsp;    /**
+<i class="no-highlight">895</i>&nbsp;     * Returns the next free available ID, so that all vertices&#39; ids are continuously
+<i class="no-highlight">896</i>&nbsp;     * filled on a single interval [0, n). Updates vertexIdHoles.
+<i class="no-highlight">897</i>&nbsp;     */
+<i class="no-highlight">898</i>&nbsp;    public int pollNextFreeVertexID() {
+<b class="fc"><i class="no-highlight">899</i>&nbsp;        if (vertexIdHoles.size() != 0) {</b>
+<b class="fc"><i class="no-highlight">900</i>&nbsp;            Interval hole = vertexIdHoles.first();</b>
+<b class="fc"><i class="no-highlight">901</i>&nbsp;            hole.a++;</b>
+<b class="fc"><i class="no-highlight">902</i>&nbsp;            if (hole.a &gt; hole.b) {</b>
+<b class="nc"><i class="no-highlight">903</i>&nbsp;                vertexIdHoles.remove(hole);</b>
+<i class="no-highlight">904</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">905</i>&nbsp;            return hole.a - 1;</b>
+<i class="no-highlight">906</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">907</i>&nbsp;            return 0;</b>
+<i class="no-highlight">908</i>&nbsp;        }
+<i class="no-highlight">909</i>&nbsp;    }
+<i class="no-highlight">910</i>&nbsp;
+<i class="no-highlight">911</i>&nbsp;    /**
+<i class="no-highlight">912</i>&nbsp;     * Returns true if projections are separate
+<i class="no-highlight">913</i>&nbsp;     */
+<i class="no-highlight">914</i>&nbsp;    private boolean separatingAxisTest(Vector2D rectFrom, Vector2D rectTo, Vector2D edgeFrom, Vector2D edgeTo) {
+<i class="no-highlight">915</i>&nbsp;        //x axis
+<b class="nc"><i class="no-highlight">916</i>&nbsp;        if (Math.max(rectFrom.getX(), rectTo.getX()) &lt; Math.min(edgeFrom.getX(), edgeTo.getX())) {</b>
+<b class="nc"><i class="no-highlight">917</i>&nbsp;            return true;</b>
+<i class="no-highlight">918</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">919</i>&nbsp;        if (Math.min(rectFrom.getX(), rectTo.getX()) &gt; Math.max(edgeFrom.getX(), edgeTo.getX())) {</b>
+<b class="nc"><i class="no-highlight">920</i>&nbsp;            return true;</b>
+<i class="no-highlight">921</i>&nbsp;        }
+<i class="no-highlight">922</i>&nbsp;        //y axis
+<b class="nc"><i class="no-highlight">923</i>&nbsp;        if (Math.max(rectFrom.getY(), rectTo.getY()) &lt; Math.min(edgeFrom.getY(), edgeTo.getY())) {</b>
+<b class="nc"><i class="no-highlight">924</i>&nbsp;            return true;</b>
+<i class="no-highlight">925</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">926</i>&nbsp;        return Math.min(rectFrom.getY(), rectTo.getY()) &gt; Math.max(edgeFrom.getY(), edgeTo.getY());</b>
+<i class="no-highlight">927</i>&nbsp;    }
+<i class="no-highlight">928</i>&nbsp;
+<i class="no-highlight">929</i>&nbsp;    private boolean areNegativelyProportional(Vector2D a, Vector2D b) {
+<b class="nc"><i class="no-highlight">930</i>&nbsp;        double ax = a.getX();</b>
+<b class="nc"><i class="no-highlight">931</i>&nbsp;        double ay = a.getY();</b>
+<i class="no-highlight">932</i>&nbsp;
+<b class="nc"><i class="no-highlight">933</i>&nbsp;        double bx = b.getX();</b>
+<b class="nc"><i class="no-highlight">934</i>&nbsp;        double by = b.getY();</b>
+<i class="no-highlight">935</i>&nbsp;
+<b class="nc"><i class="no-highlight">936</i>&nbsp;        if (ax != 0) {</b>
+<b class="nc"><i class="no-highlight">937</i>&nbsp;            return Math.signum(ax) != Math.signum(bx);</b>
+<i class="no-highlight">938</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">939</i>&nbsp;            return Math.signum(ay) != Math.signum(by);</b>
+<i class="no-highlight">940</i>&nbsp;        }
+<i class="no-highlight">941</i>&nbsp;    }
+<i class="no-highlight">942</i>&nbsp;
+<i class="no-highlight">943</i>&nbsp;    /* checking if x coordinate is in bounds of the rect (for x and y respectively)
+<i class="no-highlight">944</i>&nbsp;     * |q-v|&lt;|c|  and  sgn(c)|q-v|&gt;0
+<i class="no-highlight">945</i>&nbsp;     */
+<i class="no-highlight">946</i>&nbsp;    private boolean insideSelection(double qx, double qy, double cx, double cy, double vx, double vy) {
+<b class="nc"><i class="no-highlight">947</i>&nbsp;        return Math.signum(cx) * (qx - vx) &lt;= Math.abs(cx)</b>
+<b class="nc"><i class="no-highlight">948</i>&nbsp;                &amp;&amp; Math.signum(cy) * (qy - vy) &lt;= Math.abs(cy)</b>
+<b class="nc"><i class="no-highlight">949</i>&nbsp;                &amp;&amp; Math.signum(cx) * (qx - vx) &gt;= 0</b>
+<b class="nc"><i class="no-highlight">950</i>&nbsp;                &amp;&amp; Math.signum(cy) * (qy - vy) &gt;= 0;</b>
+<i class="no-highlight">951</i>&nbsp;    }
+<i class="no-highlight">952</i>&nbsp;
+<i class="no-highlight">953</i>&nbsp;    /**
+<i class="no-highlight">954</i>&nbsp;     * Collapses edges or, when every single edge in the selection is already collapsed,
+<i class="no-highlight">955</i>&nbsp;     * inflates every set of edges.
+<i class="no-highlight">956</i>&nbsp;     */
+<i class="no-highlight">957</i>&nbsp;    public void collapseEdges(Set&lt;Object&gt; selection) {
+<b class="nc"><i class="no-highlight">958</i>&nbsp;        HashSet&lt;Edge&gt; representativeEdges = new HashSet&lt;&gt;();</b>
+<i class="no-highlight">959</i>&nbsp;        //linear time
+<b class="nc"><i class="no-highlight">960</i>&nbsp;        for (Object edge : selection) {</b>
+<b class="nc"><i class="no-highlight">961</i>&nbsp;            if (edge instanceof Edge) {</b>
+<b class="nc"><i class="no-highlight">962</i>&nbsp;                Edge e = (Edge) edge;</b>
+<b class="nc"><i class="no-highlight">963</i>&nbsp;                if (!e.isLoop()) {</b>
+<b class="nc"><i class="no-highlight">964</i>&nbsp;                    boolean nonRelated = true;</b>
+<i class="no-highlight">965</i>&nbsp;                    //edges can only be related to siblings. Iterate over all siblings
+<i class="no-highlight">966</i>&nbsp;                    //and check if one of them is already declared a representative
+<b class="nc"><i class="no-highlight">967</i>&nbsp;                    for (Edge sibling : e.siblings) {</b>
+<b class="nc"><i class="no-highlight">968</i>&nbsp;                        nonRelated &amp;= !representativeEdges.contains(sibling);</b>
+<b class="nc"><i class="no-highlight">969</i>&nbsp;                    }</b>
+<b class="nc"><i class="no-highlight">970</i>&nbsp;                    if (nonRelated) {</b>
+<b class="nc"><i class="no-highlight">971</i>&nbsp;                        representativeEdges.add(e);</b>
+<i class="no-highlight">972</i>&nbsp;                    }
+<i class="no-highlight">973</i>&nbsp;
+<i class="no-highlight">974</i>&nbsp;                }
+<i class="no-highlight">975</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">976</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">977</i>&nbsp;        for (Edge representative : representativeEdges) {</b>
+<b class="nc"><i class="no-highlight">978</i>&nbsp;            representative.collapse(this);</b>
+<i class="no-highlight">979</i>&nbsp;
+<b class="nc"><i class="no-highlight">980</i>&nbsp;        }</b>
+<i class="no-highlight">981</i>&nbsp;    }
+<i class="no-highlight">982</i>&nbsp;
+<i class="no-highlight">983</i>&nbsp;    /**
+<i class="no-highlight">984</i>&nbsp;     * Aligns all selected vertices along their y coordinate
+<i class="no-highlight">985</i>&nbsp;     */
+<i class="no-highlight">986</i>&nbsp;    public void alignHorizontallyMean(LinkedHashSet&lt;Object&gt; selection) {
+<b class="nc"><i class="no-highlight">987</i>&nbsp;        Set&lt;Vertex&gt; vertices = new HashSet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">988</i>&nbsp;        double sum = 0;</b>
+<b class="nc"><i class="no-highlight">989</i>&nbsp;        double count = 0;</b>
+<b class="nc"><i class="no-highlight">990</i>&nbsp;        for (Object o : selection) {</b>
+<b class="nc"><i class="no-highlight">991</i>&nbsp;            if (o instanceof Vertex) {</b>
+<b class="nc"><i class="no-highlight">992</i>&nbsp;                vertices.add((Vertex) o);</b>
+<b class="nc"><i class="no-highlight">993</i>&nbsp;                sum += ((Vertex) o).getCoordinates().getY();</b>
+<b class="nc"><i class="no-highlight">994</i>&nbsp;                count++;</b>
+<i class="no-highlight">995</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">996</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">997</i>&nbsp;        for (Vertex v : vertices) {</b>
+<b class="nc"><i class="no-highlight">998</i>&nbsp;            v.setCoordinates(v.getCoordinates().getX(), sum / count);</b>
+<b class="nc"><i class="no-highlight">999</i>&nbsp;        }</b>
+<i class="no-highlight">1000</i>&nbsp;    }
+<i class="no-highlight">1001</i>&nbsp;
+<i class="no-highlight">1002</i>&nbsp;    /**
+<i class="no-highlight">1003</i>&nbsp;     * Aligns all selected vertices along the y coordinate of the first
+<i class="no-highlight">1004</i>&nbsp;     * selected element
+<i class="no-highlight">1005</i>&nbsp;     */
+<i class="no-highlight">1006</i>&nbsp;    public void alignHorizontallyFirst(LinkedHashSet&lt;Object&gt; selection) {
+<i class="no-highlight">1007</i>&nbsp;
+<i class="no-highlight">1008</i>&nbsp;    }
+<i class="no-highlight">1009</i>&nbsp;
+<i class="no-highlight">1010</i>&nbsp;    public void alignVerticallyMean(LinkedHashSet&lt;Object&gt; selection) {
+<b class="nc"><i class="no-highlight">1011</i>&nbsp;        Set&lt;Vertex&gt; vertices = new HashSet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">1012</i>&nbsp;        double sum = 0;</b>
+<b class="nc"><i class="no-highlight">1013</i>&nbsp;        double count = 0;</b>
+<b class="nc"><i class="no-highlight">1014</i>&nbsp;        for (Object o : selection) {</b>
+<b class="nc"><i class="no-highlight">1015</i>&nbsp;            if (o instanceof Vertex) {</b>
+<b class="nc"><i class="no-highlight">1016</i>&nbsp;                vertices.add((Vertex) o);</b>
+<b class="nc"><i class="no-highlight">1017</i>&nbsp;                sum += ((Vertex) o).getCoordinates().getX();</b>
+<b class="nc"><i class="no-highlight">1018</i>&nbsp;                count++;</b>
+<i class="no-highlight">1019</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">1020</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">1021</i>&nbsp;        for (Vertex v : vertices) {</b>
+<b class="nc"><i class="no-highlight">1022</i>&nbsp;            v.setCoordinates(sum / count, v.getCoordinates().getY());</b>
+<b class="nc"><i class="no-highlight">1023</i>&nbsp;        }</b>
+<i class="no-highlight">1024</i>&nbsp;    }
+<i class="no-highlight">1025</i>&nbsp;
+<i class="no-highlight">1026</i>&nbsp;    @Override
+<i class="no-highlight">1027</i>&nbsp;    public Element toXml(Document doc) throws Exception {
+<b class="fc"><i class="no-highlight">1028</i>&nbsp;        Element snode = doc.createElement(&quot;graph&quot;); //super.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">1029</i>&nbsp;        if (this.getClass().getAnnotation(XmlName.class).name().equals(&quot;graph&quot;)) {</b>
+<b class="fc"><i class="no-highlight">1030</i>&nbsp;            snode.setAttribute(&quot;edgedefault&quot;, &quot;undirected&quot;);</b>
+<i class="no-highlight">1031</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">1032</i>&nbsp;            snode.setAttribute(&quot;edgedefault&quot;, &quot;directed&quot;);</b>
+<i class="no-highlight">1033</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">1034</i>&nbsp;        snode.setAttribute(&quot;type&quot;, this.getClass().getAnnotation(XmlName.class).name()); //super.xmlName());</b>
+<i class="no-highlight">1035</i>&nbsp;
+<b class="fc"><i class="no-highlight">1036</i>&nbsp;        HashMap&lt;Vertex, String&gt; ids = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">1037</i>&nbsp;        Integer i = 1;</b>
+<b class="fc"><i class="no-highlight">1038</i>&nbsp;        for (Vertex v : getVertices()) {</b>
+<b class="fc"><i class="no-highlight">1039</i>&nbsp;            String id = &quot;n&quot; + (i++);</b>
+<b class="fc"><i class="no-highlight">1040</i>&nbsp;            ids.put(v, id);</b>
+<b class="fc"><i class="no-highlight">1041</i>&nbsp;            Element vnode = v.toXml(doc, id);</b>
+<b class="fc"><i class="no-highlight">1042</i>&nbsp;            if (vnode != null)</b>
+<b class="fc"><i class="no-highlight">1043</i>&nbsp;                snode.appendChild(vnode);</b>
+<b class="fc"><i class="no-highlight">1044</i>&nbsp;        }</b>
+<i class="no-highlight">1045</i>&nbsp;
+<b class="fc"><i class="no-highlight">1046</i>&nbsp;        for (Edge e : getEdges()) {</b>
+<b class="fc"><i class="no-highlight">1047</i>&nbsp;            Element enode = e.toXml(doc, ids);</b>
+<b class="fc"><i class="no-highlight">1048</i>&nbsp;            if (enode != null)</b>
+<b class="fc"><i class="no-highlight">1049</i>&nbsp;                snode.appendChild(enode);</b>
+<b class="fc"><i class="no-highlight">1050</i>&nbsp;        }</b>
+<i class="no-highlight">1051</i>&nbsp;
+<b class="fc"><i class="no-highlight">1052</i>&nbsp;        return snode;</b>
+<i class="no-highlight">1053</i>&nbsp;    }
+<i class="no-highlight">1054</i>&nbsp;
+<i class="no-highlight">1055</i>&nbsp;    public Element toSimpleXml(Document doc) throws Exception {
+<b class="fc"><i class="no-highlight">1056</i>&nbsp;        Element snode = doc.createElement(&quot;graph&quot;); //super.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">1057</i>&nbsp;        if (this.getClass().getAnnotation(XmlName.class).name().equals(&quot;graph&quot;)) {</b>
+<b class="fc"><i class="no-highlight">1058</i>&nbsp;            snode.setAttribute(&quot;edgedefault&quot;, &quot;undirected&quot;);</b>
+<i class="no-highlight">1059</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">1060</i>&nbsp;            snode.setAttribute(&quot;edgedefault&quot;, &quot;directed&quot;);</b>
+<i class="no-highlight">1061</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">1062</i>&nbsp;        snode.setAttribute(&quot;type&quot;, this.getClass().getAnnotation(XmlName.class).name()); //super.xmlName());</b>
+<i class="no-highlight">1063</i>&nbsp;
+<b class="fc"><i class="no-highlight">1064</i>&nbsp;        HashMap&lt;Vertex, String&gt; ids = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">1065</i>&nbsp;        Integer i = 1;</b>
+<b class="fc"><i class="no-highlight">1066</i>&nbsp;        for (Vertex v : getVertices()) {</b>
+<b class="fc"><i class="no-highlight">1067</i>&nbsp;            String id = &quot;n&quot; + (i++);</b>
+<b class="fc"><i class="no-highlight">1068</i>&nbsp;            ids.put(v, id);</b>
+<b class="fc"><i class="no-highlight">1069</i>&nbsp;            Element vnode = v.toSimpleXml(doc, id);</b>
+<b class="fc"><i class="no-highlight">1070</i>&nbsp;            if (vnode != null)</b>
+<b class="fc"><i class="no-highlight">1071</i>&nbsp;                snode.appendChild(vnode);</b>
+<b class="fc"><i class="no-highlight">1072</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">1073</i>&nbsp;        Set&lt;E&gt; edges = getEdges();</b>
+<b class="fc"><i class="no-highlight">1074</i>&nbsp;        if (this instanceof DirectedGraph) {</b>
+<b class="fc"><i class="no-highlight">1075</i>&nbsp;            List&lt;List&lt;E&gt;&gt; pairs = edges.stream().collect(Collectors.groupingBy(e -&gt; new Pair(e)))</b>
+<b class="fc"><i class="no-highlight">1076</i>&nbsp;                    .entrySet().stream()</b>
+<b class="fc"><i class="no-highlight">1077</i>&nbsp;                    .map(Map.Entry::getValue)</b>
+<b class="fc"><i class="no-highlight">1078</i>&nbsp;                    .filter(l -&gt; l.size() &gt; 1)</b>
+<b class="fc"><i class="no-highlight">1079</i>&nbsp;                    .collect(Collectors.toList());</b>
+<b class="fc"><i class="no-highlight">1080</i>&nbsp;            for (List&lt;E&gt; pair : pairs) {</b>
+<b class="fc"><i class="no-highlight">1081</i>&nbsp;                snode.appendChild(pair.get(0).toSimpleXml(doc, ids, &quot;bend left&quot;));</b>
+<b class="fc"><i class="no-highlight">1082</i>&nbsp;                snode.appendChild(pair.get(1).toSimpleXml(doc, ids));</b>
+<b class="fc"><i class="no-highlight">1083</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">1084</i>&nbsp;            edges.removeAll(pairs.stream().flatMap(List::stream).collect(Collectors.toList()));</b>
+<i class="no-highlight">1085</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">1086</i>&nbsp;        appendEdges(doc, snode, ids, edges);</b>
+<i class="no-highlight">1087</i>&nbsp;
+<i class="no-highlight">1088</i>&nbsp;
+<b class="fc"><i class="no-highlight">1089</i>&nbsp;        return snode;</b>
+<i class="no-highlight">1090</i>&nbsp;    }
+<i class="no-highlight">1091</i>&nbsp;
+<i class="no-highlight">1092</i>&nbsp;    private void appendEdges(Document doc, Element snode, HashMap&lt;Vertex, String&gt; ids, Set&lt;E&gt; edges) throws Exception {
+<b class="fc"><i class="no-highlight">1093</i>&nbsp;        for (Edge e : edges) {</b>
+<b class="fc"><i class="no-highlight">1094</i>&nbsp;            Element enode = e.toSimpleXml(doc, ids);</b>
+<b class="fc"><i class="no-highlight">1095</i>&nbsp;            if (enode != null)</b>
+<b class="fc"><i class="no-highlight">1096</i>&nbsp;                snode.appendChild(enode);</b>
+<b class="fc"><i class="no-highlight">1097</i>&nbsp;        }</b>
+<i class="no-highlight">1098</i>&nbsp;    }
+<i class="no-highlight">1099</i>&nbsp;
+<i class="no-highlight">1100</i>&nbsp;    public int[][] toIncM() {    //TODO: write function ToIncidenceMatrix()
+<b class="nc"><i class="no-highlight">1101</i>&nbsp;        int[][] matrixM = new int[1][1];</b>
+<b class="nc"><i class="no-highlight">1102</i>&nbsp;        return matrixM;</b>
+<i class="no-highlight">1103</i>&nbsp;    }
+<i class="no-highlight">1104</i>&nbsp;
+<i class="no-highlight">1105</i>&nbsp;    public void writeToFile(String filename, Boolean simple) throws Exception {
+<b class="nc"><i class="no-highlight">1106</i>&nbsp;        writeToStream(new StreamResult(filename), simple);</b>
+<i class="no-highlight">1107</i>&nbsp;    }
+<i class="no-highlight">1108</i>&nbsp;
+<i class="no-highlight">1109</i>&nbsp;    public void writeToStream(StreamResult stream, Boolean simple) throws Exception {
+<b class="fc"><i class="no-highlight">1110</i>&nbsp;        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="fc"><i class="no-highlight">1111</i>&nbsp;        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();</b>
+<b class="fc"><i class="no-highlight">1112</i>&nbsp;        Document doc = docBuilder.newDocument();</b>
+<i class="no-highlight">1113</i>&nbsp;
+<b class="fc"><i class="no-highlight">1114</i>&nbsp;        Element root = doc.createElement(&quot;graphml&quot;);</b>
+<b class="fc"><i class="no-highlight">1115</i>&nbsp;        Element snode = simple ? toSimpleXml(doc) : toXml(doc);</b>
+<b class="fc"><i class="no-highlight">1116</i>&nbsp;        if (snode == null)</b>
+<b class="nc"><i class="no-highlight">1117</i>&nbsp;            throw new Exception(&quot;Error writing to XML&quot;);</b>
+<b class="fc"><i class="no-highlight">1118</i>&nbsp;        root.appendChild(snode);</b>
+<b class="fc"><i class="no-highlight">1119</i>&nbsp;        doc.appendChild(root);</b>
+<i class="no-highlight">1120</i>&nbsp;
+<b class="fc"><i class="no-highlight">1121</i>&nbsp;        TransformerFactory transformerFactory = TransformerFactory.newInstance();</b>
+<b class="fc"><i class="no-highlight">1122</i>&nbsp;        Transformer transformer = transformerFactory.newTransformer();</b>
+<b class="fc"><i class="no-highlight">1123</i>&nbsp;        transformer.setOutputProperty(OutputKeys.INDENT, &quot;yes&quot;);</b>
+<b class="fc"><i class="no-highlight">1124</i>&nbsp;        transformer.setOutputProperty(&quot;{http://xml.apache.org/xslt}indent-amount&quot;, &quot;2&quot;);</b>
+<b class="fc"><i class="no-highlight">1125</i>&nbsp;        DOMSource source = new DOMSource(doc);</b>
+<b class="fc"><i class="no-highlight">1126</i>&nbsp;        transformer.transform(source, stream);</b>
+<i class="no-highlight">1127</i>&nbsp;    }
+<i class="no-highlight">1128</i>&nbsp;
+<i class="no-highlight">1129</i>&nbsp;    public String xmlToString() throws Exception {
+<i class="no-highlight">1130</i>&nbsp;
+<b class="nc"><i class="no-highlight">1131</i>&nbsp;        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="nc"><i class="no-highlight">1132</i>&nbsp;        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();</b>
+<b class="nc"><i class="no-highlight">1133</i>&nbsp;        Document doc = docBuilder.newDocument(); //a new xml document</b>
+<i class="no-highlight">1134</i>&nbsp;
+<b class="nc"><i class="no-highlight">1135</i>&nbsp;        Element root = doc.createElement(&quot;graphml&quot;); //&lt;graphml&gt;&lt;/graphml&gt;</b>
+<b class="nc"><i class="no-highlight">1136</i>&nbsp;        Element snode = toXml(doc); //&lt;restOfGraph&gt;&lt;/restOfGraph&gt;</b>
+<b class="nc"><i class="no-highlight">1137</i>&nbsp;        if (snode == null)</b>
+<b class="nc"><i class="no-highlight">1138</i>&nbsp;            throw new Exception(&quot;Error writing to XML&quot;);</b>
+<b class="nc"><i class="no-highlight">1139</i>&nbsp;        root.appendChild(snode);</b>
+<b class="nc"><i class="no-highlight">1140</i>&nbsp;        doc.appendChild(root);</b>
+<i class="no-highlight">1141</i>&nbsp;
+<i class="no-highlight">1142</i>&nbsp;
+<b class="nc"><i class="no-highlight">1143</i>&nbsp;        TransformerFactory transformerFactory = TransformerFactory.newInstance();</b>
+<b class="nc"><i class="no-highlight">1144</i>&nbsp;        Transformer transformer = transformerFactory.newTransformer();</b>
+<i class="no-highlight">1145</i>&nbsp;
+<b class="nc"><i class="no-highlight">1146</i>&nbsp;        DOMSource source = new DOMSource(root);</b>
+<b class="nc"><i class="no-highlight">1147</i>&nbsp;        StreamResult result = new StreamResult(new StringWriter());</b>
+<i class="no-highlight">1148</i>&nbsp;
+<i class="no-highlight">1149</i>&nbsp;
+<b class="nc"><i class="no-highlight">1150</i>&nbsp;        transformer.transform(source, result);</b>
+<i class="no-highlight">1151</i>&nbsp;
+<b class="nc"><i class="no-highlight">1152</i>&nbsp;        String strObject = result.getWriter().toString();</b>
+<i class="no-highlight">1153</i>&nbsp;
+<b class="nc"><i class="no-highlight">1154</i>&nbsp;        return strObject;</b>
+<i class="no-highlight">1155</i>&nbsp;
+<i class="no-highlight">1156</i>&nbsp;    }
+<i class="no-highlight">1157</i>&nbsp;
+<i class="no-highlight">1158</i>&nbsp;    public String incToString() throws Exception {    //TODO: Write Function IncidenceMatrix to String
+<b class="nc"><i class="no-highlight">1159</i>&nbsp;        return &quot;&quot;;</b>
+<i class="no-highlight">1160</i>&nbsp;    }
+<i class="no-highlight">1161</i>&nbsp;
+<i class="no-highlight">1162</i>&nbsp;    public String tgfToString() throws Exception {
+<i class="no-highlight">1163</i>&nbsp;
+<b class="nc"><i class="no-highlight">1164</i>&nbsp;        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="nc"><i class="no-highlight">1165</i>&nbsp;        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();</b>
+<b class="nc"><i class="no-highlight">1166</i>&nbsp;        Document doc = docBuilder.newDocument(); //a new xml document</b>
+<i class="no-highlight">1167</i>&nbsp;
+<b class="nc"><i class="no-highlight">1168</i>&nbsp;        Element root = doc.createElement(&quot;graphml&quot;); //&lt;graphml&gt;&lt;/graphml&gt;</b>
+<b class="nc"><i class="no-highlight">1169</i>&nbsp;        Element snode = toXml(doc); //&lt;restOfGraph&gt;&lt;/restOfGraph&gt;</b>
+<b class="nc"><i class="no-highlight">1170</i>&nbsp;        if (snode == null)</b>
+<b class="nc"><i class="no-highlight">1171</i>&nbsp;            throw new Exception(&quot;Error writing to XML&quot;);</b>
+<b class="nc"><i class="no-highlight">1172</i>&nbsp;        root.appendChild(snode);</b>
+<b class="nc"><i class="no-highlight">1173</i>&nbsp;        doc.appendChild(root);</b>
+<i class="no-highlight">1174</i>&nbsp;
+<i class="no-highlight">1175</i>&nbsp;
+<b class="nc"><i class="no-highlight">1176</i>&nbsp;        TransformerFactory transformerFactory = TransformerFactory.newInstance();</b>
+<b class="nc"><i class="no-highlight">1177</i>&nbsp;        Transformer transformer = transformerFactory.newTransformer();</b>
+<b class="nc"><i class="no-highlight">1178</i>&nbsp;        DOMSource source = new DOMSource(root);</b>
+<b class="nc"><i class="no-highlight">1179</i>&nbsp;        StreamResult result = new StreamResult(new StringWriter());</b>
+<i class="no-highlight">1180</i>&nbsp;
+<i class="no-highlight">1181</i>&nbsp;
+<b class="nc"><i class="no-highlight">1182</i>&nbsp;        transformer.transform(source, result);</b>
+<i class="no-highlight">1183</i>&nbsp;
+<b class="nc"><i class="no-highlight">1184</i>&nbsp;        String strObject = result.getWriter().toString();</b>
+<i class="no-highlight">1185</i>&nbsp;
+<b class="nc"><i class="no-highlight">1186</i>&nbsp;        return strObject;</b>
+<i class="no-highlight">1187</i>&nbsp;
+<i class="no-highlight">1188</i>&nbsp;    }
+<i class="no-highlight">1189</i>&nbsp;
+<i class="no-highlight">1190</i>&nbsp;    public void fromXml(Element gnode) throws Exception {
+<b class="fc"><i class="no-highlight">1191</i>&nbsp;        HashMap&lt;String, Vertex&gt; vertexRegister = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">1192</i>&nbsp;        HashMap&lt;Edge, Element&gt; loadedFrom = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">1193</i>&nbsp;        ArrayList&lt;Edge&gt; tempEdges = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">1194</i>&nbsp;
+<b class="fc"><i class="no-highlight">1195</i>&nbsp;        NodeList children = gnode.getChildNodes();</b>
+<b class="fc"><i class="no-highlight">1196</i>&nbsp;        for (int i = 0; i &lt; children.getLength(); ++i) {</b>
+<b class="fc"><i class="no-highlight">1197</i>&nbsp;            Node childNode = children.item(i);</b>
+<b class="fc"><i class="no-highlight">1198</i>&nbsp;            if (childNode.getNodeType() != Node.ELEMENT_NODE)</b>
+<b class="fc"><i class="no-highlight">1199</i>&nbsp;                continue;</b>
+<i class="no-highlight">1200</i>&nbsp;
+<b class="fc"><i class="no-highlight">1201</i>&nbsp;            Element child = (Element) childNode;</b>
+<b class="fc"><i class="no-highlight">1202</i>&nbsp;            Object obj = PluginManager.instantiateClass(child.getTagName());</b>
+<b class="fc"><i class="no-highlight">1203</i>&nbsp;            if (obj instanceof Vertex) {</b>
+<b class="fc"><i class="no-highlight">1204</i>&nbsp;                V v = addVertex();</b>
+<b class="fc"><i class="no-highlight">1205</i>&nbsp;                v.copy((V) obj);</b>
+<b class="fc"><i class="no-highlight">1206</i>&nbsp;                String id = v.fromXml(child);</b>
+<b class="fc"><i class="no-highlight">1207</i>&nbsp;                vertexRegister.put(id, v);</b>
+<b class="fc"><i class="no-highlight">1208</i>&nbsp;            } else if (obj instanceof Edge) {</b>
+<b class="fc"><i class="no-highlight">1209</i>&nbsp;                tempEdges.add((E) obj);</b>
+<b class="fc"><i class="no-highlight">1210</i>&nbsp;                loadedFrom.put((E) obj, child);</b>
+<i class="no-highlight">1211</i>&nbsp;            }
+<i class="no-highlight">1212</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">1213</i>&nbsp;        for (Edge e : tempEdges) {</b>
+<b class="fc"><i class="no-highlight">1214</i>&nbsp;            e.fromXml(loadedFrom.get(e), vertexRegister);</b>
+<i class="no-highlight">1215</i>&nbsp;
+<b class="fc"><i class="no-highlight">1216</i>&nbsp;            e.setId(this.pollNextFreeEdgeID());</b>
+<b class="fc"><i class="no-highlight">1217</i>&nbsp;            edges.put(e.getId(), (E) e);</b>
+<b class="fc"><i class="no-highlight">1218</i>&nbsp;        }</b>
+<i class="no-highlight">1219</i>&nbsp;    }
+<i class="no-highlight">1220</i>&nbsp;
+<i class="no-highlight">1221</i>&nbsp;    /**
+<i class="no-highlight">1222</i>&nbsp;     * Was the structure opened from a file or does this structure reference
+<i class="no-highlight">1223</i>&nbsp;     * a file? (e.g.: was it saved as...?)
+<i class="no-highlight">1224</i>&nbsp;     * &lt;p&gt;
+<i class="no-highlight">1225</i>&nbsp;     * You can set the file reference here.
+<i class="no-highlight">1226</i>&nbsp;     */
+<i class="no-highlight">1227</i>&nbsp;    public void setFileReference(boolean hasReference, String ref) {
+<b class="nc"><i class="no-highlight">1228</i>&nbsp;        isOpenFile = hasReference;</b>
+<b class="nc"><i class="no-highlight">1229</i>&nbsp;        structureFilePath = ref;</b>
+<i class="no-highlight">1230</i>&nbsp;    }
+<i class="no-highlight">1231</i>&nbsp;
+<i class="no-highlight">1232</i>&nbsp;    /**
+<i class="no-highlight">1233</i>&nbsp;     * @return A string containing the path of the referenced file. Empty if
+<i class="no-highlight">1234</i>&nbsp;     * no file is referenced by this structure.
+<i class="no-highlight">1235</i>&nbsp;     */
+<i class="no-highlight">1236</i>&nbsp;    public String getFileReference() {
+<b class="nc"><i class="no-highlight">1237</i>&nbsp;        return structureFilePath;</b>
+<i class="no-highlight">1238</i>&nbsp;    }
+<i class="no-highlight">1239</i>&nbsp;
+<i class="no-highlight">1240</i>&nbsp;    /**
+<i class="no-highlight">1241</i>&nbsp;     * @return True if the structure is referencing a file
+<i class="no-highlight">1242</i>&nbsp;     */
+<i class="no-highlight">1243</i>&nbsp;    public boolean hasFileReference() {
+<b class="nc"><i class="no-highlight">1244</i>&nbsp;        return isOpenFile;</b>
+<i class="no-highlight">1245</i>&nbsp;    }
+<i class="no-highlight">1246</i>&nbsp;
+<i class="no-highlight">1247</i>&nbsp;    public StructureDescription getDescription() throws Exception {
+<b class="nc"><i class="no-highlight">1248</i>&nbsp;        if (!this.getClass().isAnnotationPresent(StructureDescription.class))</b>
+<b class="nc"><i class="no-highlight">1249</i>&nbsp;            throw new Exception(&quot;class &quot; + this.getClass().getName() + &quot; has no @StructureDescription Annotation&quot;);</b>
+<b class="nc"><i class="no-highlight">1250</i>&nbsp;        return this.getClass().getAnnotation(StructureDescription.class);</b>
+<i class="no-highlight">1251</i>&nbsp;    }
+<i class="no-highlight">1252</i>&nbsp;
+<i class="no-highlight">1253</i>&nbsp;    private static class Pair {
+<i class="no-highlight">1254</i>&nbsp;        int v1, v2;
+<i class="no-highlight">1255</i>&nbsp;
+<b class="nc"><i class="no-highlight">1256</i>&nbsp;        public Pair(int v1, int v2) {</b>
+<b class="nc"><i class="no-highlight">1257</i>&nbsp;            this.v1 = v1;</b>
+<b class="nc"><i class="no-highlight">1258</i>&nbsp;            this.v2 = v2;</b>
+<i class="no-highlight">1259</i>&nbsp;        }
+<i class="no-highlight">1260</i>&nbsp;
+<b class="fc"><i class="no-highlight">1261</i>&nbsp;        public Pair(Edge e) {</b>
+<b class="fc"><i class="no-highlight">1262</i>&nbsp;            this.v1 = e.getSource().getId();</b>
+<b class="fc"><i class="no-highlight">1263</i>&nbsp;            this.v2 = e.getTarget().getId();</b>
+<i class="no-highlight">1264</i>&nbsp;        }
+<i class="no-highlight">1265</i>&nbsp;
+<i class="no-highlight">1266</i>&nbsp;        @Override
+<i class="no-highlight">1267</i>&nbsp;        public boolean equals(Object o) {
+<b class="fc"><i class="no-highlight">1268</i>&nbsp;            if (this == o) return true;</b>
+<i class="no-highlight">1269</i>&nbsp;
+<b class="fc"><i class="no-highlight">1270</i>&nbsp;            if (o == null || getClass() != o.getClass()) return false;</b>
+<i class="no-highlight">1271</i>&nbsp;
+<b class="fc"><i class="no-highlight">1272</i>&nbsp;            Pair pair = (Pair) o;</b>
+<i class="no-highlight">1273</i>&nbsp;
+<b class="fc"><i class="no-highlight">1274</i>&nbsp;            return (pair.v1 == v1 &amp;&amp; pair.v2 == v2) || (pair.v2 == v1 &amp;&amp; pair.v1 == v2);</b>
+<i class="no-highlight">1275</i>&nbsp;        }
+<i class="no-highlight">1276</i>&nbsp;
+<i class="no-highlight">1277</i>&nbsp;        @Override
+<i class="no-highlight">1278</i>&nbsp;        public int hashCode() {
+<b class="fc"><i class="no-highlight">1279</i>&nbsp;            return Integer.hashCode(v1 + v2);</b>
+<i class="no-highlight">1280</i>&nbsp;        }
+<i class="no-highlight">1281</i>&nbsp;    }
+<i class="no-highlight">1282</i>&nbsp;
+<i class="no-highlight">1283</i>&nbsp;    protected static class Interval {
+<i class="no-highlight">1284</i>&nbsp;        public int a;
+<i class="no-highlight">1285</i>&nbsp;        public int b;
+<i class="no-highlight">1286</i>&nbsp;
+<b class="fc"><i class="no-highlight">1287</i>&nbsp;        Interval(int a, int b) {</b>
+<b class="fc"><i class="no-highlight">1288</i>&nbsp;            this.a = a;</b>
+<b class="fc"><i class="no-highlight">1289</i>&nbsp;            this.b = b;</b>
+<i class="no-highlight">1290</i>&nbsp;        }
+<i class="no-highlight">1291</i>&nbsp;
+<i class="no-highlight">1292</i>&nbsp;        @Override
+<i class="no-highlight">1293</i>&nbsp;        public String toString() {
+<b class="nc"><i class="no-highlight">1294</i>&nbsp;            return &quot;(&quot; + a + &quot;, &quot; + b + &quot;)&quot;;</b>
+<i class="no-highlight">1295</i>&nbsp;        }
+<i class="no-highlight">1296</i>&nbsp;    }
+<i class="no-highlight">1297</i>&nbsp;
+<i class="no-highlight">1298</i>&nbsp;
+<i class="no-highlight">1299</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

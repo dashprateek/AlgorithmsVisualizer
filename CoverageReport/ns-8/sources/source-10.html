@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > XSLTService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.export</a>
+</div>
+
+<h1>Coverage Summary for Class: XSLTService (com.algo.export)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XSLTService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37.5%
+  </span>
+  <span class="absValue">
+    (3/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.8%
+  </span>
+  <span class="absValue">
+    (21/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.algo.export;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.algo.structure.Edge;
+<i class="no-highlight">4</i>&nbsp;import com.algo.structure.Structure;
+<i class="no-highlight">5</i>&nbsp;import com.algo.structure.Vertex;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;import javax.xml.transform.Source;
+<i class="no-highlight">8</i>&nbsp;import javax.xml.transform.Transformer;
+<i class="no-highlight">9</i>&nbsp;import javax.xml.transform.TransformerException;
+<i class="no-highlight">10</i>&nbsp;import javax.xml.transform.TransformerFactory;
+<i class="no-highlight">11</i>&nbsp;import javax.xml.transform.stream.StreamResult;
+<i class="no-highlight">12</i>&nbsp;import javax.xml.transform.stream.StreamSource;
+<i class="no-highlight">13</i>&nbsp;import java.io.File;
+<i class="no-highlight">14</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">15</i>&nbsp;import java.io.PrintWriter;
+<i class="no-highlight">16</i>&nbsp;import java.nio.file.Files;
+<i class="no-highlight">17</i>&nbsp;import java.nio.file.Path;
+<i class="no-highlight">18</i>&nbsp;import java.util.Scanner;
+<i class="no-highlight">19</i>&nbsp;
+<b class="nc"><i class="no-highlight">20</i>&nbsp;public class XSLTService {</b>
+<i class="no-highlight">21</i>&nbsp;    public static final String ROOT_PATH = &quot;/Users/prateekdash/Semester2/MscProjectPlan/MscProject&quot;;
+<i class="no-highlight">22</i>&nbsp;    public static final String XML_PATH = ROOT_PATH + &quot;/xml/&quot;;
+<i class="no-highlight">23</i>&nbsp;    public static final String TIK_PATH = ROOT_PATH + &quot;/tik/&quot;;
+<i class="no-highlight">24</i>&nbsp;    public static final String XSLT_PATH = ROOT_PATH + &quot;/xslt/&quot;;
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    public static void runXSLTTransform(String inputFile, String outputTexFile, String xsltFile) throws TransformerException, IOException {
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        String outputXml = TIK_PATH + &quot;temp.xml&quot;;</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        xsltTransform(inputFile, outputXml, xsltFile);</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        xmlToTex(outputXml, outputTexFile);</b>
+<i class="no-highlight">31</i>&nbsp;    }
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;    public static void xsltTransform(String inputFile, String outputFile, String xsltFile) throws TransformerException {
+<b class="fc"><i class="no-highlight">34</i>&nbsp;        TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();</b>
+<b class="fc"><i class="no-highlight">35</i>&nbsp;        Source xslt = new StreamSource(new File(xsltFile));</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        Transformer transformer = factory.newTransformer(xslt);</b>
+<b class="fc"><i class="no-highlight">37</i>&nbsp;        Source text = new StreamSource(new File(inputFile));</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        transformer.transform(text, new StreamResult(new File(outputFile)));</b>
+<i class="no-highlight">39</i>&nbsp;    }
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;    public static void xmlToTex(String outputXml, String outputTexFile) throws IOException {
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        try (Scanner sc = new Scanner(Files.newInputStream(Path.of(outputXml)));</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;             PrintWriter printWriter = new PrintWriter(Files.newOutputStream(Path.of(outputTexFile)))) {</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;            boolean flag = true;</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;            while (sc.hasNextLine()) {</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;                if (flag) {</b>
+<b class="fc"><i class="no-highlight">47</i>&nbsp;                    flag = false;</b>
+<b class="fc"><i class="no-highlight">48</i>&nbsp;                    sc.nextLine();</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;                    continue;</b>
+<i class="no-highlight">50</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">51</i>&nbsp;                printWriter.println(sc.nextLine()</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;                        .replaceAll(&quot;&amp;amp;&quot;, &quot;&amp;&quot;)</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;                        .replaceAll(&quot;&amp;gt;&quot;, &quot;&gt;&quot;));</b>
+<i class="no-highlight">54</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;        new File(outputXml).delete();</b>
+<i class="no-highlight">57</i>&nbsp;    }
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;
+<i class="no-highlight">60</i>&nbsp;    public static void exportStructureToXml(String structureFile, Structure&lt;Vertex, Edge&gt; structure) throws Exception {
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        structure.getVertices().forEach(vertex -&gt; {</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;            vertex.setCoordinates(Math.round(1000.0 * vertex.getCoordinates().getX()) / 1000.0,</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;                    Math.round(-1000.0 * vertex.getCoordinates().getY()) / 1000.0);</b>
+<i class="no-highlight">64</i>&nbsp;        });
+<b class="nc"><i class="no-highlight">65</i>&nbsp;        structure.writeToFile(structureFile, true);</b>
+<i class="no-highlight">66</i>&nbsp;    }
+<i class="no-highlight">67</i>&nbsp;
+<i class="no-highlight">68</i>&nbsp;
+<i class="no-highlight">69</i>&nbsp;    public static void runXSLTTransformGraphIterations(String inputFile, String outputTexFile) throws TransformerException, IOException {
+<b class="nc"><i class="no-highlight">70</i>&nbsp;        String xsltFile = XSLT_PATH + &quot;Iterations.xslt&quot;;</b>
+<b class="nc"><i class="no-highlight">71</i>&nbsp;        String outputXml = TIK_PATH + &quot;temp.xml&quot;;</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;        xsltTransform(inputFile, outputXml, xsltFile);</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;        xmlToTex(outputXml, outputTexFile);</b>
+<i class="no-highlight">74</i>&nbsp;    }
+<i class="no-highlight">75</i>&nbsp;
+<i class="no-highlight">76</i>&nbsp;    public static void runXSLTTransformTable(String inputFile, String outputTexFile) throws TransformerException, IOException {
+<b class="nc"><i class="no-highlight">77</i>&nbsp;        String outputXml = TIK_PATH + &quot;temp.xml&quot;;</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        String xsltFile = XSLT_PATH + &quot;cyk.xslt&quot;;</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;        xsltTransform(inputFile, outputXml, xsltFile);</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;        xmlToTex(outputXml, outputTexFile);</b>
+<i class="no-highlight">81</i>&nbsp;    }
+<i class="no-highlight">82</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

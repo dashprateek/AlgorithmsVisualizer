@@ -1,0 +1,211 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GralogTrivialGraphFormatExport</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.export</a>
+</div>
+
+<h1>Coverage Summary for Class: GralogTrivialGraphFormatExport (com.algo.export)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GralogTrivialGraphFormatExport</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;package com.algo.export;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import com.algo.structure.Edge;
+<i class="no-highlight">6</i>&nbsp;import com.algo.structure.Structure;
+<i class="no-highlight">7</i>&nbsp;import com.algo.structure.Vertex;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;import java.io.OutputStreamWriter;
+<i class="no-highlight">10</i>&nbsp;import java.util.Collection;
+<i class="no-highlight">11</i>&nbsp;import java.util.HashMap;
+<i class="no-highlight">12</i>&nbsp;import java.util.Map;
+<i class="no-highlight">13</i>&nbsp;import java.util.Set;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;/**
+<i class="no-highlight">16</i>&nbsp; *
+<i class="no-highlight">17</i>&nbsp; */
+<i class="no-highlight">18</i>&nbsp;@ExportFilterDescription(
+<i class="no-highlight">19</i>&nbsp;        name = &quot;Gralog Trivial Graph Format&quot;,
+<i class="no-highlight">20</i>&nbsp;        text = &quot;&quot;,
+<i class="no-highlight">21</i>&nbsp;        url = &quot;https://en.wikipedia.org/wiki/Trivial_Graph_Format&quot;,
+<i class="no-highlight">22</i>&nbsp;        fileExtension = &quot;gtgf&quot;
+<i class="no-highlight">23</i>&nbsp;)
+<b class="nc"><i class="no-highlight">24</i>&nbsp;public class GralogTrivialGraphFormatExport extends ExportFilter {</b>
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    public static String exportToString(Structure structure) {
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        HashMap&lt;Vertex, Integer&gt; nodeIndex = new HashMap&lt;&gt;();</b>
+<i class="no-highlight">28</i>&nbsp;        Integer i;
+<b class="nc"><i class="no-highlight">29</i>&nbsp;        String separator = System.getProperty(&quot;line.separator&quot;);</b>
+<i class="no-highlight">30</i>&nbsp;
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        String retString = &quot;&quot;;</b>
+<i class="no-highlight">32</i>&nbsp;
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        Collection&lt;Vertex&gt; vertices = structure.getVertices();</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        for (Vertex v : vertices) {</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;            i = v.getId();</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;            nodeIndex.put(v, i);</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;            retString += i + separator;</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        }</b>
+<i class="no-highlight">39</i>&nbsp;
+<b class="nc"><i class="no-highlight">40</i>&nbsp;        retString += &quot;#&quot; + separator;</b>
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;        // stream.write(&quot;#&quot; + linefeed);
+<i class="no-highlight">43</i>&nbsp;
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        Set&lt;Edge&gt; edges = (Set&lt;Edge&gt;) structure.getEdges();</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        for (Edge e : edges) {</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;            retString += nodeIndex.get(e.getSource()).toString() + &quot; &quot; + nodeIndex.get(e.getTarget()).toString()</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;                    + &quot; &quot; + e.getId() + separator;</b>
+<i class="no-highlight">48</i>&nbsp;            // stream.write(nodeIndex.get(e.getSource()).toString() + &quot; &quot;
+<i class="no-highlight">49</i>&nbsp;            // + nodeIndex.get(e.getTarget()).toString() + linefeed);
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        }</b>
+<i class="no-highlight">51</i>&nbsp;        // stream.write(&quot;#&quot; + linefeed);
+<b class="nc"><i class="no-highlight">52</i>&nbsp;        retString += &quot;#&quot; + separator;</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;        return retString;</b>
+<i class="no-highlight">54</i>&nbsp;    }
+<i class="no-highlight">55</i>&nbsp;
+<i class="no-highlight">56</i>&nbsp;    public void export(Structure structure, OutputStreamWriter stream,
+<i class="no-highlight">57</i>&nbsp;                       ExportFilterParameters params) throws Exception {
+<b class="nc"><i class="no-highlight">58</i>&nbsp;        HashMap&lt;Vertex, Integer&gt; nodeIndex = new HashMap&lt;&gt;();</b>
+<i class="no-highlight">59</i>&nbsp;        Integer i;
+<b class="nc"><i class="no-highlight">60</i>&nbsp;        String linefeed = System.getProperty(&quot;line.separator&quot;);</b>
+<i class="no-highlight">61</i>&nbsp;
+<b class="nc"><i class="no-highlight">62</i>&nbsp;        Collection&lt;Vertex&gt; V = structure.getVertices();</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;        for (Vertex v : V) {</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            i = v.getId();</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;            nodeIndex.put(v, i);</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;            stream.write(i + linefeed);</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;        }</b>
+<i class="no-highlight">68</i>&nbsp;
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        stream.write(&quot;#&quot; + linefeed);</b>
+<i class="no-highlight">70</i>&nbsp;
+<b class="nc"><i class="no-highlight">71</i>&nbsp;        Set&lt;Edge&gt; E = (Set&lt;Edge&gt;) structure.getEdges();</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;        for (Edge e : E)</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;            stream.write(nodeIndex.get(e.getSource()).toString() + &quot; &quot; + nodeIndex.get(e.getTarget()).toString() + &quot; &quot; + e.getId() + linefeed);</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;        stream.write(&quot;#&quot; + linefeed);</b>
+<i class="no-highlight">75</i>&nbsp;    }
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;    @Override
+<i class="no-highlight">78</i>&nbsp;    public Map&lt;String, Vertex&gt; getVertexNames(Structure structure,
+<i class="no-highlight">79</i>&nbsp;                                              ExportFilterParameters params) throws Exception {
+<b class="nc"><i class="no-highlight">80</i>&nbsp;        Map&lt;String, Vertex&gt; result = new HashMap&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">81</i>&nbsp;        Integer i = 1;</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;        Collection&lt;Vertex&gt; vertices = structure.getVertices();</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;        for (Vertex v : vertices)</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;            result.put(&quot;&quot; + v.getId(), v);</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;        return result;</b>
+<i class="no-highlight">86</i>&nbsp;    }
+<i class="no-highlight">87</i>&nbsp;
+<i class="no-highlight">88</i>&nbsp;    @Override
+<i class="no-highlight">89</i>&nbsp;    public Map&lt;String, Edge&gt; getEdgeNames(Structure structure,
+<i class="no-highlight">90</i>&nbsp;                                          ExportFilterParameters params) throws Exception {
+<b class="nc"><i class="no-highlight">91</i>&nbsp;        Map&lt;String, Edge&gt; result = new HashMap&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;        HashMap&lt;Vertex, Integer&gt; nodeIndex = new HashMap&lt;&gt;();</b>
+<i class="no-highlight">93</i>&nbsp;
+<b class="nc"><i class="no-highlight">94</i>&nbsp;        Integer i = 1;</b>
+<b class="nc"><i class="no-highlight">95</i>&nbsp;        Collection&lt;Vertex&gt; vertices = structure.getVertices();</b>
+<b class="nc"><i class="no-highlight">96</i>&nbsp;        for (Vertex v : vertices)</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;            nodeIndex.put(v, v.getId());</b>
+<i class="no-highlight">98</i>&nbsp;
+<b class="nc"><i class="no-highlight">99</i>&nbsp;        Set&lt;Edge&gt; edges = (Set&lt;Edge&gt;) structure.getEdges();</b>
+<b class="nc"><i class="no-highlight">100</i>&nbsp;        for (Edge e : edges)</b>
+<b class="nc"><i class="no-highlight">101</i>&nbsp;            result.put(&quot;id:&quot; + e.getId() + &quot;; &quot; + nodeIndex.get(e.getSource()) + &quot;:&quot;</b>
+<b class="nc"><i class="no-highlight">102</i>&nbsp;                    + nodeIndex.get(e.getTarget()), e);</b>
+<i class="no-highlight">103</i>&nbsp;
+<b class="nc"><i class="no-highlight">104</i>&nbsp;        return result;</b>
+<i class="no-highlight">105</i>&nbsp;    }
+<i class="no-highlight">106</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

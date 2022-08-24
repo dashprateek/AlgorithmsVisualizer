@@ -37,9 +37,9 @@ public class Grid extends Generator {
     @Override
     public Structure generate(AlgorithmParameters p) {
         int length = Integer.parseInt(((GridParameters)p).parameters.get(0));
-        Preferences.setInteger(this.getClass(), "gridlength", length);
+//        Preferences.setInteger(this.getClass(), "gridlength", length);
         int width= Integer.parseInt(((GridParameters)p).parameters.get(1));
-        Preferences.setInteger(this.getClass(), "gridwidth", width);
+//        Preferences.setInteger(this.getClass(), "gridwidth", width);
 
         UndirectedGraph result = new UndirectedGraph();
 

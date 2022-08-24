@@ -10,6 +10,10 @@
          <rule>S-&gt;AB|BC</rule>
       </projectionRules>
    </cfg>
+   <encodingTrees>
+      <encodingTree encoding="b(a((ab)a))">[S[B[b]][C[A[a]][B[C[A[a]][B[b]]][C[a]]]]]</encodingTree>
+      <encodingTree encoding="(ba)((ab)a)">[S[A[B[b]][A[a]]][B[C[A[a]][B[b]]][C[a]]]]</encodingTree>
+   </encodingTrees>
    <iterations>
       <iteration>
          <row> ; ; ; ; </row>
@@ -54,8 +58,4 @@
          <row> ; ; ; ;[A, C]</row>
       </iteration>
    </iterations>
-   <encodingTrees>
-      <encodingTree encoding="b(a((ab)a))">[S[B[b]][C[A[a]][B[C[A[a]][B[b]]][C[a]]]]]</encodingTree>
-      <encodingTree encoding="(ba)((ab)a)">[S[A[B[b]][A[a]]][B[C[A[a]][B[b]]][C[a]]]]</encodingTree>
-   </encodingTrees>
 </cyk>

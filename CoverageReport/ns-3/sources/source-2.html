@@ -1,0 +1,280 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Grammar</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.algorithms.cfg</a>
+</div>
+
+<h1>Coverage Summary for Class: Grammar (com.algo.algorithms.cfg)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Grammar</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (15/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.5%
+  </span>
+  <span class="absValue">
+    (66/83)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.algo.algorithms.cfg;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.algo.plugins.XmlMarshallable;
+<i class="no-highlight">4</i>&nbsp;import com.algo.plugins.XmlName;
+<i class="no-highlight">5</i>&nbsp;import org.w3c.dom.Document;
+<i class="no-highlight">6</i>&nbsp;import org.w3c.dom.Element;
+<i class="no-highlight">7</i>&nbsp;import org.w3c.dom.Node;
+<i class="no-highlight">8</i>&nbsp;import org.w3c.dom.NodeList;
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;import javax.xml.parsers.DocumentBuilder;
+<i class="no-highlight">11</i>&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+<i class="no-highlight">12</i>&nbsp;import javax.xml.transform.OutputKeys;
+<i class="no-highlight">13</i>&nbsp;import javax.xml.transform.Transformer;
+<i class="no-highlight">14</i>&nbsp;import javax.xml.transform.TransformerFactory;
+<i class="no-highlight">15</i>&nbsp;import javax.xml.transform.dom.DOMSource;
+<i class="no-highlight">16</i>&nbsp;import javax.xml.transform.stream.StreamResult;
+<i class="no-highlight">17</i>&nbsp;import java.io.FileInputStream;
+<i class="no-highlight">18</i>&nbsp;import java.io.InputStream;
+<i class="no-highlight">19</i>&nbsp;import java.util.*;
+<i class="no-highlight">20</i>&nbsp;import java.util.function.BiConsumer;
+<i class="no-highlight">21</i>&nbsp;
+<i class="no-highlight">22</i>&nbsp;@XmlName(name = &quot;cfg&quot;)
+<i class="no-highlight">23</i>&nbsp;public class Grammar extends XmlMarshallable {
+<i class="no-highlight">24</i>&nbsp;    private final String start;
+<i class="no-highlight">25</i>&nbsp;    private Set&lt;String&gt; variables;
+<i class="no-highlight">26</i>&nbsp;    private Set&lt;String&gt; terminals;
+<i class="no-highlight">27</i>&nbsp;    private Map&lt;String, Set&lt;String&gt;&gt; productionRules;
+<i class="no-highlight">28</i>&nbsp;
+<b class="nc"><i class="no-highlight">29</i>&nbsp;    public Grammar() {</b>
+<b class="nc"><i class="no-highlight">30</i>&nbsp;        this.start = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        this.variables = new HashSet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        this.terminals = new HashSet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        this.productionRules = new HashMap&lt;&gt;();</b>
+<i class="no-highlight">34</i>&nbsp;    }
+<i class="no-highlight">35</i>&nbsp;
+<b class="nc"><i class="no-highlight">36</i>&nbsp;    public Grammar(String start, Set&lt;String&gt; variables, Set&lt;String&gt; terminals, Map&lt;String, Set&lt;String&gt;&gt; productionRules) {</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        this.start = start;</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        this.variables = variables;</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        this.terminals = terminals;</b>
+<b class="nc"><i class="no-highlight">40</i>&nbsp;        this.productionRules = productionRules;</b>
+<i class="no-highlight">41</i>&nbsp;    }
+<i class="no-highlight">42</i>&nbsp;
+<b class="fc"><i class="no-highlight">43</i>&nbsp;    public Grammar(String start) {</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;        this.start = start;</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;        this.variables = new HashSet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;        this.terminals = new HashSet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">47</i>&nbsp;        this.productionRules = new HashMap&lt;&gt;();</b>
+<i class="no-highlight">48</i>&nbsp;    }
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;    public static Grammar loadFromFile(String fileName) throws Exception {
+<b class="fc"><i class="no-highlight">51</i>&nbsp;        return loadFromStream(new FileInputStream(fileName));</b>
+<i class="no-highlight">52</i>&nbsp;    }
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;    public static Grammar loadFromStream(InputStream stream) throws Exception {
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;        Document doc = dBuilder.parse(stream);</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;        doc.getDocumentElement().normalize();</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;        Element root = doc.getDocumentElement();</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;        if (!root.getTagName().equalsIgnoreCase(&quot;cfg&quot;))</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;            throw new Exception(&quot;Not a CFG file&quot;);</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;        Grammar grammar = new Grammar(root.getAttribute(&quot;start&quot;));</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;        parseNode((Element) Optional.ofNullable(root.getElementsByTagName(&quot;variables&quot;).item(0))</b>
+<b class="fc"><i class="no-highlight">64</i>&nbsp;                .orElseThrow(() -&gt; new Exception(&quot;variables not found within cfg tag&quot;)), grammar.getVariables());</b>
+<i class="no-highlight">65</i>&nbsp;
+<b class="fc"><i class="no-highlight">66</i>&nbsp;        parseNode((Element) Optional.ofNullable(root.getElementsByTagName(&quot;terminals&quot;).item(0))</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;                .orElseThrow(() -&gt; new Exception(&quot;terminals not found within cfg tag&quot;)), grammar.getTerminals());</b>
+<i class="no-highlight">68</i>&nbsp;
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        parseProjectionRules((Element) Optional.ofNullable(root.getElementsByTagName(&quot;projectionRules&quot;).item(0))</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;                .orElseThrow(() -&gt; new Exception(&quot;projectionRules not found within cfg tag&quot;)), grammar);</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        return grammar;</b>
+<i class="no-highlight">72</i>&nbsp;    }
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;    private static void parseNode(Element child, Set&lt;String&gt; set) throws Exception {
+<b class="fc"><i class="no-highlight">75</i>&nbsp;        if (!set.isEmpty()) {</b>
+<b class="nc"><i class="no-highlight">76</i>&nbsp;            throw new Exception(&quot;Multiple variables nodes found in file &quot;);</b>
+<i class="no-highlight">77</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">78</i>&nbsp;            set.addAll(Arrays.asList(child.getTextContent().split(&quot;,&quot;)));</b>
+<i class="no-highlight">79</i>&nbsp;        }
+<i class="no-highlight">80</i>&nbsp;    }
+<i class="no-highlight">81</i>&nbsp;
+<i class="no-highlight">82</i>&nbsp;    private static void parseProjectionRules(Element child, Grammar grammar) throws Exception {
+<b class="fc"><i class="no-highlight">83</i>&nbsp;        NodeList rules = child.getChildNodes();</b>
+<b class="fc"><i class="no-highlight">84</i>&nbsp;        for (int j = 0; j &lt; rules.getLength(); j++) {</b>
+<b class="fc"><i class="no-highlight">85</i>&nbsp;            if (rules.item(j).getNodeType() != Node.ELEMENT_NODE)</b>
+<b class="fc"><i class="no-highlight">86</i>&nbsp;                continue;</b>
+<b class="fc"><i class="no-highlight">87</i>&nbsp;            Element rule = (Element) rules.item(j);</b>
+<b class="fc"><i class="no-highlight">88</i>&nbsp;            if (!rule.getTagName().equalsIgnoreCase(&quot;rule&quot;)) {</b>
+<b class="nc"><i class="no-highlight">89</i>&nbsp;                throw new Exception(&quot;Invalid node found within projectionRules with name &quot; + rule.getTagName());</b>
+<i class="no-highlight">90</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">91</i>&nbsp;            parseRules(grammar, rule);</b>
+<i class="no-highlight">92</i>&nbsp;        }
+<i class="no-highlight">93</i>&nbsp;    }
+<i class="no-highlight">94</i>&nbsp;
+<i class="no-highlight">95</i>&nbsp;    private static void parseRules(Grammar grammar, Element rule) {
+<b class="fc"><i class="no-highlight">96</i>&nbsp;        String[] str = rule.getTextContent().split(&quot;-&gt;&quot;);</b>
+<b class="fc"><i class="no-highlight">97</i>&nbsp;        Set&lt;String&gt; rules = grammar.getProductionRules().getOrDefault(str[0], new HashSet&lt;&gt;());</b>
+<b class="fc"><i class="no-highlight">98</i>&nbsp;        rules.addAll(Arrays.asList(str[1].split(&quot;\\|&quot;)));</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;        grammar.getProductionRules().put(str[0], rules);</b>
+<i class="no-highlight">100</i>&nbsp;    }
+<i class="no-highlight">101</i>&nbsp;
+<i class="no-highlight">102</i>&nbsp;    public Set&lt;String&gt; getVariables() {
+<b class="fc"><i class="no-highlight">103</i>&nbsp;        return variables;</b>
+<i class="no-highlight">104</i>&nbsp;    }
+<i class="no-highlight">105</i>&nbsp;
+<i class="no-highlight">106</i>&nbsp;    public void setVariables(Set&lt;String&gt; variables) {
+<b class="nc"><i class="no-highlight">107</i>&nbsp;        this.variables = variables;</b>
+<i class="no-highlight">108</i>&nbsp;    }
+<i class="no-highlight">109</i>&nbsp;
+<i class="no-highlight">110</i>&nbsp;    public Set&lt;String&gt; getTerminals() {
+<b class="fc"><i class="no-highlight">111</i>&nbsp;        return terminals;</b>
+<i class="no-highlight">112</i>&nbsp;    }
+<i class="no-highlight">113</i>&nbsp;
+<i class="no-highlight">114</i>&nbsp;    public void setTerminals(Set&lt;String&gt; terminals) {
+<b class="nc"><i class="no-highlight">115</i>&nbsp;        this.terminals = terminals;</b>
+<i class="no-highlight">116</i>&nbsp;    }
+<i class="no-highlight">117</i>&nbsp;
+<i class="no-highlight">118</i>&nbsp;    public Map&lt;String, Set&lt;String&gt;&gt; getProductionRules() {
+<b class="fc"><i class="no-highlight">119</i>&nbsp;        return productionRules;</b>
+<i class="no-highlight">120</i>&nbsp;    }
+<i class="no-highlight">121</i>&nbsp;
+<i class="no-highlight">122</i>&nbsp;    public void setProductionRules(Map&lt;String, Set&lt;String&gt;&gt; productionRules) {
+<b class="nc"><i class="no-highlight">123</i>&nbsp;        this.productionRules = productionRules;</b>
+<i class="no-highlight">124</i>&nbsp;    }
+<i class="no-highlight">125</i>&nbsp;
+<i class="no-highlight">126</i>&nbsp;    public String getStart() {
+<b class="fc"><i class="no-highlight">127</i>&nbsp;        return start;</b>
+<i class="no-highlight">128</i>&nbsp;    }
+<i class="no-highlight">129</i>&nbsp;
+<i class="no-highlight">130</i>&nbsp;    @Override
+<i class="no-highlight">131</i>&nbsp;    public Element toXml(Document doc) throws Exception {
+<b class="fc"><i class="no-highlight">132</i>&nbsp;        Element root = super.toXml(doc);</b>
+<b class="fc"><i class="no-highlight">133</i>&nbsp;        root.setAttribute(&quot;start&quot;, getStart());</b>
+<b class="fc"><i class="no-highlight">134</i>&nbsp;        Element variables = doc.createElement(&quot;variables&quot;);</b>
+<b class="fc"><i class="no-highlight">135</i>&nbsp;        variables.setTextContent(String.join(&quot;,&quot;, this.getVariables()));</b>
+<b class="fc"><i class="no-highlight">136</i>&nbsp;        root.appendChild(variables);</b>
+<b class="fc"><i class="no-highlight">137</i>&nbsp;        Element terminals = doc.createElement(&quot;terminals&quot;);</b>
+<b class="fc"><i class="no-highlight">138</i>&nbsp;        terminals.setTextContent(String.join(&quot;,&quot;, this.getTerminals()));</b>
+<b class="fc"><i class="no-highlight">139</i>&nbsp;        root.appendChild(terminals);</b>
+<b class="fc"><i class="no-highlight">140</i>&nbsp;        Element projectionRules = doc.createElement(&quot;projectionRules&quot;);</b>
+<b class="fc"><i class="no-highlight">141</i>&nbsp;        this.getProductionRules().forEach(projectionRulesToXml(doc, projectionRules));</b>
+<b class="fc"><i class="no-highlight">142</i>&nbsp;        root.appendChild(projectionRules);</b>
+<b class="fc"><i class="no-highlight">143</i>&nbsp;        return root;</b>
+<i class="no-highlight">144</i>&nbsp;    }
+<i class="no-highlight">145</i>&nbsp;
+<i class="no-highlight">146</i>&nbsp;    private BiConsumer&lt;String, Set&lt;String&gt;&gt; projectionRulesToXml(Document doc, Element projectionRules) {
+<b class="fc"><i class="no-highlight">147</i>&nbsp;        return (k, v) -&gt; {</b>
+<b class="fc"><i class="no-highlight">148</i>&nbsp;            Element rule = doc.createElement(&quot;rule&quot;);</b>
+<b class="fc"><i class="no-highlight">149</i>&nbsp;            rule.setTextContent(new StringBuilder(k).append(&quot;-&gt;&quot;).append(String.join(&quot;|&quot;, v)).toString());</b>
+<b class="fc"><i class="no-highlight">150</i>&nbsp;            projectionRules.appendChild(rule);</b>
+<i class="no-highlight">151</i>&nbsp;        };
+<i class="no-highlight">152</i>&nbsp;    }
+<i class="no-highlight">153</i>&nbsp;
+<i class="no-highlight">154</i>&nbsp;    public void writeToStream(String fileName) throws Exception {
+<b class="fc"><i class="no-highlight">155</i>&nbsp;        writeToStream(new StreamResult(fileName));</b>
+<i class="no-highlight">156</i>&nbsp;    }
+<i class="no-highlight">157</i>&nbsp;
+<i class="no-highlight">158</i>&nbsp;    public void writeToStream(StreamResult stream) throws Exception {
+<b class="fc"><i class="no-highlight">159</i>&nbsp;        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="fc"><i class="no-highlight">160</i>&nbsp;        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();</b>
+<b class="fc"><i class="no-highlight">161</i>&nbsp;        Document doc = docBuilder.newDocument();</b>
+<i class="no-highlight">162</i>&nbsp;
+<b class="fc"><i class="no-highlight">163</i>&nbsp;        Element root = toXml(doc);</b>
+<b class="fc"><i class="no-highlight">164</i>&nbsp;        if (root == null)</b>
+<b class="nc"><i class="no-highlight">165</i>&nbsp;            throw new Exception(&quot;Error writing to XML&quot;);</b>
+<b class="fc"><i class="no-highlight">166</i>&nbsp;        doc.appendChild(root);</b>
+<i class="no-highlight">167</i>&nbsp;
+<b class="fc"><i class="no-highlight">168</i>&nbsp;        TransformerFactory transformerFactory = TransformerFactory.newInstance();</b>
+<b class="fc"><i class="no-highlight">169</i>&nbsp;        Transformer transformer = transformerFactory.newTransformer();</b>
+<b class="fc"><i class="no-highlight">170</i>&nbsp;        transformer.setOutputProperty(OutputKeys.INDENT, &quot;yes&quot;);</b>
+<b class="fc"><i class="no-highlight">171</i>&nbsp;        transformer.setOutputProperty(&quot;{http://xml.apache.org/xslt}indent-amount&quot;, &quot;2&quot;);</b>
+<b class="fc"><i class="no-highlight">172</i>&nbsp;        DOMSource source = new DOMSource(doc);</b>
+<b class="fc"><i class="no-highlight">173</i>&nbsp;        transformer.transform(source, stream);</b>
+<i class="no-highlight">174</i>&nbsp;    }
+<i class="no-highlight">175</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

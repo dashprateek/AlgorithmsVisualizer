@@ -10,16 +10,16 @@
          <node id="n6" label="5" x="4.445" y="7.474"/>
          <node id="n7" label="6" x="6.456" y="5.543"/>
          <node id="n8" label="7" x="10.505" y="5.543"/>
-         <edge source="n8" target="n3" weight="1.0"/>
          <edge source="n1" target="n5" weight="1.0"/>
+         <edge source="n2" target="n3" weight="1.0"/>
          <edge source="n8" target="n2" weight="1.0"/>
-         <edge source="n6" target="n1" weight="1.0"/>
          <edge source="n4" target="n8" weight="1.0"/>
-         <edge source="n8" target="n1" weight="1.0"/>
+         <edge source="n8" target="n3" weight="1.0"/>
+         <edge source="n7" target="n1" weight="1.0"/>
          <edge source="n7" target="n6" weight="1.0"/>
          <edge source="n4" target="n7" weight="1.0"/>
-         <edge source="n2" target="n3" weight="1.0"/>
-         <edge source="n7" target="n1" weight="1.0"/>
+         <edge source="n6" target="n1" weight="1.0"/>
+         <edge source="n8" target="n1" weight="1.0"/>
       </graph>
    </graphml>
    <iterations>

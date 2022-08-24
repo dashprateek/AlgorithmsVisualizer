@@ -21,7 +21,7 @@ public class GraphAlgorithmsRunner extends AlgorithmsRunner {
     private static final Runner traversalRunner = new GraphTraversalRunner();
 
     @Override
-    public boolean run(Scanner sc) throws IOException, TransformerException {
+    public boolean run(Scanner sc) throws Exception {
         boolean exit = false;
         while (true) {
             GraphAlgorithmsEnum input = getInput(sc, GraphAlgorithmsEnum.values());

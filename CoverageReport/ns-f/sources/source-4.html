@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GraphOperations</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.structure</a>
+</div>
+
+<h1>Coverage Summary for Class: GraphOperations (com.algo.structure)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GraphOperations</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;package com.algo.structure;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">7</i>&nbsp;import java.util.HashSet;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;public final class GraphOperations {
+<i class="no-highlight">10</i>&nbsp;
+<b class="nc"><i class="no-highlight">11</i>&nbsp;    private GraphOperations() { }</b>
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;    public static &lt;T&gt; void unionLists(ArrayList&lt;T&gt; source1, ArrayList&lt;T&gt; source2, ArrayList&lt;T&gt; target) {
+<b class="nc"><i class="no-highlight">14</i>&nbsp;        target.clear();</b>
+<b class="nc"><i class="no-highlight">15</i>&nbsp;        target.addAll(source1);</b>
+<b class="nc"><i class="no-highlight">16</i>&nbsp;        target.addAll(source2);</b>
+<i class="no-highlight">17</i>&nbsp;    }
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;    // note: source1 and source2 are guaranteed to have every element only once
+<i class="no-highlight">20</i>&nbsp;    public static &lt;T&gt; void intersectionLists(ArrayList&lt;T&gt; source1, ArrayList&lt;T&gt; source2, ArrayList&lt;T&gt; target) {
+<b class="nc"><i class="no-highlight">21</i>&nbsp;        target.clear();</b>
+<b class="nc"><i class="no-highlight">22</i>&nbsp;        HashSet tmp = new HashSet&lt;&gt;(source1);</b>
+<b class="nc"><i class="no-highlight">23</i>&nbsp;        for (T x : source2)</b>
+<b class="nc"><i class="no-highlight">24</i>&nbsp;            if (tmp.contains(x))</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;                target.add(x);</b>
+<i class="no-highlight">26</i>&nbsp;    }
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    public static &lt;T&gt; void symmetricDifferenceLists(ArrayList&lt;T&gt; source1, ArrayList&lt;T&gt; source2, ArrayList&lt;T&gt; target) {
+<b class="nc"><i class="no-highlight">29</i>&nbsp;        target.clear();</b>
+<b class="nc"><i class="no-highlight">30</i>&nbsp;        HashSet tmp1 = new HashSet&lt;&gt;(source1);</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        HashSet tmp2 = new HashSet&lt;&gt;(source2);</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        for (T x : source1)</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;            if (!tmp2.contains(x))</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;                target.add(x);</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        for (T x : source2)</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;            if (!tmp1.contains(x))</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;                target.add(x);</b>
+<i class="no-highlight">38</i>&nbsp;    }
+<i class="no-highlight">39</i>&nbsp;
+<i class="no-highlight">40</i>&nbsp;    public static &lt;T&gt; void differenceLists(ArrayList&lt;T&gt; source1, ArrayList&lt;T&gt; source2, ArrayList&lt;T&gt; target) {
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        target.clear();</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;        HashSet tmp = new HashSet&lt;&gt;(source2);</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        for (T x : source1)</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;            if (!tmp.contains(x))</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;                target.add(x);</b>
+<i class="no-highlight">46</i>&nbsp;    }
+<i class="no-highlight">47</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>

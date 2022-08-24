@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Arrow</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.algo.rendering</a>
+</div>
+
+<h1>Coverage Summary for Class: Arrow (com.algo.rendering)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Arrow</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Arrow$LineFlag</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;/* This file is part of Gralog, Copyright (c) 2016-2018 LaS group, TU Berlin.
+<i class="no-highlight">2</i>&nbsp; * License: https://www.gnu.org/licenses/gpl.html GPL version 3 or later. */
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;package com.algo.rendering;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import java.io.Serializable;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;/**
+<i class="no-highlight">9</i>&nbsp; * All public static arrows should have their pointer at the origin and their maximum
+<i class="no-highlight">10</i>&nbsp; * x-length should be 1, so that scaling the arrow across all types becomes consistent.
+<i class="no-highlight">11</i>&nbsp; */
+<i class="no-highlight">12</i>&nbsp;public class Arrow implements Serializable {
+<b class="fc"><i class="no-highlight">13</i>&nbsp;    public enum LineFlag {</b>
+<b class="fc"><i class="no-highlight">14</i>&nbsp;        POLY,</b>
+<b class="fc"><i class="no-highlight">15</i>&nbsp;        LINE</b>
+<i class="no-highlight">16</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">17</i>&nbsp; static final Arrow TYPE1 = new Arrow(</b>
+<i class="no-highlight">18</i>&nbsp;            new double[]{0, -0.5, -1.0, -0.8, -1.0, -0.5},
+<i class="no-highlight">19</i>&nbsp;            new double[]{0, 0.14, 0.35, 0.0, -0.35, -0.14},
+<i class="no-highlight">20</i>&nbsp;            6,
+<i class="no-highlight">21</i>&nbsp;            -0.8,
+<i class="no-highlight">22</i>&nbsp;            LineFlag.POLY);
+<b class="fc"><i class="no-highlight">23</i>&nbsp;    public static final Arrow TYPE2 = new Arrow(</b>
+<i class="no-highlight">24</i>&nbsp;            new double[]{-0.4, -0.31, -0.18, 0, -0.18, -0.31, -0.4},
+<i class="no-highlight">25</i>&nbsp;            new double[]{0.40, +0.23, 0.10, 0, -0.10, -0.23, -0.40},
+<i class="no-highlight">26</i>&nbsp;            7,
+<i class="no-highlight">27</i>&nbsp;            -0.1,
+<i class="no-highlight">28</i>&nbsp;            LineFlag.LINE);
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    public double[] xPoints;
+<i class="no-highlight">31</i>&nbsp;    public double[] yPoints;
+<i class="no-highlight">32</i>&nbsp;    public int count;
+<i class="no-highlight">33</i>&nbsp;    public double endPoint;
+<i class="no-highlight">34</i>&nbsp;    public LineFlag flag;
+<b class="fc"><i class="no-highlight">35</i>&nbsp;    public Arrow(double[] xPoints, double[] yPoints, int count, double endPoint, LineFlag flag) {</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        this.xPoints = xPoints;</b>
+<b class="fc"><i class="no-highlight">37</i>&nbsp;        this.yPoints = yPoints;</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        this.count = count;</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;        this.endPoint = endPoint;</b>
+<b class="fc"><i class="no-highlight">40</i>&nbsp;        this.flag = flag;</b>
+<i class="no-highlight">41</i>&nbsp;    }
+<i class="no-highlight">42</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-08-23 11:55</div>
+</div>
+</body>
+</html>
