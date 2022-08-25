@@ -68,17 +68,17 @@
          <node id="n6" label="5" x="10.493" y="3.511"/>
          <edge source="n5" style="bend left" target="n6" weight="4.0"/>
          <edge source="n6" target="n5" weight="1.0"/>
-         <edge source="n2" target="n4" weight="5.0"/>
-         <edge source="n4" target="n6" weight="1.0"/>
          <edge source="n2" target="n3" weight="1.0"/>
          <edge source="n1" target="n3" weight="4.0"/>
-         <edge source="n3" target="n5" weight="1.0"/>
-         <edge source="n3" target="n4" weight="2.0"/>
+         <edge source="n4" target="n6" weight="1.0"/>
          <edge source="n2" target="n5" weight="4.0">
             <controlpoint x="7.473" y="0.442"/>
          </edge>
-         <edge source="n4" target="n5" weight="5.0"/>
+         <edge source="n3" target="n4" weight="2.0"/>
          <edge source="n1" target="n2" weight="1.0"/>
+         <edge source="n2" target="n4" weight="5.0"/>
+         <edge source="n3" target="n5" weight="1.0"/>
+         <edge source="n4" target="n5" weight="5.0"/>
       </graph>
    </graphml>
 </SingleSourceShortestPath>

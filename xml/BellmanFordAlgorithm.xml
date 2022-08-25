@@ -52,22 +52,22 @@
          <node id="n4" label="3" x="6.488" y="-4.49"/>
          <node id="n5" label="4" x="6.488" y="-2.532"/>
          <node id="n6" label="5" x="9.478" y="-3.511"/>
-         <edge source="n2" target="n5" weight="-1.0"/>
-         <edge source="n1" target="n6" weight="-3.0">
-            <controlpoint x="7.473" y="0.442"/>
-         </edge>
+         <edge source="n5" target="n1" weight="6.0"/>
+         <edge source="n1" target="n2" weight="-4.0"/>
          <edge source="n3" target="n6" weight="3.0">
             <controlpoint x="7.324" y="-7.771"/>
          </edge>
+         <edge source="n1" target="n6" weight="-3.0">
+            <controlpoint x="7.473" y="0.442"/>
+         </edge>
+         <edge source="n2" target="n5" weight="-1.0"/>
+         <edge source="n3" target="n2" weight="8.0"/>
          <edge source="n4" target="n3" weight="-3.0">
             <controlpoint x="5.003" y="-5.039"/>
          </edge>
-         <edge source="n5" target="n6" weight="4.0"/>
-         <edge source="n5" target="n1" weight="6.0"/>
-         <edge source="n2" target="n4" weight="-2.0"/>
          <edge source="n4" target="n6" weight="2.0"/>
-         <edge source="n3" target="n2" weight="8.0"/>
-         <edge source="n1" target="n2" weight="-4.0"/>
+         <edge source="n5" target="n6" weight="4.0"/>
+         <edge source="n2" target="n4" weight="-2.0"/>
       </graph>
    </graphml>
 </SingleSourceShortestPath>

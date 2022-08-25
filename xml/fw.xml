@@ -14,24 +14,24 @@
          <edge source="n2" target="n1" weight="-2.0"/>
          <edge source="n3" style="bend left" target="n2" weight="4.0"/>
          <edge source="n2" target="n3" weight="4.0"/>
-         <edge source="n4" style="bend left" target="n2" weight="3.0"/>
-         <edge source="n2" target="n4" weight="-3.0">
-            <controlpoint x="6.217" y="-4.7"/>
-         </edge>
-         <edge source="n1" style="bend left" target="n5" weight="7.0">
+         <edge source="n5" style="bend left" target="n1" weight="-6.0"/>
+         <edge source="n1" target="n5" weight="7.0">
             <controlpoint x="6.422" y="-9.271"/>
          </edge>
-         <edge source="n5" target="n1" weight="-6.0"/>
-         <edge source="n4" style="bend left" target="n3" weight="-1.0">
-            <controlpoint x="6.238" y="-4.124"/>
+         <edge source="n2" style="bend left" target="n4" weight="-3.0">
+            <controlpoint x="6.217" y="-4.7"/>
          </edge>
-         <edge source="n3" target="n4" weight="2.0">
+         <edge source="n4" target="n2" weight="3.0"/>
+         <edge source="n3" style="bend left" target="n4" weight="2.0">
             <controlpoint x="8.47" y="-3.868"/>
          </edge>
-         <edge source="n4" style="bend left" target="n5" weight="12.0"/>
-         <edge source="n5" target="n4" weight="5.0">
+         <edge source="n4" target="n3" weight="-1.0">
+            <controlpoint x="6.238" y="-4.124"/>
+         </edge>
+         <edge source="n5" style="bend left" target="n4" weight="5.0">
             <controlpoint x="6.725" y="-7.418"/>
          </edge>
+         <edge source="n4" target="n5" weight="12.0"/>
       </graph>
    </graphml>
    <iterations>
