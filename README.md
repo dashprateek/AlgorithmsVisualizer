@@ -1,5 +1,6 @@
 AlgorithmsVisualizer
 ======
+### [Documentation](https://dashprateek.github.io/AlgorithmsVisualizer/)
 Computer algorithms are difficult to comprehend and visualise because of the dynamic nature of their calculation. Most algorithms operate on data structures with multiple variables and abstract representations, which comprise the system's state. These procedures are difficult to understand as the variables involved in their computation are frequently modified through the iterative stages to solve a specific problem. The application provides a platform for implementing different algorithms and creating various visualisations and animations that offer snapshots of the system's internal state over the many iterations. The application strives to reduce the burden on Computer Science Professors by assisting in the production of learning resources like slides, reports, worksheets, quizzes, and more that need to be updated continuously.
 
 Run
