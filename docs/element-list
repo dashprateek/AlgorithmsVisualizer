@@ -6,7 +6,7 @@ com.algo.algorithms.graph.shortestpath
 com.algo.algorithms.graph.traversal
 com.algo.annotations
 com.algo.config
-com.algo.CYKAlgorithmsExport
+com.algo.export
 com.algo.generator
 com.algo.models
 com.algo.parser
